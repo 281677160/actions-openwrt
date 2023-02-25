@@ -36,6 +36,7 @@ on:
         default: '请选择'
         type: choice
         options:
+          - '请选择'
           - 'Amlogic'
           - 'Immortalwrt'
           - 'Lede'
