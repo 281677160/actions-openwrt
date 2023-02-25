@@ -42,7 +42,6 @@ on:
           - 'Lienol'
           - 'Official'
           - 'Xwrt'
-          - '请选择'
       establish_name:
         description: '您需要创建的文件夹名称'
         default: ''
