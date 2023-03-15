@@ -97,7 +97,7 @@ jobs:
           sudo chmod +x ${GITHUB_WORKSPACE}/tongbu.sh
         fi
         
-        if [[ "${{ inputs.fork }}" == "true" ]]; then
+        if [[ "${{ inputs.Synchro }}" == "true" ]]; then
           if [[ "${{ inputs.fork }}" == '不同步上游仓库,单纯删除仓库的.bak备份文件' ]]; then
             echo "again-fork=1" >> ${GITHUB_ENV}
           elif [[ "${{ inputs.fork }}" == '单文件同步,带备份' ]]; then
@@ -132,7 +132,7 @@ jobs:
         fi
         
     - name: 同步更新上游仓库
-      if: env.REPO_TOKEN  && ${{ inputs.fork }} == "true"
+      if: env.REPO_TOKEN  && ${{ inputs.Synchro }} == "true"
       run: |
         cd ${GITHUB_WORKSPACE}
         if [[ "${{ env.again-fork }}" == "1" ]]; then
