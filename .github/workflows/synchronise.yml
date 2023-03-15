@@ -128,8 +128,6 @@ jobs:
           fi
         fi
         
-        echo "${{ inputs.Synchro }}"
-        
     - name: 同步更新上游仓库
       if: env.REPO_TOKEN  && inputs.Synchro == 'true'
       run: |
