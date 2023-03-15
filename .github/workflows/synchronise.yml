@@ -45,15 +45,15 @@ on:
       establish_name:
         description: '您需要创建的文件夹名称'
         required: true
-        default: ''
+        default: '比如 Lede'
       Deletefile:
         description: '====删除build里面的文件夹===='
         required: false
-        default: 'false'
+        default: 'true'
         type: boolean
       Deletefile_name:
         description: '请输入要删除的文件夹名称,一次删除多个请用英文逗号分开'
-        default: ''
+        default: '比如 Lede_r2s'
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   GIT_REPOSITORY: ${{github.repository}}
