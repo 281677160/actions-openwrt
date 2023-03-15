@@ -13,20 +13,21 @@
 #
 #
 
-name: Official-官方源码
+name: Lienol-源码
 on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '官方源码-请选择分支'
+        description: 'Lienol源码-请选择分支'
         required: true
-        default: 'openwrt-22.03'
+        default: '19.07'
         type: choice
         options:
-          - 'openwrt-22.03'
-          - 'openwrt-21.02'
-          - 'openwrt-19.07'
+          - '19.07'
+          - '21.02'
+          - '22.03'
           - 'master'
+          - '19.07-test'
       CONFIG_FILE:
         description: '请选择配置文件'
         required: true
@@ -35,8 +36,6 @@ on:
         options:
           - 'aarch64'
           - 'x86_64'
-          - 'phicomm_k3'
-          - '1907-phicomm-k3'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: true
@@ -115,9 +114,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Amlogic_123]
+        target: [Lienol]
         
-        # 请勿对 target: [Amlogic_123] 做任何修改
+        # 请勿对 target: [Lienol] 做任何修改
         
     steps:
     - name: 密匙检测（密匙为空则退出）
@@ -177,7 +176,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
-        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu2
+        source ${BUILD_PATH}/common.sh && Diy_menu2
  
     - name: 增加插件源
       if: env.REPO_TOKEN
@@ -190,7 +189,7 @@ jobs:
       run: |
         cd openwrt
         source $BUILD_PATH/$DIY_PART_SH
-        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_Publicarea
+        source ${BUILD_PATH}/common.sh && Diy_Publicarea
         
     - name: 加载源、补丁和files文件夹
       if: env.REPO_TOKEN
