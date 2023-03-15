@@ -12,12 +12,12 @@ on:
     inputs:
       Synchro:
         description: '====同步上游仓库===='
-        required: false
+        required: true
         default: 'true'
         type: boolean
       fork:
         description: '请选择同步选项'
-        required: false
+        required: true
         default: '单文件同步,带备份'
         type: choice
         options:
@@ -32,7 +32,7 @@ on:
         type: boolean
       establish_sample:
         description: '请选择创建文件夹的源码'
-        required: true
+        required: false
         default: '请选择'
         type: choice
         options:
@@ -44,15 +44,16 @@ on:
           - 'Xwrt'
       establish_name:
         description: '您需要创建的文件夹名称'
-        required: true
+        required: false
         default: '比如 Lede_r2s'
       Deletefile:
         description: '====删除build里面的文件夹===='
-        required: true
+        required: false
         default: 'false'
         type: boolean
       Deletefile_name:
         description: '请输入要删除的文件夹名称,一次删除多个请用英文逗号分开'
+        required: false
         default: '比如 Lede'
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
