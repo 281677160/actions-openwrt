@@ -131,7 +131,7 @@ jobs:
         echo "${{ inputs.Synchro }}"
         
     - name: 同步更新上游仓库
-      if: env.REPO_TOKEN  && ${{ inputs.Synchro }} == "true"
+      if: env.REPO_TOKEN  && "${{ inputs.Synchro }}" == "true"
       run: |
         cd ${GITHUB_WORKSPACE}
         if [[ "${{ env.again-fork }}" == "1" ]]; then
