@@ -13,7 +13,7 @@
 #
 #
 
-name: Official-Amlogic_123
+name: Official-官方源码
 on:
   workflow_dispatch:
     inputs:
