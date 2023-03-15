@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       source_branch:
-        description: '选择源码(先确认您已经编译了有)'
+        description: '选择源码'
         required: true
         default: 'Lede'
         type: choice
@@ -38,7 +38,7 @@ on:
       UPLOAD_FIRMWARE:
         description: '上传固件到 Github Artifacts'
         required: false
-        default: 'false'
+        default: 'true'
         type: boolean
       UPLOAD_RELEASE:
         description: '发布固件到 Github Releases'
@@ -54,15 +54,15 @@ on:
     branches:
       - main
     paths:
-      - 'build/Immortalwrt/relevance/Immortalwrtstart'
+      - 'build/Lede/relevance/Ledestart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_REPOSITORY: ${{github.repository}}
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   TZ: Asia/Shanghai
-  FOLDER_NAME: Immortalwrt
-  SOURCE: Immortalwrt
+  FOLDER_NAME: Lede
+  SOURCE: Lede
 
 jobs:
   build:
