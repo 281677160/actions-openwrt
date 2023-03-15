@@ -114,7 +114,7 @@ jobs:
             echo "inputs_establish_sample=${{ inputs.establish_sample }}" >> ${GITHUB_ENV}
             echo "inputs_establish_name=${{ inputs.establish_name }}" >> ${GITHUB_ENV}
           else
-            echo "缺少建立文件文件名称"
+            echo "您勾选了在build文件夹创建机型文件夹，缺少您需要创建的文件夹名称"
             exit 1
           fi
         fi
@@ -123,7 +123,7 @@ jobs:
           if [[ -n "${{ inputs.Deletefile_name }}" ]]; then
             echo "inputs_Deletefile_name=${{ inputs.Deletefile_name }}" >> ${GITHUB_ENV}
           else
-            echo "缺少删除文件名称"
+            echo "您勾选了删除build里面的文件夹，但缺少删除文件的名称"
             exit 1
           fi
         fi
