@@ -13,25 +13,29 @@
 #
 #
 
-name: Amlogic-晶晨系列
+name: 打包晶晨固件
 on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '晶晨CPU系列'
+        description: 'x-wrt源码-请选择分支'
         required: true
         default: 'master'
         type: choice
         options:
           - 'master'
+          - '21.10'
+          - '22.03'
+          - 'pr-fix-nand_do_platform_check'
+          - 'pr-rm-ax6000'
       CONFIG_FILE:
         description: '请选择配置文件'
         required: true
-        default: 'aarch64'
+        default: 'x86_64'
         type: choice
         options:
           - 'aarch64'
-          - 'config'
+          - 'x86_64'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: true
@@ -62,7 +66,7 @@ on:
         default: 'true'
         type: boolean
       UPLOAD_RELEASE:
-        description: '上传固件到 Github Releases'
+        description: '发布固件到 Github Releases'
         required: false
         default: 'false'
         type: boolean
@@ -71,8 +75,8 @@ on:
         required: false
         default: 'true'
         type: boolean
-      PACKAGING_FIRMWARE:
-        description: 'N1和晶晨系列固件自动打包成 .img 固件'
+      UPDATE_FIRMWARE_ONLINE:
+        description: '增加在线更新功能/N1和晶晨系列固件打包'
         required: false
         default: 'true'
         type: boolean
@@ -110,7 +114,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Amlogic]
+        target: []
+        
+        # 请勿对 target: [] 做任何修改
         
     steps:
     - name: 密匙检测（密匙为空则退出）

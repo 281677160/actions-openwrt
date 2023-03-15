@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/Official/relevance/start'
+      - 'build/Immortalwrt/relevance/start'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -34,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Official]
+        target: [Immortalwrt]
 
     steps:    
     - name: 准备结束
@@ -60,7 +60,7 @@ jobs:
         if [[ -n "${{ github.event.workflow }}" ]]; then
           export CPU_SELECTIOY="$(source "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/settings.ini" && echo "${CPU_SELECTION}")"
         else
-          export CPU_PASSWORD="1677245681"
+          export CPU_PASSWORD="1678867671"
           export CPU_OPTIMIZATION="E5"
         fi
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
@@ -136,13 +136,20 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 V=s
+        make -j$(nproc) | tee build.log | grep -i "Error 2" && tail -20 build.log && compile_error="1"
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
+        [[ "${compile_error}" != "1" ]] && source ${BUILD_PATH}/common.sh && firmware_jiance
         
     - name: 打包晶晨系列固件
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
-      run: |
-        source ${BUILD_PATH}/common.sh && Package_amlogic
+      uses: ncipollo/release-action@main
+      with:
+        name: rootfs.tar.gz
+        tag: targz
+        token: ${{ secrets.REPO_TOKEN }}
+        allowUpdates: true
+        replacesArtifacts: true
+        artifacts: openwrt/targz/*rootfs.tar.gz
 
     - name: 整理固件文件夹(需配合diy-part.sh设定使用)
       continue-on-error: true
@@ -152,7 +159,7 @@ jobs:
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_firmware
         
-    - name: 上传固件在 github actions
+    - name: 上传固件在 github Artifacts
       if: steps.compile.outcome == 'success' && env.UPLOAD_FIRMWARE == 'true'
       uses: actions/upload-artifact@v3
       with:
@@ -169,11 +176,11 @@ jobs:
         echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
     
     - name: 发布固件
-      if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.REPO_TOKEN
+      if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.ING_FIRMWAR == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@main
       with:
         name: ${{ env.SOURCE }}-${{ env.PROMPT_TING }}
-        tag: ${{ env.date }}
+        tag: a${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
         body: ${{ env.Tongzhi_Date }}

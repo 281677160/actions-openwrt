@@ -18,22 +18,23 @@ on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: 'x-wrt源码-请选择分支'
+        description: 'Lienol源码-请选择分支'
         required: true
-        default: 'master'
+        default: '19.07'
         type: choice
         options:
-          - 'master'
-          - '21.10'
+          - '19.07'
+          - '21.02'
           - '22.03'
-          - 'pr-fix-nand_do_platform_check'
-          - 'pr-rm-ax6000'
+          - 'master'
+          - '19.07-test'
       CONFIG_FILE:
         description: '请选择配置文件'
         required: true
         default: 'x86_64'
         type: choice
         options:
+          - 'aarch64'
           - 'x86_64'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
@@ -65,7 +66,7 @@ on:
         default: 'true'
         type: boolean
       UPLOAD_RELEASE:
-        description: '上传固件到 Github Releases'
+        description: '发布固件到 Github Releases'
         required: false
         default: 'false'
         type: boolean
@@ -75,7 +76,7 @@ on:
         default: 'true'
         type: boolean
       UPDATE_FIRMWARE_ONLINE:
-        description: '增加在线更新固件功能'
+        description: '增加在线更新功能/N1和晶晨系列固件打包'
         required: false
         default: 'true'
         type: boolean
@@ -175,7 +176,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
-        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu2
+        source ${BUILD_PATH}/common.sh && Diy_menu2
  
     - name: 增加插件源
       if: env.REPO_TOKEN
@@ -188,7 +189,7 @@ jobs:
       run: |
         cd openwrt
         source $BUILD_PATH/$DIY_PART_SH
-        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_Publicarea
+        source ${BUILD_PATH}/common.sh && Diy_Publicarea
         
     - name: 加载源、补丁和files文件夹
       if: env.REPO_TOKEN
