@@ -48,7 +48,9 @@ jobs:
         git clone https://github.com/${{github.repository}} repogx
         
         rm -rf repogx/*
+        rm -rf repogx/.github/workflows/*
         cp -rf shangyou/* repogx/
+        cp -rf shangyou/.github/workflows/* repogx/.github/workflows/
         
     - name: 同步上游仓库
       if: env.REPO_TOKEN && (github.event.inputs.again-fork == 'fork')
