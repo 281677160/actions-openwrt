@@ -20,3 +20,13 @@ export amlogic_kernel="5.10.01_6.1.01"
 export auto_kernel="true"
 export rootfs_size="960"
 export kernel_repo="https://github.com/ophub/kernel/tree/kernel_stable/pub"
+
+# 删除源码自带的，然后拉重新取luci-app-smartdns
+find . -type d -name 'luci-app-smartdns' -o -name 'smartdns' | xargs -i rm -rf {}
+git clone -b lede https://github.com/pymumu/luci-app-smartdns package/luci-app-smartdns
+git clone https://github.com/pymumu/openwrt-smartdns package/smartdns
+
+# 删除源码自带的，然后拉重新取luci-theme-argon
+find . -type d -name 'luci-theme-argon' -o -name 'luci-app-argon-config' | xargs -i rm -rf {}
+git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
+git clone https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
