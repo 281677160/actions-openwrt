@@ -253,6 +253,7 @@ fi
 echo
 echo -e "\033[35m 服务器CPU: ${CPU_MODEL} \033[0m"
 echo
+echo -e "\033[33m 后台IP：${IPV4_IPADDR} \033[0m"
 if [[ "${UPLOAD_FIRMWARE}" == "true" ]]; then
   echo -e "\033[33m 上传固件在Artifacts: 开启 \033[0m"
 else
@@ -268,22 +269,21 @@ if [[ "${CACHEWRTBUILD_SWITCH}" == "true" ]]; then
 else
   echo -e "\033[31m 是否开启缓存加速: 关闭 \033[0m"
 fi
+if [[ "${DEFAULT_CHINESE_LANGUAGE}" == "true" ]]; then
+  echo -e "\033[33m 编译时更改成默认中文LUCI: 开启 \033[0m"
+else
+  echo -e "\033[31m 编译时更改成默认中文LUCI: 关闭 \033[0m"
+fi
 if [[ "${PACKAGING_FIRMWARE}" == "true" ]]; then
   echo -e "\033[33m Armvirt_64自动打包成img固件: 开启 \033[0m"
 else
   echo -e "\033[31m Armvirt_64自动打包成img固件: 关闭 \033[0m"
 fi
 echo
-echo -e "\033[33m 后台IP：${IPV4_IPADDR} \033[0m"
 if [[ "${DELETE_LOGIN_PASSWORD}" == "1" ]]; then
   echo -e "\033[33m 首次进入固件免密登录设置: 开启 \033[0m"
 else
   echo -e "\033[31m 首次进入固件免密登录设置: 关闭 \033[0m"
-fi
-if [[ "${DEFAULT_CHINESE_LANGUAGE}" == "true" ]]; then
-  echo -e "\033[33m 编译时更改成默认中文LUCI: 开启 \033[0m"
-else
-  echo -e "\033[31m 编译时更改成默认中文LUCI: 关闭 \033[0m"
 fi
 echo -e "\033[33m 清理[X]天之前的Artifacts: ${RETAIN_DAYS}天 \033[0m"
 echo -e "\033[33m 保留[X]个Releases不被删除: ${KEEP_LATEST}个 \033[0m"
