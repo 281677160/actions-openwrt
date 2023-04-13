@@ -56,6 +56,8 @@ source ${BUILD_PATH}/${DIY_PART_SH}
 
 GENERATE_PATH="${HOME_PATH}/package/base-files/files/bin/config_generate"
 IPADDR="$(grep "ipaddr:-" "${GENERATE_PATH}" |grep -v 'addr_offset' |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
+sed -i "s?${IPADDR}?192.168.1.1?g" "${GENERATE_PATH}"
+IPADDR="$(grep "ipaddr:-" "${GENERATE_PATH}" |grep -v 'addr_offset' |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
 if [[ -n "${IPV4_IPADDR}" ]]; then
   if [[ -n "$(echo ${IPV4_IPADDR} |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")" ]]; then
     if [[ "${IPADDR}" != "${IPV4_IPADDR}" ]]; then
