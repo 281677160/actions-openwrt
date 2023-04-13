@@ -1,0 +1,126 @@
+#
+# 需要用REPO_TOKEN密匙
+#
+# REPO_TOKEN密匙制作教程：https://git.io/jm.md
+#
+
+
+name: 创建和删除
+on:
+  workflow_dispatch:
+    inputs:
+      Establish:
+        description: '==创建文件夹=='
+        required: false
+        default: 'false'
+        type: boolean
+      establish_name:
+        description: '输入您需要创建的文件夹名称'
+        required: false
+        default: ''
+      Deletefile:
+        description: '==删除文件夹=='
+        required: false
+        default: 'false'
+        type: boolean
+      Deletefile_name:
+        description: '请输入要删除的文件夹名称,一次删除多个请用英文逗号分开'
+        required: false
+        default: ''
+
+env:
+  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+
+jobs:
+  del_runs:
+    runs-on: Ubuntu-22.04
+    name: 同步上游仓库
+    
+    steps:
+    - name: 密匙检测（密匙为空则退出）
+      run: |
+        if [[ -z "${{ secrets.REPO_TOKEN }}" ]]; then
+          echo "您没有设置仓库密匙，请按教程设置好密匙再来"
+          echo "REPO_TOKEN密匙制作教程：https://git.io/jm.md"
+          exit 1
+        fi
+    
+    - name: 准备结束
+      uses: actions/checkout@v3
+      
+    - name: 部署环境
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo -E apt-get -qq update > /dev/null 2>&1
+        sudo -E apt-get -qq install -y git subversion git-core wget curl grep
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        sudo timedatectl set-timezone "Asia/Shanghai"
+          
+    - name: 创建文件夹
+      if: env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        git clone -b main https://github.com/281677160/ceshi shangyou
+        git clone -b main https://github.com/${{github.repository}} repogx
+        if [[ -z "${{ inputs.establish_name }}" ]]; then
+          echo "文件夹名称为空，无法创建文件夹"
+          exit 1
+        elif [[ -d "repogx/build/${{ inputs.establish_name }}" ]]; then
+          echo "${{ inputs.establish_name }}已存在，无法继续创建"
+          exit 1
+        else
+          cp -Rf shangyou/build/devices repogx/build/${{ inputs.establish_name }}
+          cp -Rf .github/workflows/build-openwrt.yml repogx/.github/workflows/${{ inputs.establish_name }}.yml
+          export X="repogx/.github/workflows/${{ inputs.establish_name }}.yml"
+          export FOLDER_NE1="FOLDER_NAME: .*"
+          export FOLDER_NE2="FOLDER_NAME: ${{ inputs.establish_name }}"
+          sed -i "s?${FOLDER_NE1}?${FOLDER_NE2}?g" "${X}"
+          export yml_name1="$(grep 'name:' "${X}" |sed 's/^[ ]*//g' |grep -v '^#\|^-' |awk 'NR==1')"
+          export yml_name2="name: ${{ inputs.establish_name }}"
+          sed -i "s?${yml_name1}?${yml_name2}?g" "${X}"
+          echo "${{ inputs.establish_name }}文件夹创建完成"
+        fi
+        if [[ -z "${{ inputs.Deletefile_name }}" ]] && [[ "${{ inputs.Deletefile }}" == 'true' ]]; then
+          cd $GITHUB_WORKSPACE
+          chmod -R 775 repogx
+          cd repogx
+          git add .
+          git commit -m "up"
+          git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
+        fi
+  
+    - name: 删除文件夹
+      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        if [[ ! -d "repogx" ]]; then
+          git clone -b main https://github.com/${{github.repository}}.git repogx
+        fi
+        if [[ -z "${{ inputs.Deletefile_name }}" ]]; then
+          echo "文件夹名称为空，无法删除文件夹"
+          exit 1
+        else
+          export aa="${{ github.event.inputs.Deletefile_name }}"
+          export bb=(${aa//,/ })
+          for cc in ${bb[@]}; do
+            if [[ -d "repogx/build/${cc}" ]]; then
+              rm -rf repogx/build/"$cc"
+              rm -rf $(grep -rl "FOLDER_NAME: $cc" "repogx/.github/workflows" |sed 's/^[ ]*//g' |grep -v '^#\|packaging.yml')
+              echo -e "\033[31m 已删除[${cc}]文件夹 \033[0m"
+            else
+              echo -e "\033[31m [${cc}]文件夹不存在 \033[0m"
+            fi
+          done
+        fi
+        
+    - name: 运行程序
+      if: env.REPO_TOKEN
+      run: |
+        cd $GITHUB_WORKSPACE
+        chmod -R 775 repogx
+        cd repogx
+        git add .
+        git commit -m "up"
+        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
