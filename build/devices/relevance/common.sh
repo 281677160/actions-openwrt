@@ -96,12 +96,6 @@ if [[ "${DIY_PART_SH}" == "diy-luci2.sh" ]]; then
   /bin/bash ${HOME_PATH}/zh_Hans.sh
 fi
 
-if [[ "${DEFAULT_CHINESE_LANGUAGE}" == "1" ]]; then
-  echo "DEFAULT_CHINESE_LANGUAGE=1" >> $GITHUB_ENV
-else
-  echo "DEFAULT_CHINESE_LANGUAGE=0" >> $GITHUB_ENV
-fi
-
 if [[ -n "${amlogic_model}" ]]; then
   echo "amlogic_model=${amlogic_model}" >> ${GITHUB_ENV}
 fi
@@ -125,7 +119,7 @@ if [[ -f "${BUILD_PATH}/${CONFIG_FILE}" ]]; then
   cp -Rf ${BUILD_PATH}/${CONFIG_FILE} ${HOME_PATH}/.config
 fi
 
-if [[ "${DEFAULT_CHINESE_LANGUAGE}" == "1" ]]; then
+if [[ "${DEFAULT_CHINESE_LANGUAGE}" == "true" ]]; then
   echo "CONFIG_PACKAGE_luci=y" >> ${HOME_PATH}/.config
   echo "CONFIG_PACKAGE_default-settings=y" >> ${HOME_PATH}/.config
   echo "CONFIG_PACKAGE_default-settings-chn=y" >> ${HOME_PATH}/.config
