@@ -48,15 +48,15 @@ on:
         required: false
         default: 'true'
         type: boolean
-      PACKAGING_FIRMWARE:
-        description: 'Armvirt_64自动打包成img固件'
-        required: false
-        default: 'true'
-        type: boolean
       DEFAULT_CHINESE_LANGUAGE:
         description: '更改成默认中文LUCI'
         required: false
         default: 'false'
+        type: boolean
+      PACKAGING_FIRMWARE:
+        description: 'Armvirt_64自动打包成img固件'
+        required: false
+        default: 'true'
         type: boolean
 
 
