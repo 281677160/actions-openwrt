@@ -62,7 +62,7 @@ jobs:
       if: env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
       run: |
         cd $GITHUB_WORKSPACE
-        git clone -b main https://github.com/281677160/ceshi shangyou
+        git clone -b main https://github.com/281677160/actions-openwrt shangyou
         git clone -b main https://github.com/${{github.repository}} repogx
         if [[ -z "${{ inputs.establish_name }}" ]]; then
           echo "文件夹名称为空，无法创建文件夹"
