@@ -29,6 +29,10 @@ on:
         description: '请输入[set-config]文件夹里的配置文件名称'
         required: true
         default: ''
+      IPV4_IPADDR:
+        description: '请输入固件后台IP,默认[192.168.1.1]'
+        required: true
+        default: ''
       UPLOAD_FIRMWARE:
         description: '上传固件到 Artifacts'
         required: false
@@ -49,6 +53,11 @@ on:
         required: false
         default: 'true'
         type: boolean
+      DEFAULT_CHINESE_LANGUAGE:
+        description: '更改成默认中文LUCI'
+        required: false
+        default: 'false'
+        type: boolean
 
 
 # 定时触发开启开始编译(把下面两个#去掉开启)
@@ -61,10 +70,12 @@ env:
   REPO_BRANCH: master
   FOLDER_NAME: devices
   CONFIG_FILE: x86_64
+  IPV4_IPADDR: 192.168.1.1
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: false
   CACHEWRTBUILD_SWITCH: true
   PACKAGING_FIRMWARE: true
+  DEFAULT_CHINESE_LANGUAGE: false
 
 jobs:
   build:
@@ -88,10 +99,12 @@ jobs:
           echo "REPO_BRANCH=${{ inputs.REPO_BRANCH }}" >> ${GITHUB_ENV}
           echo "FOLDER_NAME=${{ inputs.FOLDER_NAME }}" >> ${GITHUB_ENV}
           echo "CONFIG_FILE=set-config/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
+          echo "IPV4_IPADDR=${{ inputs.IPV4_IPADDR }}" >> ${GITHUB_ENV}
           echo "UPLOAD_FIRMWARE=${{ inputs.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
           echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
           echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
           echo "PACKAGING_FIRMWARE=${{ inputs.PACKAGING_FIRMWARE }}" >> ${GITHUB_ENV}
+          echo "DEFAULT_CHINESE_LANGUAGE=${{ inputs.DEFAULT_CHINESE_LANGUAGE }}" >> ${GITHUB_ENV}
           echo "SOURCE=${SOURCE}" >> $GITHUB_ENV
           echo "LUCI_VERSION=${LUCI_VERSION}" >> $GITHUB_ENV
           echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
@@ -104,10 +117,12 @@ jobs:
           echo "REPO_BRANCH=${{ env.REPO_BRANCH }}" >> ${GITHUB_ENV}
           echo "FOLDER_NAME=${{ env.FOLDER_NAME }}" >> ${GITHUB_ENV}
           echo "CONFIG_FILE=set-config/${{ env.CONFIG_FILE }}" >> ${GITHUB_ENV}
+          echo "IPV4_IPADDR=${{ env.IPV4_IPADDR }}" >> ${GITHUB_ENV}
           echo "UPLOAD_FIRMWARE=${{ env.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
           echo "UPLOAD_RELEASE=${{ env.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
           echo "CACHEWRTBUILD_SWITCH=${{ env.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
           echo "PACKAGING_FIRMWARE=${{ env.PACKAGING_FIRMWARE }}" >> ${GITHUB_ENV}
+          echo "DEFAULT_CHINESE_LANGUAGE=${{ env.DEFAULT_CHINESE_LANGUAGE }}" >> ${GITHUB_ENV}
           echo "SOURCE=${SOURCE}" >> $GITHUB_ENV
           echo "LUCI_VERSION=${LUCI_VERSION}" >> $GITHUB_ENV
           echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
