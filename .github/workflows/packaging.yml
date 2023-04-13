@@ -130,6 +130,7 @@ jobs:
         openwrt_kernel: ${{ env.amlogic_kernel }}
         auto_kernel: ${{ env.auto_kernel }}
         kernel_repo: ${{ env.kernel_repo }}
+        kernel_usage: ${{ env.kernel_usage }}
         openwrt_size: ${{ env.rootfs_size }}
         gh_token: ${{ secrets.REPO_TOKEN }}
         
