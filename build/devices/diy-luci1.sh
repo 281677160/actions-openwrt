@@ -19,7 +19,7 @@ export amlogic_model="s905d"
 export amlogic_kernel="5.10.01_6.1.01"
 export auto_kernel="true"
 export rootfs_size="960"
-export kernel_repo="https://github.com/ophub/kernel/tree/kernel_stable/pub"
+export kernel_usage="stable"
 
 # 删除源码自带的，然后拉重新取luci-app-smartdns
 find . -type d -name 'luci-app-smartdns' -o -name 'smartdns' | xargs -i rm -rf {}
