@@ -22,7 +22,7 @@ on:
         required: true
         default: ''
       kernel_usage:
-        description: "内核仓库：stable(稳定版)、dev(测试版)、flippy(unifreq版)、rk3588(Rock-5B和HinLink-H88K专用版)"
+        description: "内核仓库：stable、dev、flippy、rk3588"
         required: false
         default: 'stable'
       rootfs_size:
@@ -148,13 +148,14 @@ jobs:
       if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true'
       uses: ncipollo/release-action@main
       with:
-        name: ${{ env.build_name }}
+        name: ${{ env.amlogic_model }}
         tag: ${{ env.build_tag }}
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         allowUpdates: true
         removeArtifacts: true
         token: ${{ secrets.REPO_TOKEN }}
         body: |
-          This is OpenWrt firmware for Amlogic and Rockchip
-          * Firmware information
-          Install to EMMC: Login to OpenWrt → System → Amlogic Service → Install OpenWrt
+          发布日期：${{ env.date_tg }}
+          固件源码：${{ env.source_codename }}
+          内核仓库：${{ env.kernel_usage }}
+          写入EMMC：Login to OpenWrt → System → Amlogic Service → Install OpenWrt
