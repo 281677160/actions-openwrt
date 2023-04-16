@@ -30,7 +30,7 @@ on:
         required: true
         default: '2560'
       auto_kernel:
-        description: '是否自动检测最新内核'
+        description: '是否自动检测最新版本内核'
         required: true
         default: 'true'
         type: choice
