@@ -316,7 +316,7 @@ if [[ "${CACHEWRTBUILD_SWITCH}" == "true" ]]; then
 else
   echo -e "\033[31m 是否开启缓存加速: 关闭 \033[0m"
 fi
-if [[ "${DEFAULT_CHINESE_LANGUAGE}" == "true" ]]; then
+if [[ "${CHINESE_LANGUAGE_LUCI}" == "true" ]]; then
   echo -e "\033[33m 编译时更改成默认中文LUCI: 开启 \033[0m"
 else
   echo -e "\033[31m 编译时更改成默认中文LUCI: 关闭 \033[0m"
