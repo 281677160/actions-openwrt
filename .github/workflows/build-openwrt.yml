@@ -122,9 +122,7 @@ jobs:
         if [[ -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
           source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/relevance/common.sh && wnejian_jiance
         else
-          echo
           echo -e "\033[31m [build]文件夹里,[${FOLDER_NAME}]名称文件不存在 \033[0m"
-          echo
           exit 1
         fi
 
