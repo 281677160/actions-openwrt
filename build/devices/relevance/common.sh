@@ -16,6 +16,20 @@ if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/diy-luci2.sh" ]]; then
   echo -e "\033[32m 请勿删除或者更改【diy-luci2.sh】文件名称 \033[0m"
   exit 1
 fi
+
+echo "REPO_URL=${REPO_URL}" >> ${GITHUB_ENV}
+echo "REPO_BRANCH=${REPO_BRANCH}" >> ${GITHUB_ENV}
+echo "FOLDER_NAME=${FOLDER_NAME}" >> ${GITHUB_ENV}
+echo "CONFIG_FILE=${CONFIG_FILE}" >> ${GITHUB_ENV}
+echo "TEMPOARY_IP=${TEMPOARY_IP}" >> ${GITHUB_ENV}
+echo "UPLOAD_FIRMWARE=${UPLOAD_FIRMWARE}" >> ${GITHUB_ENV}
+echo "UPLOAD_RELEASE=${UPLOAD_RELEASE}" >> ${GITHUB_ENV}
+echo "CACHEWRTBUILD_SWITCH=${CACHEWRTBUILD_SWITCH}" >> ${GITHUB_ENV}
+echo "PACKAGING_FIRMWARE=${PACKAGING_FIRMWARE}" >> ${GITHUB_ENV}
+echo "DEFAULT_CHINESE_LANGUAGE=${DEFAULT_CHINESE_LANGUAGE}" >> ${GITHUB_ENV}
+echo "SOURCE=${SOURCE}" >> $GITHUB_ENV
+echo "LUCI_VERSION=${LUCI_VERSION}" >> $GITHUB_ENV
+echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
 }
 
 
@@ -77,17 +91,16 @@ GENERATE_PATH="${HOME_PATH}/package/base-files/files/bin/config_generate"
 IPADDRO="$(grep "ipaddr:-" "${GENERATE_PATH}" |grep -v 'addr_offset' |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
 sed -i "s?${IPADDRO}?192.168.1.1?g" "${GENERATE_PATH}"
 IPADDR="$(grep "ipaddr:-" "${GENERATE_PATH}" |grep -v 'addr_offset' |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
-if [[ -n "${IPV4_IPADDR}" ]]; then
-  if [[ -n "$(echo ${IPV4_IPADDR} |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")" ]]; then
-    if [[ "${IPADDR}" != "${IPV4_IPADDR}" ]]; then
-      sed -i "s/${IPADDR}/${IPV4_IPADDR}/g" "${GENERATE_PATH}"
-      echo "IPV4_IPADDR=${IPV4_IPADDR}" >> ${GITHUB_ENV}
+if [[ -n "${TEMPOARY_IP}" ]]; then
+  if [[ -n "$(echo ${TEMPOARY_IP} |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")" ]]; then
+    if [[ "${IPADDR}" != "${TEMPOARY_IP}" ]]; then
+      sed -i "s/${IPADDR}/${TEMPOARY_IP}/g" "${GENERATE_PATH}"
+      echo "TEMPOARY_IP=${TEMPOARY_IP}" >> ${GITHUB_ENV}
     else
-      echo "IPV4_IPADDR=${IPADDR}" >> ${GITHUB_ENV}
+      echo "TEMPOARY_IP=${IPADDR}" >> ${GITHUB_ENV}
     fi
   else
-    echo "${IPADDR}"
-    echo "IPV4_IPADDR=${IPADDR}" >> ${GITHUB_ENV}
+    echo "TEMPOARY_IP=${IPADDR}" >> ${GITHUB_ENV}
   fi
 fi
 
