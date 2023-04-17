@@ -93,6 +93,7 @@ function Diy_partsh() {
 [[ -f "${BUILD_PATH}/feeds.conf.default" ]] && mv -f ${BUILD_PATH}/feeds.conf.default ${HOME_PATH}/feeds.conf.default
 [[ -d "${BUILD_PATH}/diy" ]] && cp -Rf ${BUILD_PATH}/diy/* ${HOME_PATH}/
 [[ -d "${BUILD_PATH}/files" ]] && mv -f ${BUILD_PATH}/files ${HOME_PATH}/files
+rm -rf ${HOME_PATH}/README ${HOME_PATH}/files/README
 if [[ -d "${BUILD_PATH}/patches" ]]; then
   find "${BUILD_PATH}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 --forward --no-backup-if-mismatch"
 fi
