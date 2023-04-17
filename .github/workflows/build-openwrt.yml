@@ -122,7 +122,7 @@ jobs:
         fi
         if [[ -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
           sudo chmod -R +x $GITHUB_WORKSPACE/build
-          source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/relevance/common.sh && wnejian_jiance
+          source ${GITHUB_WORKSPACE}/common/common.sh && wnejian_jiance
         else
           echo -e "\033[31m [build]文件夹里,[${FOLDER_NAME}]名称文件不存在 \033[0m"
           exit 1
@@ -150,7 +150,7 @@ jobs:
         df -hT $PWD
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt $GITHUB_WORKSPACE/openwrt
-        source $GITHUB_WORKSPACE/build/${{ env.FOLDER_NAME }}/relevance/common.sh && Package_settings
+        source $GITHUB_WORKSPACE/common/common.sh && Package_settings
 
     - name: 读取扩展文件
       run: |
