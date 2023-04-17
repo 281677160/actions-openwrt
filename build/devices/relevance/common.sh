@@ -2,18 +2,18 @@
 
 function wnejian_jiance() {
 if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${CONFIG_FILE}" ]]; then
-  echo "[${FOLDER_NAME}]/${CONFIG_FILE}]文件不存在"
-  echo "请先创建【$(echo "${CONFIG_FILE}" |cut -d"/" -f2)】文件"
+  echo -e "\033[31m [${FOLDER_NAME}]/${CONFIG_FILE}]文件不存在 \033[0m"
+  echo -e "\033[32m 请先创建【$(echo "${CONFIG_FILE}" |cut -d"/" -f2)】文件 \033[0m"
   exit 1
 fi
 if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/diy-luci1.sh" ]]; then
-  echo "[${FOLDER_NAME}]/diy-luci1.sh]文件不存在"
-  echo "请勿删除或者更改【diy-luci1.sh】文件名称"
+  echo -e "\033[31m [${FOLDER_NAME}]/diy-luci1.sh]文件不存在 \033[0m"
+  echo -e "\033[32m 请勿删除或者更改【diy-luci1.sh】文件名称 \033[0m"
   exit 1
 fi
 if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/diy-luci2.sh" ]]; then
-  echo "[${FOLDER_NAME}]/diy-luci2.sh]文件不存在"
-  echo "请勿删除或者更改【diy-luci2.sh】文件名称"
+  echo -e "\033[31m [${FOLDER_NAME}]/diy-luci2.sh]文件不存在 \033[0m"
+  echo -e "\033[32m 请勿删除或者更改【diy-luci2.sh】文件名称 \033[0m"
   exit 1
 fi
 }
