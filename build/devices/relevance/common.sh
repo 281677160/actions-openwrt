@@ -296,6 +296,7 @@ if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ "${TARGET_PROFILE}" == "Armvirt
   echo -e "\033[34m kernel_repo: ${kernel_repo} \033[0m"
 else
   echo -e "\033[32m 内核版本: ${LINUX_KERNEL} \033[0m"
+  echo "PACKAGING_FIRMWARE=true" >> ${GITHUB_ENV}
 fi
 echo
 echo -e "\033[35m 服务器CPU: ${CPU_MODEL} \033[0m"
