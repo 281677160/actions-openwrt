@@ -1,5 +1,24 @@
 #!/bin/bash
 
+function wnejian_jiance() {
+if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${CONFIG_FILE}" ]]; then
+  echo "[${FOLDER_NAME}]/${CONFIG_FILE}]文件不存在"
+  echo "请先创建【$(echo "${CONFIG_FILE}" |cut -d"/" -f2)】文件"
+  exit 1
+fi
+if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/diy-luci1.sh" ]]; then
+  echo "[${FOLDER_NAME}]/diy-luci1.sh]文件不存在"
+  echo "请勿删除或者更改【diy-luci1.sh】文件名称"
+  exit 1
+fi
+if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/diy-luci2.sh" ]]; then
+  echo "[${FOLDER_NAME}]/diy-luci2.sh]文件不存在"
+  echo "请勿删除或者更改【diy-luci2.sh】文件名称"
+  exit 1
+fi
+}
+
+
 function Package_settings() {
 export HOME_PATH="$GITHUB_WORKSPACE/openwrt"
 cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${HOME_PATH}/build
