@@ -26,7 +26,7 @@ on:
         required: true
         default: ''
       CONFIG_FILE:
-        description: '请输入[set-config]文件夹里的配置文件名称'
+        description: '请输入[seed]文件夹里的配置文件名称'
         required: true
         default: ''
       IPV4_IPADDR:
@@ -74,8 +74,8 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: false
   CACHEWRTBUILD_SWITCH: true
-  PACKAGING_FIRMWARE: true
   DEFAULT_CHINESE_LANGUAGE: false
+  PACKAGING_FIRMWARE: true
 
 jobs:
   build:
@@ -98,7 +98,7 @@ jobs:
           echo "REPO_URL=https://github.com/${REPOS_URL}" >> ${GITHUB_ENV}
           echo "REPO_BRANCH=${{ inputs.REPO_BRANCH }}" >> ${GITHUB_ENV}
           echo "FOLDER_NAME=${{ inputs.FOLDER_NAME }}" >> ${GITHUB_ENV}
-          echo "CONFIG_FILE=set-config/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
+          echo "CONFIG_FILE=seed/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
           echo "IPV4_IPADDR=${{ inputs.IPV4_IPADDR }}" >> ${GITHUB_ENV}
           echo "UPLOAD_FIRMWARE=${{ inputs.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
           echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
@@ -116,7 +116,7 @@ jobs:
           echo "REPO_URL=https://github.com/${REPOS_URL}" >> ${GITHUB_ENV}
           echo "REPO_BRANCH=${{ env.REPO_BRANCH }}" >> ${GITHUB_ENV}
           echo "FOLDER_NAME=${{ env.FOLDER_NAME }}" >> ${GITHUB_ENV}
-          echo "CONFIG_FILE=set-config/${{ env.CONFIG_FILE }}" >> ${GITHUB_ENV}
+          echo "CONFIG_FILE=seed/${{ env.CONFIG_FILE }}" >> ${GITHUB_ENV}
           echo "IPV4_IPADDR=${{ env.IPV4_IPADDR }}" >> ${GITHUB_ENV}
           echo "UPLOAD_FIRMWARE=${{ env.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
           echo "UPLOAD_RELEASE=${{ env.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
