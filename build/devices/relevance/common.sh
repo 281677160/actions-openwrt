@@ -5,19 +5,22 @@ echo
 if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${CONFIG_FILE}" ]]; then
   echo -e "\033[31m [${FOLDER_NAME}/${CONFIG_FILE}]文件不存在 \033[0m"
   echo -e "\033[32m 请先创建【$(echo "${CONFIG_FILE}" |cut -d"/" -f2)】文件 \033[0m"
+  echo
   exit 1
 fi
 if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/diy-luci1.sh" ]]; then
   echo -e "\033[31m [${FOLDER_NAME}/diy-luci1.sh]文件不存在 \033[0m"
   echo -e "\033[32m 请勿删除或者更改【diy-luci1.sh】文件名称 \033[0m"
+  echo
   exit 1
 fi
 if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/diy-luci2.sh" ]]; then
   echo -e "\033[31m [${FOLDER_NAME}/diy-luci2.sh]文件不存在 \033[0m"
   echo -e "\033[32m 请勿删除或者更改【diy-luci2.sh】文件名称 \033[0m"
+  echo
   exit 1
 fi
-echo
+
 echo "REPO_URL=${REPO_URL}" >> ${GITHUB_ENV}
 echo "REPO_BRANCH=${REPO_BRANCH}" >> ${GITHUB_ENV}
 echo "FOLDER_NAME=${FOLDER_NAME}" >> ${GITHUB_ENV}
