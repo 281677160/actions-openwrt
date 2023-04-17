@@ -102,7 +102,7 @@ jobs:
           export CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
           export PACKAGING_FIRMWARE="${{ inputs.PACKAGING_FIRMWARE }}"
           export CHINESE_LANGUAGE_LUCI="${{ inputs.CHINESE_LANGUAGE_LUCI }}"
-          export SOURCE="$(echo "${{ inputs.REPO_URL }}" |cut -d"/" -f1)"
+          export SOURCE="$(echo "${{ inputs.REPO_URL }}" |cut -d"/" -f1 |sed "s/.//g" |sed "s/-//g")"
           export LUCI_VERSION="$(echo "${{ inputs.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/.//g" |sed "s/-//g")"
         else
@@ -116,7 +116,7 @@ jobs:
           export CACHEWRTBUILD_SWITCH="${{ env.CACHEWRTBUILD_SWITCH }}"
           export PACKAGING_FIRMWARE="${{ env.PACKAGING_FIRMWARE }}"
           export CHINESE_LANGUAGE_LUCI="${{ env.CHINESE_LANGUAGE_LUCI }}"
-          export SOURCE="$(echo "${{ env.REPO_URL }}" |cut -d"/" -f1)"
+          export SOURCE="$(echo "${{ env.REPO_URL }}" |cut -d"/" -f1 |sed "s/.//g" |sed "s/-//g")"
           export LUCI_VERSION="$(echo "${{ env.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/.//g" |sed "s/-//g")"
         fi
