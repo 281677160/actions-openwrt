@@ -101,7 +101,7 @@ jobs:
           export CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
           export PACKAGING_FIRMWARE="${{ inputs.PACKAGING_FIRMWARE }}"
           export DEFAULT_CHINESE_LANGUAGE="${{ inputs.DEFAULT_CHINESE_LANGUAGE }}"
-          export SOURCE="$(echo "${REPO_URL}" |cut -d"/" -f1)"
+          export SOURCE="$(echo "${{ inputs.REPO_URL }}" |cut -d"/" -f1)"
           export LUCI_VERSION="$(echo "${{ inputs.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |tr -d '\`.`')"
         else
@@ -115,7 +115,7 @@ jobs:
           export CACHEWRTBUILD_SWITCH="${{ env.CACHEWRTBUILD_SWITCH }}"
           export PACKAGING_FIRMWARE="${{ env.PACKAGING_FIRMWARE }}"
           export DEFAULT_CHINESE_LANGUAGE="${{ env.DEFAULT_CHINESE_LANGUAGE }}"
-          export SOURCE="$(echo "${REPO_URL}" |cut -d"/" -f1)"
+          export SOURCE="$(echo "${{ env.REPO_URL }}" |cut -d"/" -f1)"
           export LUCI_VERSION="$(echo "${{ env.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |tr -d '\`.`')"
         fi
