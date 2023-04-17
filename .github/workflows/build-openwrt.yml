@@ -29,7 +29,7 @@ on:
         description: '请输入[seed]文件夹里的配置文件名称'
         required: true
         default: ''
-      IPV4_IPADDR:
+      TEMPOARY_IP:
         description: '请输入固件后台IP,默认[192.168.1.1]'
         required: true
         default: ''
@@ -70,7 +70,7 @@ env:
   REPO_BRANCH: master
   FOLDER_NAME: devices
   CONFIG_FILE: x86_64
-  IPV4_IPADDR: 192.168.1.1
+  TEMPOARY_IP: 192.168.1.1
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: false
   CACHEWRTBUILD_SWITCH: true
@@ -88,52 +88,42 @@ jobs:
       
     - name: 读取变量
       run: |
-        if [[ -n "${{ inputs.FOLDER_NAME }}" ]]; then
-          source $GITHUB_WORKSPACE/build/${{ inputs.FOLDER_NAME }}/relevance/common.sh && wnejian_jiance
-        elif [[ -n "${{ env.FOLDER_NAME }}" ]]; then
-          source $GITHUB_WORKSPACE/build/${{ env.FOLDER_NAME }}/relevance/common.sh && wnejian_jiance
-        else
-          echo "[build]文件夹里,[${{ inputs.FOLDER_NAME }}${{ env.FOLDER_NAME }}]文件不存在"
-          exit 1
-        fi
         echo "GIT_REPOSITORY=${{github.repository}}" >> $GITHUB_ENV
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> $GITHUB_ENV
         if [[ -n "${{ inputs.REPO_URL }}" ]]; then
-          export REPOS_URL="$(echo "${{ inputs.REPO_URL }}" |sed s/[[:space:]]//g)"
-          export SOURCE="$(echo "${REPOS_URL}" |cut -d"/" -f1)"
+          export REPO_URL="https://github.com/$(echo "${{ inputs.REPO_URL }}" |sed s/[[:space:]]//g)"
+          export REPO_BRANCH="${{ inputs.REPO_BRANCH }}"
+          export FOLDER_NAME="${{ inputs.FOLDER_NAME }}"
+          export CONFIG_FILE="seed/${{ inputs.CONFIG_FILE }}"
+          export TEMPOARY_IP="${{ inputs.TEMPOARY_IP }}"
+          export UPLOAD_FIRMWARE="${{ inputs.UPLOAD_FIRMWARE }}"
+          export UPLOAD_RELEASE="${{ inputs.UPLOAD_RELEASE }}"
+          export CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
+          export PACKAGING_FIRMWARE="${{ inputs.PACKAGING_FIRMWARE }}"
+          export DEFAULT_CHINESE_LANGUAGE="${{ inputs.DEFAULT_CHINESE_LANGUAGE }}"
+          export SOURCE="$(echo "${REPO_URL}" |cut -d"/" -f1)"
           export LUCI_VERSION="$(echo "${{ inputs.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |tr -d '\`.`')"
-          echo "REPO_URL=https://github.com/${REPOS_URL}" >> ${GITHUB_ENV}
-          echo "REPO_BRANCH=${{ inputs.REPO_BRANCH }}" >> ${GITHUB_ENV}
-          echo "FOLDER_NAME=${{ inputs.FOLDER_NAME }}" >> ${GITHUB_ENV}
-          echo "CONFIG_FILE=seed/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
-          echo "IPV4_IPADDR=${{ inputs.IPV4_IPADDR }}" >> ${GITHUB_ENV}
-          echo "UPLOAD_FIRMWARE=${{ inputs.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
-          echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
-          echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
-          echo "PACKAGING_FIRMWARE=${{ inputs.PACKAGING_FIRMWARE }}" >> ${GITHUB_ENV}
-          echo "DEFAULT_CHINESE_LANGUAGE=${{ inputs.DEFAULT_CHINESE_LANGUAGE }}" >> ${GITHUB_ENV}
-          echo "SOURCE=${SOURCE}" >> $GITHUB_ENV
-          echo "LUCI_VERSION=${LUCI_VERSION}" >> $GITHUB_ENV
-          echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
         else
-          export REPOS_URL="$(echo "${{ env.REPO_URL }}" |sed s/[[:space:]]//g)"
-          export SOURCE="$(echo "${REPOS_URL}" |cut -d"/" -f1)"
+          export REPO_URL="https://github.com/$(echo "${{ env.REPO_URL }}" |sed s/[[:space:]]//g)"
+          export REPO_BRANCH="${{ env.REPO_BRANCH }}"
+          export FOLDER_NAME="${{ env.FOLDER_NAME }}"
+          export CONFIG_FILE="seed/${{ env.CONFIG_FILE }}"
+          export TEMPOARY_IP="${{ env.TEMPOARY_IP }}"
+          export UPLOAD_FIRMWARE="${{ env.UPLOAD_FIRMWARE }}"
+          export UPLOAD_RELEASE="${{ env.UPLOAD_RELEASE }}"
+          export CACHEWRTBUILD_SWITCH="${{ env.CACHEWRTBUILD_SWITCH }}"
+          export PACKAGING_FIRMWARE="${{ env.PACKAGING_FIRMWARE }}"
+          export DEFAULT_CHINESE_LANGUAGE="${{ env.DEFAULT_CHINESE_LANGUAGE }}"
+          export SOURCE="$(echo "${REPO_URL}" |cut -d"/" -f1)"
           export LUCI_VERSION="$(echo "${{ env.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |tr -d '\`.`')"
-          echo "REPO_URL=https://github.com/${REPOS_URL}" >> ${GITHUB_ENV}
-          echo "REPO_BRANCH=${{ env.REPO_BRANCH }}" >> ${GITHUB_ENV}
-          echo "FOLDER_NAME=${{ env.FOLDER_NAME }}" >> ${GITHUB_ENV}
-          echo "CONFIG_FILE=seed/${{ env.CONFIG_FILE }}" >> ${GITHUB_ENV}
-          echo "IPV4_IPADDR=${{ env.IPV4_IPADDR }}" >> ${GITHUB_ENV}
-          echo "UPLOAD_FIRMWARE=${{ env.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
-          echo "UPLOAD_RELEASE=${{ env.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
-          echo "CACHEWRTBUILD_SWITCH=${{ env.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
-          echo "PACKAGING_FIRMWARE=${{ env.PACKAGING_FIRMWARE }}" >> ${GITHUB_ENV}
-          echo "DEFAULT_CHINESE_LANGUAGE=${{ env.DEFAULT_CHINESE_LANGUAGE }}" >> ${GITHUB_ENV}
-          echo "SOURCE=${SOURCE}" >> $GITHUB_ENV
-          echo "LUCI_VERSION=${LUCI_VERSION}" >> $GITHUB_ENV
-          echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
+        fi
+        if [[ -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
+          source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/relevance/common.sh && wnejian_jiance
+        else
+          echo "[build]文件夹里,[${FOLDER_NAME}]文件不存在"
+          exit 1
         fi
 
     - name: 部署编译环境
