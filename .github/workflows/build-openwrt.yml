@@ -89,11 +89,12 @@ jobs:
     - name: 读取变量
       run: |
         if [[ -n "${{ inputs.FOLDER_NAME }}" ]]; then
-          source $GITHUB_WORKSPACE/build/${{ env.FOLDER_NAME }}/relevance/common.sh && Package_settings
+          source $GITHUB_WORKSPACE/build/${{ inputs.FOLDER_NAME }}/relevance/common.sh && wnejian_jiance
         elif [[ -n "${{ env.FOLDER_NAME }}" ]]; then
-          source $GITHUB_WORKSPACE/build/${{ env.FOLDER_NAME }}/relevance/common.sh && Package_settings
+          source $GITHUB_WORKSPACE/build/${{ env.FOLDER_NAME }}/relevance/common.sh && wnejian_jiance
         else
-          echo "${{ inputs.FOLDER_NAME }}${{ inputs.FOLDER_NAME }}编译仓库不存在"
+          echo "[build]文件夹里,[${{ inputs.FOLDER_NAME }}${{ env.FOLDER_NAME }}]文件不存在"
+          exit 1
         fi
         echo "GIT_REPOSITORY=${{github.repository}}" >> $GITHUB_ENV
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> $GITHUB_ENV
