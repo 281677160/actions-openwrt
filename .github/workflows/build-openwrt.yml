@@ -86,7 +86,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       
-    - name: 读取变量
+    - name: 检测文件
       run: |
         cd ${GITHUB_WORKSPACE}
         echo "GIT_REPOSITORY=${{github.repository}}" >> $GITHUB_ENV
