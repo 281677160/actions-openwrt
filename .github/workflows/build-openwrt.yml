@@ -48,7 +48,7 @@ on:
         required: false
         default: 'true'
         type: boolean
-      DEFAULT_CHINESE_LANGUAGE:
+      CHINESE_LANGUAGE_LUCI:
         description: '更改成默认中文LUCI'
         required: false
         default: 'false'
@@ -74,7 +74,7 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: false
   CACHEWRTBUILD_SWITCH: true
-  DEFAULT_CHINESE_LANGUAGE: false
+  CHINESE_LANGUAGE_LUCI: false
   PACKAGING_FIRMWARE: true
 
 jobs:
