@@ -76,6 +76,14 @@ if [[ -f "${HOME_PATH}/feeds/luci/applications/luci-app-ttyd/luasrc/controller/t
   sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
 fi
 
+if [[ ! -d "${HOME_PATH}/feeds/packages/devel/packr" ]]; then
+  svn export https://github.com/coolsnowwolf/packages/trunk/devel/packr ${HOME_PATH}/feeds/packages/devel/packr > /dev/null 2>&1
+fi
+
+if [[ ! -d "${HOME_PATH}/feeds/packages/utils/parted" ]]; then
+  svn export https://github.com/coolsnowwolf/packages/trunk/utils/parted ${HOME_PATH}/feeds/packages/utils/parted > /dev/null 2>&1
+fi
+
 export ZZZL_PATH="$(find ./package -type f -name "*default-settings" |grep files |cut -d '/' -f2-)"
 echo "ZZZ_PATH=${HOME_PATH}/${ZZZL_PATH}" >> $GITHUB_ENV
 }
