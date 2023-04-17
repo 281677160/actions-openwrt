@@ -120,12 +120,15 @@ jobs:
           export LUCI_VERSION="$(echo "${{ env.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |tr -d '\`.`')"
         fi
-        if [[ -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
-          sudo chmod -R +x $GITHUB_WORKSPACE/build
-          source ${GITHUB_WORKSPACE}/common/common.sh && wnejian_jiance
-        else
+        if [[ ! -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
           echo -e "\033[31m [build]文件夹里,[${FOLDER_NAME}]名称文件不存在 \033[0m"
           exit 1
+        elif [[ ! -f "${GITHUB_WORKSPACE}/common/common.sh" ]]; then
+          echo -e "\033[31m [common]文件夹里,[common.sh]文件不存在,请勿删除或随意修改此文件 \033[0m"
+          exit 1
+        else
+          sudo chmod -R +x $GITHUB_WORKSPACE/common
+          source ${GITHUB_WORKSPACE}/common/common.sh && wnejian_jiance
         fi
 
     - name: 部署编译环境
