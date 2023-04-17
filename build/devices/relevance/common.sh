@@ -164,7 +164,7 @@ if [[ -f "${BUILD_PATH}/${CONFIG_FILE}" ]]; then
   cp -Rf ${BUILD_PATH}/${CONFIG_FILE} ${HOME_PATH}/.config
 fi
 
-if [[ "${DEFAULT_CHINESE_LANGUAGE}" == "true" ]]; then
+if [[ "${CHINESE_LANGUAGE_LUCI}" == "true" ]]; then
   echo "CONFIG_PACKAGE_luci=y" >> ${HOME_PATH}/.config
   echo "CONFIG_PACKAGE_default-settings=y" >> ${HOME_PATH}/.config
   echo "CONFIG_PACKAGE_default-settings-chn=y" >> ${HOME_PATH}/.config
