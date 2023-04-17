@@ -102,9 +102,9 @@ jobs:
           export CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
           export PACKAGING_FIRMWARE="${{ inputs.PACKAGING_FIRMWARE }}"
           export CHINESE_LANGUAGE_LUCI="${{ inputs.CHINESE_LANGUAGE_LUCI }}"
-          export SOURCE="$(echo "${{ inputs.REPO_URL }}" |cut -d"/" -f1 |sed "s/.//g" |sed "s/-//g")"
+          export SOURCE="$(echo "${{ inputs.REPO_URL }}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
           export LUCI_VERSION="$(echo "${{ inputs.REPO_BRANCH }}" |cut -d"-" -f2-)"
-          export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/.//g" |sed "s/-//g")"
+          export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
         else
           export REPO_URL="https://github.com/$(echo "${{ env.REPO_URL }}" |sed s/[[:space:]]//g)"
           export REPO_BRANCH="${{ env.REPO_BRANCH }}"
@@ -116,9 +116,9 @@ jobs:
           export CACHEWRTBUILD_SWITCH="${{ env.CACHEWRTBUILD_SWITCH }}"
           export PACKAGING_FIRMWARE="${{ env.PACKAGING_FIRMWARE }}"
           export CHINESE_LANGUAGE_LUCI="${{ env.CHINESE_LANGUAGE_LUCI }}"
-          export SOURCE="$(echo "${{ env.REPO_URL }}" |cut -d"/" -f1 |sed "s/.//g" |sed "s/-//g")"
+          export SOURCE="$(echo "${{ env.REPO_URL }}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
           export LUCI_VERSION="$(echo "${{ env.REPO_BRANCH }}" |cut -d"-" -f2-)"
-          export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/.//g" |sed "s/-//g")"
+          export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
         fi
         if [[ ! -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
           echo -e "\033[31m [build]文件夹里,[${FOLDER_NAME}]名称文件不存在 \033[0m"
