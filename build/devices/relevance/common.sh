@@ -281,8 +281,8 @@ echo
 echo -e "\033[32m 源码链接: ${REPO_URL} \033[0m"
 echo -e "\033[32m 源码分支: ${REPO_BRANCH} \033[0m"
 echo -e "\033[32m 应用文件: ${FOLDER_NAME} \033[0m"
-echo -e "\033[32m 配置文件: $(echo "${CONFIG_FILE}" |cut -d"/" -f2) \033[0m"
 echo -e "\033[32m 扩展文件: ${DIY_PART_SH} \033[0m"
+echo -e "\033[32m 配置文件: $(echo "${CONFIG_FILE}" |cut -d"/" -f2) \033[0m"
 echo -e "\033[32m 编译机型: ${TARGET_PROFILE} \033[0m"
 echo -e "\033[32m 固件后台IP: ${TEMPOARY_IP} \033[0m"
 if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ "${TARGET_PROFILE}" == "Armvirt_64" ]]; then
