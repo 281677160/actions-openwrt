@@ -267,6 +267,28 @@ git commit -m "打包${SOURCE}-${amlogic_model}固件"
 git push --force "https://${REPO_TOKEN}@github.com/${GIT_REPOSITORY}" HEAD:main
 }
 
+
+function Package_amlogic() {
+if [[ `ls -1 "${GITHUB_WORKSPACE}/openwrt" |grep -c ".*64-default-rootfs.tar.gz"` -eq '1' ]]; then
+  mkdir -p ${GITHUB_WORKSPACE}/openwrt/temp_dir
+  cp -Rf ${GITHUB_WORKSPACE}/openwrt/*default-rootfs.tar.gz ${GITHUB_WORKSPACE}/openwrt/temp_dir/openwrt-armvirt-64-default-rootfs.tar.gz && sync
+  tar -xzf ${GITHUB_WORKSPACE}/openwrt/temp_dir/openwrt-armvirt-64-default-rootfs.tar.gz -C ${GITHUB_WORKSPACE}/openwrt/temp_dir/
+  if [[ `grep -c "DISTRIB_SOURCECODE" ${GITHUB_WORKSPACE}/openwrt/temp_dir/etc/openwrt_release` -eq '1' ]]; then
+    source_codename="$(cat "${GITHUB_WORKSPACE}/openwrt/temp_dir/etc/openwrt_release" 2>/dev/null | grep -oE "^DISTRIB_SOURCECODE=.*" | head -n 1 | cut -d"'" -f2)"
+    echo "source_codename=${source_codename}" >> ${GITHUB_ENV}
+    sudo rm -rf ${GITHUB_WORKSPACE}/openwrt/temp_dir
+  else
+    source_codename="armvirt"
+    echo "source_codename=${source_codename}" >> ${GITHUB_ENV}
+    sudo rm -rf ${GITHUB_WORKSPACE}/openwrt/temp_dir
+  fi
+else
+  TIME r "没发现armvirt-64-default-rootfs.tar.gz固件存在"
+  exit 1
+fi
+}
+
+
 function Diy_xinxi() {
 CPU_MODEL="$(cat /proc/cpuinfo |grep 'model name' |gawk -F : '{print $2}' |uniq -c |sed 's/^ \+[0-9]\+ //g' |sed 's/^[ ]*//g')"
 TARGET_BOARD="$(awk -F '[="]+' '/TARGET_BOARD/{print $2}' ${HOME_PATH}/.config)"
