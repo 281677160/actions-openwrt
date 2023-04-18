@@ -338,11 +338,11 @@ echo -e "\033[32m 固件后台IP: ${TEMPOARY_IP} \033[0m"
 if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ "${TARGET_PROFILE}" == "Armvirt_64" ]]; then
   echo -e "\033[32m 内核版本: 以打包内核为准 \033[0m"
   echo
-  echo -e "\033[34m amlogic_model: ${amlogic_model} \033[0m"
-  echo -e "\033[34m amlogic_kernel: ${amlogic_kernel} \033[0m"
-  echo -e "\033[34m auto_kernel: ${auto_kernel} \033[0m"
-  echo -e "\033[34m rootfs_size: ${rootfs_size} \033[0m"
-  echo -e "\033[34m kernel_repo: ${kernel_repo} \033[0m"
+  echo -e "\033[34m 打包机型: ${amlogic_model} \033[0m"
+  echo -e "\033[34m 打包内核: ${amlogic_kernel} \033[0m"
+  echo -e "\033[34m 自动检测最新版内核: ${auto_kernel} \033[0m"
+  echo -e "\033[34m ROOTFS大小: ${rootfs_size} \033[0m"
+  echo -e "\033[34m 内核仓库: ${kernel_usage} \033[0m"
 else
   echo -e "\033[32m 内核版本: ${LINUX_KERNEL} \033[0m"
   echo "PACKAGING_FIRMWARE=true" >> ${GITHUB_ENV}
