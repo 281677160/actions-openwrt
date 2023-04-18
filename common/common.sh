@@ -140,24 +140,38 @@ if [[ "${DIY_PART_SH}" == "diy-luci2.sh" ]]; then
   /bin/bash ${HOME_PATH}/zh_Hans.sh
 fi
 
+case "${PACKAGING_FIRMWARE}" in
+true)
 if [[ -n "${amlogic_model}" ]]; then
   echo "amlogic_model=${amlogic_model}" >> ${GITHUB_ENV}
+else
+  echo "amlogic_model=s905d" >> ${GITHUB_ENV}
 fi
 if [[ -n "${amlogic_kernel}" ]]; then
   echo "amlogic_kernel=${amlogic_kernel}" >> ${GITHUB_ENV}
+else
+  echo "amlogic_kernel=5.10.172" >> ${GITHUB_ENV}
 fi
 if [[ -n "${auto_kernel}" ]]; then
   echo "auto_kernel=${auto_kernel}" >> ${GITHUB_ENV}
+else
+  echo "auto_kernel=true" >> ${GITHUB_ENV}
 fi
 if [[ -n "${rootfs_size}" ]]; then
   echo "rootfs_size=${rootfs_size}" >> ${GITHUB_ENV}
+else
+  echo "rootfs_size=2560" >> ${GITHUB_ENV}
 fi
 if [[ -n "${kernel_repo}" ]]; then
   echo "kernel_repo=ophub/kernel" >> ${GITHUB_ENV}
 fi
 if [[ -n "${kernel_usage}" ]]; then
   echo "kernel_usage=${kernel_usage}" >> ${GITHUB_ENV}
+else
+  echo "kernel_usage=stable" >> ${GITHUB_ENV}
 fi
+;;
+esac
 }
 
 
