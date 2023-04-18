@@ -283,7 +283,7 @@ if [[ `ls -1 "${GITHUB_WORKSPACE}/openwrt" |grep -c ".*64-default-rootfs.tar.gz"
     sudo rm -rf ${GITHUB_WORKSPACE}/openwrt/temp_dir
   fi
 else
-  TIME r "没发现armvirt-64-default-rootfs.tar.gz固件存在"
+  echo -e "\033[31m 没发现armvirt-64-default-rootfs.tar.gz固件存在 \033[0m"
   exit 1
 fi
 }
