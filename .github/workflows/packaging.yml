@@ -69,7 +69,7 @@ on:
 env:
   GIT_REPOSITORY: ${{github.repository}}
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
-  SOURCE: openwrt
+  SOURCE: coolsnowwolf
   FOLDER_NAME: devices
 
 jobs:
@@ -113,7 +113,6 @@ jobs:
       run: |
         docker rmi `docker images -q`
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /usr/lib/jvm /opt/ghc /swapfile
-        sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
         sudo -E apt-get -y install $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
@@ -135,10 +134,7 @@ jobs:
         fi
         echo "build_name=${{ env.amlogic_model }}_${{ env.SOURCE }}_$(date +"%m.%d.%H%M")" >> ${GITHUB_ENV}
         echo "build_tag=$(date +"%m%d%H%M%S")" >> ${GITHUB_ENV}
-        echo "date_tg=$(date +"%Y.%m%d.%H%M")" >> ${GITHUB_ENV}
         wget -q https://github.com/${{ env.GIT_REPOSITORY }}/releases/download/targz/${{ env.SOURCE }}-armvirt-64-default-rootfs.tar.gz -O openwrt/openwrt-armvirt-64-default-rootfs.tar.gz
-        sudo chmod -R +x $GITHUB_WORKSPACE/common
-        source ${GITHUB_WORKSPACE}/common/common.sh && Package_amlogic
     
     - name: 打包固件
       id: compile
