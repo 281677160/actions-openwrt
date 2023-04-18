@@ -209,6 +209,12 @@ if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `grep -c 'CONFIG_TARGET_armvirt
     echo "PACKAGING_FIRMWARE=false" >> $GITHUB_ENV
     echo "没发现rootfs.tar.gz包存在,关闭触发Armvirt_64自动打包成img固件"
   fi
+else
+  echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
+  echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
+  echo "FILE_TAG=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
+  echo "FILE_NAME=${SOURCE}-${LUCI_VERSION}-${TARGET_PROFILE}" >> $GITHUB_ENV
+  echo "FIRMWARE=*" >> $GITHUB_ENV
 fi
 }
 
