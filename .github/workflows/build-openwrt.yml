@@ -197,17 +197,12 @@ jobs:
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
-        echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
-        echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
-        echo "FILE_TAG=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
-        echo "FILE_NAME=${{ env.SOURCE }}-${{ env.LUCI_VERSION }}-${{ env.TARGET_PROFILE }}" >> $GITHUB_ENV
-        echo "FIRMWARE=*" >> $GITHUB_ENV
         cd "${FIRMWARE_PATH}"
         mkdir -p ipk
         cp -rf $(find ${HOME_PATH}/bin/packages/ -type f -name "*.ipk") ipk/ && sync
         sudo tar -czf ipk.tar.gz ipk && sync
-        sudo rm -rf ipk profiles.json packages
         source ${BUILD_PATH}/common.sh && Diy_armvirt
+        sudo rm -rf ipk profiles.json packages
 
     - name: 上传固件至Artifacts
       if: steps.compile.outcome == 'success'&& env.UPLOAD_FIRMWARE == 'true' && !cancelled()
