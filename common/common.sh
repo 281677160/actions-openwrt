@@ -20,9 +20,6 @@ if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/diy-luci2.sh" ]]; then
   echo
   exit 1
 fi
-if [[ "${LUCI_VERSION}" == "openwrt" ]]; then
-  export LUCI_VERSION="official"
-fi
 
 echo "REPO_URL=${REPO_URL}" >> ${GITHUB_ENV}
 echo "REPO_BRANCH=${REPO_BRANCH}" >> ${GITHUB_ENV}
