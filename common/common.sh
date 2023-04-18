@@ -204,7 +204,10 @@ if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `grep -c 'CONFIG_TARGET_armvirt
     echo "UPLOAD_RELEASE=true" >> $GITHUB_ENV
     echo "FILE_TAG=targz" >> $GITHUB_ENV
     echo "FILE_NAME=armvirt-64-default-rootfs.tar.gz" >> $GITHUB_ENV
-    mv -f ${FIRMWARE_PATH}/*64-default-rootfs.tar.gz ${FIRMWARE_PATH}/${SOURCE}-armvirt-64-default-rootfs.tar.gz
+    [[ -d "${FIRMWARE_PATH}/packages" ]] && mkdir -p ${FIRMWARE_PATH}/packages
+    mv -f ${FIRMWARE_PATH}/*64-default-rootfs.tar.gz ${FIRMWARE_PATH}/packages/${SOURCE}-armvirt-64-default-rootfs.tar.gz
+    rm -rf ${FIRMWARE_PATH}/*64-default-rootfs.tar.gz
+    mv -f ${FIRMWARE_PATH}/packages/*64-default-rootfs.tar.gz ${FIRMWARE_PATH}/${SOURCE}-armvirt-64-default-rootfs.tar.gz
   else
     echo "PACKAGING_FIRMWARE=false" >> $GITHUB_ENV
     echo "没发现rootfs.tar.gz包存在,关闭触发Armvirt_64自动打包成img固件"
