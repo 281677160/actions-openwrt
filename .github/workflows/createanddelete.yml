@@ -37,12 +37,12 @@ on:
         required: false
         default: '7'
       Delete_releases:
-        description: '请修改保留[X]个Releases不被删除数值'
+        description: '保留[X]个Releases不被删除'
         required: false
         default: 'false'
         type: boolean
       KEEP_LATEST:
-        description: '保留[X]个Releases不被删除'
+        description: '请修改保留[X]个Releases不被删除数值'
         required: false
         default: '10'
 
