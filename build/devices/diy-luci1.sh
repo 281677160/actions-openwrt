@@ -9,10 +9,10 @@
 export DELETE_LOGIN_PASSWORD="1"
 
 #2. 清理[X]天之前的Artifacts
-export RETAIN_DAYS="7"
+export RETAIN_DAYS="0"
 
 #3. 保留[X]个Releases不被删除
-export KEEP_LATEST="10"
+export KEEP_LATEST="0"
 
 #4. 晶晨CPU系列打包固件设置(不懂请看说明)
 export amlogic_model="s905d"
