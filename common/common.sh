@@ -304,10 +304,12 @@ if [[ `ls -1 "${GITHUB_WORKSPACE}/openwrt" |grep -c ".*64-default-rootfs.tar.gz"
   if [[ `grep -c "DISTRIB_SOURCECODE" ${GITHUB_WORKSPACE}/openwrt/temp_dir/etc/openwrt_release` -eq '1' ]]; then
     source_codename="$(cat "${GITHUB_WORKSPACE}/openwrt/temp_dir/etc/openwrt_release" 2>/dev/null | grep -oE "^DISTRIB_SOURCECODE=.*" | head -n 1 | cut -d"'" -f2)"
     echo "source_codename=${source_codename}" >> ${GITHUB_ENV}
+    echo "build_name=${source_codename}_${amlogic_model}_$(date +"%m.%d.%H%M")" >> ${GITHUB_ENV}
     sudo rm -rf ${GITHUB_WORKSPACE}/openwrt/temp_dir
   else
     source_codename="armvirt"
     echo "source_codename=${source_codename}" >> ${GITHUB_ENV}
+    echo "build_name=${source_codename}_${amlogic_model}_$(date +"%m.%d.%H%M")" >> ${GITHUB_ENV}
     sudo rm -rf ${GITHUB_WORKSPACE}/openwrt/temp_dir
   fi
 else
