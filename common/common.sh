@@ -36,6 +36,9 @@ echo "LUCI_VERSION=${LUCI_VERSION}" >> $GITHUB_ENV
 echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
 }
 
+function Diy_update() {
+bash <(curl -fsSL https://raw.githubusercontent.com/281677160/common/main/custom/ubuntu.sh)
+}
 
 function Package_settings() {
 export HOME_PATH="$GITHUB_WORKSPACE/openwrt"
