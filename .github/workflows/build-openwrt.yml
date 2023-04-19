@@ -135,7 +135,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        bash <(curl -s https://github.com/281677160/common/raw/main/custom/ubuntu.sh)
+        sudo bash -c 'bash <(curl -s https://github.com/281677160/common/raw/main/custom/ubuntu.sh)'
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         sudo timedatectl set-timezone "Asia/Shanghai"
