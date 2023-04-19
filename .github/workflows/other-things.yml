@@ -125,7 +125,7 @@ jobs:
           for cc in ${bb[@]}; do
             if [[ -d "repogx/build/${cc}" ]]; then
               rm -rf repogx/build/"$cc"
-              rm -rf $(grep -rl "FOLDER_NAME: $cc" "repogx/.github/workflows" |sed 's/^[ ]*//g' |grep -v '^#\|packaging.yml')
+              rm -rf $(grep -rl "target: \[$cc\]" "repogx/.github/workflows" |sed 's/^[ ]*//g' |grep -v '^#\|packaging.yml')
               echo -e "\033[31m 已删除[${cc}]文件夹 \033[0m"
             else
               echo -e "\033[31m [${cc}]文件夹不存在 \033[0m"
