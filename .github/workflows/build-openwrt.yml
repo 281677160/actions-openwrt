@@ -29,10 +29,6 @@ on:
         description: '请输入固件后台IP,默认[192.168.1.1]'
         required: true
         default: ''
-      FOLDER_NAME:
-        description: '使用[build]文件夹里的[xx]文件'
-        required: true
-        default: 'devices'
       UPLOAD_FIRMWARE:
         description: '上传固件到 Artifacts'
         required: false
@@ -70,7 +66,6 @@ env:
   REPO_BRANCH: master
   CONFIG_FILE: x86_64
   TEMPOARY_IP: 192.168.1.1
-  FOLDER_NAME: devices
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: false
   CACHEWRTBUILD_SWITCH: true
@@ -81,6 +76,13 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     name: 编译固件
+    
+    env:
+      FOLDER_NAME: ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [devices]
 
     steps:
     - name: Checkout
