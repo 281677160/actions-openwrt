@@ -34,7 +34,7 @@ on:
         type: boolean
       RETAIN_DAYS:
         description: '请修改清理[X]天之前的Artifacts数值'
-        required: false
+        required: true
         default: '7'
       Delete_releases:
         description: '保留[X]个Releases不被删除'
@@ -43,7 +43,7 @@ on:
         type: boolean
       KEEP_LATEST:
         description: '请修改保留[X]个Releases不被删除数值'
-        required: false
+        required: true
         default: '10'
 
 env:
