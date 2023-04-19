@@ -133,16 +133,6 @@ jobs:
           done
         fi
         
-    - name: 运行程序
-      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' || env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
-      run: |
-        cd $GITHUB_WORKSPACE
-        chmod -R 775 repogx
-        cd repogx
-        git add .
-        git commit -m "up"
-        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
-        
     - name: 清理Artifacts
       continue-on-error: true
       if: env.REPO_TOKEN && env.REPO_TOKEN  && github.event.inputs.Delete_workflow == 'true'
@@ -163,3 +153,13 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+
+    - name: 运行程序
+      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' || env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        chmod -R 775 repogx
+        cd repogx
+        git add .
+        git commit -m "up"
+        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
