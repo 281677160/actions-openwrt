@@ -27,6 +27,14 @@ on:
         description: '请输入要删除的文件夹名称,一次删除多个请用英文逗号分开'
         required: false
         default: ''
+      RETAIN_DAYS:
+        description: '清理[X]天之前的Artifacts'
+        required: false
+        default: '7'
+      KEEP_LATEST:
+        description: '保留[X]个Releases不被删除'
+        required: false
+        default: '10'
 
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
@@ -116,7 +124,7 @@ jobs:
         fi
         
     - name: 运行程序
-      if: env.REPO_TOKEN
+      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' || env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
       run: |
         cd $GITHUB_WORKSPACE
         chmod -R 775 repogx
@@ -124,3 +132,24 @@ jobs:
         git add .
         git commit -m "up"
         git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
+        
+    - name: 清理Artifacts
+      continue-on-error: true
+      if: env.REPO_TOKEN
+      uses: Mattraks/delete-workflow-runs@v2
+      with:
+        token: ${{ secrets.REPO_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_days: ${{ inputs.RETAIN_DAYS }}
+        keep_minimum_runs: 0
+    
+    - name: 删除releases
+      continue-on-error: true
+      if: env.REPO_TOKEN
+      uses: danshui-git/delete-older-releases@main
+      with:
+        repo: ${{ github.repository }}
+        keep_latest: ${{ inputs.KEEP_LATEST }}
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
