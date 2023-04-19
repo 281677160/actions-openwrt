@@ -46,8 +46,8 @@ jobs:
         cd $GITHUB_WORKSPACE
         git clone -b main https://github.com/${{github.repository}} shangyou
         git clone -b main https://github.com/${{github.repository}} repogx
-        rm -rf repogx/build/devices/set-config
-        cp -rf shangyou/build/devices/set-config repogx/build/devices/seed
+        mv -f shangyou/common repogx/build/common
+        rm -rf repogx/common
         
     - name: 同步上游仓库
       if: env.REPO_TOKEN && (github.event.inputs.again-fork == 'fork')
