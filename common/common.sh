@@ -37,6 +37,7 @@ echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
 }
 
 function Diy_update() {
+UBUNTU_CODENAME="$(source /etc/os-release; echo "$UBUNTU_CODENAME")"
 sudo tee /etc/apt/sources.list << EOF > /dev/null
 deb http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME main restricted universe multiverse
 deb http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-security main restricted universe multiverse
