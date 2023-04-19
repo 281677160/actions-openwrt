@@ -10,16 +10,16 @@ on:
   workflow_dispatch:
     inputs:
       Establish:
-        description: '==创建文件夹=='
+        description: '创建文件夹（勾选为执行）'
         required: false
         default: 'false'
         type: boolean
       establish_name:
-        description: '输入您需要创建的文件夹名称'
+        description: '请输入您需要创建的文件夹名称'
         required: false
         default: ''
       Deletefile:
-        description: '==删除文件夹=='
+        description: '删除文件夹（勾选为执行）'
         required: false
         default: 'false'
         type: boolean
@@ -28,7 +28,7 @@ on:
         required: false
         default: ''
       Delete_workflow:
-        description: '清理[X]天之前的Artifacts'
+        description: '清理[X]天之前的Artifacts（勾选为执行）'
         required: false
         default: 'false'
         type: boolean
@@ -37,7 +37,7 @@ on:
         required: true
         default: '7'
       Delete_releases:
-        description: '保留[X]个Releases不被删除'
+        description: '保留[X]个Releases不被删除（勾选为执行）'
         required: false
         default: 'false'
         type: boolean
