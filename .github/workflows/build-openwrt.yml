@@ -21,10 +21,6 @@ on:
         description: '请输入源码的分支'
         required: true
         default: ''
-      FOLDER_NAME:
-        description: '使用[build]文件夹里的[xx]文件'
-        required: true
-        default: ''
       CONFIG_FILE:
         description: '请输入[seed]文件夹里的配置文件名称'
         required: true
@@ -33,6 +29,10 @@ on:
         description: '请输入固件后台IP,默认[192.168.1.1]'
         required: true
         default: ''
+      FOLDER_NAME:
+        description: '使用[build]文件夹里的[xx]文件'
+        required: true
+        default: 'devices'
       UPLOAD_FIRMWARE:
         description: '上传固件到 Artifacts'
         required: false
@@ -68,9 +68,9 @@ env:
   # 定时编译的话，设置这里的控制为准
   REPO_URL: coolsnowwolf/lede
   REPO_BRANCH: master
-  FOLDER_NAME: devices
   CONFIG_FILE: x86_64
   TEMPOARY_IP: 192.168.1.1
+  FOLDER_NAME: devices
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: false
   CACHEWRTBUILD_SWITCH: true
