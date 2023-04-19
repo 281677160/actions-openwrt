@@ -119,25 +119,6 @@ if [[ -n "${TEMPOARY_IP}" ]]; then
   fi
 fi
 
-if [[ "${DELETE_LOGIN_PASSWORD}" == "1" ]] && [[ -f "${ZZZ_PATH}" ]]; then
-  sed -i '/CYXluq4wUazHjmCDBCqXF/d' "${ZZZ_PATH}"
-  echo "DELETE_LOGIN_PASSWORD=1" >> ${GITHUB_ENV}
-else
-  echo "DELETE_LOGIN_PASSWORD=0" >> ${GITHUB_ENV}
-fi
-
-if [[ -n "${RETAIN_DAYS}" ]]; then
-  echo "RETAIN_DAYS=${RETAIN_DAYS}" >> ${GITHUB_ENV}
-else
-  echo "RETAIN_DAYS=90" >> ${GITHUB_ENV}
-fi
-
-if [[ -n "${KEEP_LATEST}" ]]; then
-  echo "KEEP_LATEST=${KEEP_LATEST}" >> ${GITHUB_ENV}
-else
-  echo "KEEP_LATEST=199" >> ${GITHUB_ENV}
-fi
-
 if [[ "${DIY_PART_SH}" == "diy-luci2.sh" ]]; then
   cp -Rf ${BUILD_PATH}/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
   /bin/bash ${HOME_PATH}/zh_Hans.sh
@@ -380,7 +361,7 @@ else
   echo -e "\033[31m Armvirt_64自动打包成img固件: 关闭 \033[0m"
 fi
 echo
-if [[ "${DELETE_LOGIN_PASSWORD}" == "1" ]]; then
+if [[ "${DELETE_LOGIN_PASSWORD}" == "true" ]]; then
   echo -e "\033[33m 首次进入固件免密登录设置: 开启 \033[0m"
 else
   echo -e "\033[31m 首次进入固件免密登录设置: 关闭 \033[0m"
