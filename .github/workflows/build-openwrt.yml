@@ -196,9 +196,30 @@ jobs:
         sudo tar -czf ipk.tar.gz ipk && sync
         source ${BUILD_PATH}/common.sh && Diy_armvirt
         sudo rm -rf ipk profiles.json packages
+        
+    - name: 清理Artifacts
+      continue-on-error: true
+      if: steps.compile.outcome == 'success' && env.REPO_TOKEN
+      uses: Mattraks/delete-workflow-runs@v2
+      with:
+        token: ${{ secrets.REPO_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_days: ${{ env.RETAIN_DAYS }}
+        keep_minimum_runs: 0
+    
+    - name: 删除releases
+      continue-on-error: true
+      if: steps.compile.outcome == 'success' && env.REPO_TOKEN
+      uses: danshui-git/delete-older-releases@main
+      with:
+        repo: ${{ github.repository }}
+        keep_latest: ${{ env.KEEP_LATEST }}
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
 
     - name: 上传固件至Artifacts
-      if: steps.compile.outcome == 'success'&& env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: steps.compile.outcome == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       uses: actions/upload-artifact@main
       with:
         name: ${{ env.SOURCE }}-${{ env.LUCI_VERSION }}-${{ env.TARGET_PROFILE }}-${{ env.FILE_DATE }}-firmware
@@ -221,24 +242,3 @@ jobs:
       if: steps.release.outcome == 'success' && env.REPO_TOKEN && env.PACKAGING_FIRMWARE == 'true'
       run: |
         source ${BUILD_PATH}/common.sh && Packaged_services
-
-    - name: 清理Artifacts
-      continue-on-error: true
-      if: env.REPO_TOKEN
-      uses: Mattraks/delete-workflow-runs@v2
-      with:
-        token: ${{ secrets.REPO_TOKEN }}
-        repository: ${{ github.repository }}
-        retain_days: ${{ env.RETAIN_DAYS }}
-        keep_minimum_runs: 0
-    
-    - name: 删除releases
-      continue-on-error: true
-      if: env.REPO_TOKEN
-      uses: danshui-git/delete-older-releases@main
-      with:
-        repo: ${{ github.repository }}
-        keep_latest: ${{ env.KEEP_LATEST }}
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
