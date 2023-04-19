@@ -49,6 +49,11 @@ on:
         required: false
         default: 'false'
         type: boolean
+      DELETE_LOGIN_PASSWORD:
+        description: '免密登录固件设置'
+        required: false
+        default: 'true'
+        type: boolean
       PACKAGING_FIRMWARE:
         description: 'Armvirt_64自动打包成img固件'
         required: false
@@ -70,6 +75,7 @@ env:
   UPLOAD_RELEASE: false
   CACHEWRTBUILD_SWITCH: true
   CHINESE_LANGUAGE_LUCI: false
+  DELETE_LOGIN_PASSWORD: true
   PACKAGING_FIRMWARE: true
 
 jobs:
@@ -96,28 +102,28 @@ jobs:
         if [[ -n "${{ inputs.REPO_URL }}" ]]; then
           export REPO_URL="https://github.com/$(echo "${{ inputs.REPO_URL }}" |sed s/[[:space:]]//g)"
           export REPO_BRANCH="${{ inputs.REPO_BRANCH }}"
-          export FOLDER_NAME="${{ inputs.FOLDER_NAME }}"
           export CONFIG_FILE="seed/${{ inputs.CONFIG_FILE }}"
           export TEMPOARY_IP="${{ inputs.TEMPOARY_IP }}"
           export UPLOAD_FIRMWARE="${{ inputs.UPLOAD_FIRMWARE }}"
           export UPLOAD_RELEASE="${{ inputs.UPLOAD_RELEASE }}"
           export CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
-          export PACKAGING_FIRMWARE="${{ inputs.PACKAGING_FIRMWARE }}"
           export CHINESE_LANGUAGE_LUCI="${{ inputs.CHINESE_LANGUAGE_LUCI }}"
+          export DELETE_LOGIN_PASSWORD="${{ inputs.DELETE_LOGIN_PASSWORD }}"
+          export PACKAGING_FIRMWARE="${{ inputs.PACKAGING_FIRMWARE }}"
           export SOURCE="$(echo "${{ inputs.REPO_URL }}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
           export LUCI_VERSION="$(echo "${{ inputs.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
         else
           export REPO_URL="https://github.com/$(echo "${{ env.REPO_URL }}" |sed s/[[:space:]]//g)"
           export REPO_BRANCH="${{ env.REPO_BRANCH }}"
-          export FOLDER_NAME="${{ env.FOLDER_NAME }}"
           export CONFIG_FILE="seed/${{ env.CONFIG_FILE }}"
           export TEMPOARY_IP="${{ env.TEMPOARY_IP }}"
           export UPLOAD_FIRMWARE="${{ env.UPLOAD_FIRMWARE }}"
           export UPLOAD_RELEASE="${{ env.UPLOAD_RELEASE }}"
           export CACHEWRTBUILD_SWITCH="${{ env.CACHEWRTBUILD_SWITCH }}"
-          export PACKAGING_FIRMWARE="${{ env.PACKAGING_FIRMWARE }}"
           export CHINESE_LANGUAGE_LUCI="${{ env.CHINESE_LANGUAGE_LUCI }}"
+          export DELETE_LOGIN_PASSWORD="${{ env.DELETE_LOGIN_PASSWORD }}"
+          export PACKAGING_FIRMWARE="${{ env.PACKAGING_FIRMWARE }}"
           export SOURCE="$(echo "${{ env.REPO_URL }}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
           export LUCI_VERSION="$(echo "${{ env.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
