@@ -90,6 +90,10 @@ if [[ ! -d "${HOME_PATH}/feeds/packages/devel/packr" ]]; then
   svn export https://github.com/coolsnowwolf/packages/trunk/devel/packr ${HOME_PATH}/package/packr > /dev/null 2>&1
 fi
 
+if [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-ipkg" ]]; then
+  svn export https://github.com/openwrt/luci/branches/openwrt-22.03/libs/luci-lib-ipkg ${HOME_PATH}/feeds/luci/libs/luci-lib-ipkg > /dev/null 2>&1
+fi
+
 if [[ ! -d "${HOME_PATH}/feeds/packages/utils/parted" ]]; then
   svn export https://github.com/coolsnowwolf/packages/trunk/utils/parted ${HOME_PATH}/feeds/packages/utils/parted > /dev/null 2>&1
 fi
