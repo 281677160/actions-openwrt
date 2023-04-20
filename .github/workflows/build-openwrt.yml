@@ -143,7 +143,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        source ${GITHUB_WORKSPACE}/common/common.sh && Diy_update
+        sudo /bin/bash ${GITHUB_WORKSPACE}/common/ubuntu.sh
         sudo timedatectl set-timezone "Asia/Shanghai"
         sudo mkdir -p /${{ env.DIY_WORK }}
         sudo chown $USER:$GROUPS /${{ env.DIY_WORK }}
