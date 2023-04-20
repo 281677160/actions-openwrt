@@ -23,7 +23,7 @@ sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build
 
 function ophub_amlogic-s9xxx(){
 # 安装打包N1需要用到的依赖
-sudo apt-get install -y $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt) > /dev/null 2>&1
+sudo apt-get install -y $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
 }
 
 function update_apt_source(){
