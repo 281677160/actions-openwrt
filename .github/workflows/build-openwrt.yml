@@ -155,10 +155,6 @@ jobs:
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt $GITHUB_WORKSPACE/openwrt
         source $GITHUB_WORKSPACE/common/common.sh && Diy_checkout
-        
-    - name: 读取扩展文件
-      run: |
-        source $GITHUB_WORKSPACE/common/common.sh && Package_settings
 
     - name: 读取扩展文件
       run: |
