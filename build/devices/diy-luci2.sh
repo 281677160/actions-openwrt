@@ -22,3 +22,8 @@ git clone https://github.com/pymumu/openwrt-smartdns package/smartdns
 find . -type d -name 'luci-theme-argon' -o -name 'luci-app-argon-config' | xargs -i rm -rf {}
 git clone -b master https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
 git clone https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
+
+# 删除源码自带的，然后拉重新取luci-app-adguardhome
+find . -type d -name 'luci-app-adguardhome' -o -name 'adguardhome' | xargs -i rm -rf {}
+svn co https://github.com/281677160/AdGuardHome/trunk/luci-app-adguardhome package/luci-app-adguardhome
+svn co https://github.com/281677160/AdGuardHome/trunk/adguardhome package/adguardhome
