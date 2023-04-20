@@ -58,17 +58,17 @@ else
   apptions="$(find "${HOME_PATH}/feeds" -type d -name "applications"  |grep 'luci')"
 fi
 if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
-  applica="1"
+  DIY_PART_SH="diy-luci2.sh"
   echo "DIY_PART_SH=diy-luci2.sh" >> ${GITHUB_ENV}
 else
-  applica="2"
+  DIY_PART_SH="diy-luci1.sh"
   echo "DIY_PART_SH=diy-luci1.sh" >> ${GITHUB_ENV}
 fi
 
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
-if [[ ! -d "${settingss}" ]] && [[ "${applica}" == "1" ]]; then
+if [[ ! -d "${settingss}" ]] && [[ "${DIY_PART_SH}" == "diy-luci2.sh" ]]; then
   svn export https://github.com/281677160/common/trunk/OFFICIAL/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
-elif [[ ! -d "${settingss}" ]] && [[ "${applica}" == "2" ]]; then
+elif [[ ! -d "${settingss}" ]] && [[ "${DIY_PART_SH}" == "diy-luci1.sh" ]]; then
   svn export https://github.com/281677160/common/trunk/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
 fi
 
