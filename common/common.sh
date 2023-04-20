@@ -65,6 +65,9 @@ if [[ `grep -Eoc "admin:.*" ${HOME_PATH}/package/base-files/files/etc/shadow` -e
   sed -i 's/admin:.*/admin::0:0:99999:7:::/g' ${HOME_PATH}/package/base-files/files/etc/shadow
 fi
 
+rm -rf ${HOME_PATH}/feeds/packages/lang/golang
+svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang ${HOME_PATH}/feeds/packages/lang/golang > /dev/null 2>&1
+
 if [[ -d "${HOME_PATH}/extra" ]]; then
   apptions="$(find "${HOME_PATH}/extra" -type d -name "applications"  |grep 'luci')"
 else
