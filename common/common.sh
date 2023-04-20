@@ -85,7 +85,8 @@ elif [[ ! -d "${settingss}" ]] && [[ "${DIY_PART_SH}" == "diy-luci1.sh" ]]; then
 fi
 
 if [[ ! -d "${HOME_PATH}/feeds/packages/devel/packr" ]]; then
-  svn export https://github.com/coolsnowwolf/packages/trunk/devel/packr ${HOME_PATH}/feeds/packages/devel/packr > /dev/null 2>&1
+  mkdir -p ${HOME_PATH}/feeds/packages/devel/packr
+  curl -fsSL https://raw.githubusercontent.com/openwrt/packages/openwrt-22.03/devel/packr/Makefile -o ${HOME_PATH}/feeds/packages/devel/packr/Makefile
 fi
 
 if [[ ! -d "${HOME_PATH}/feeds/packages/utils/parted" ]]; then
