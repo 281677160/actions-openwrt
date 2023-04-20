@@ -51,10 +51,7 @@ esac
 
 ./scripts/feeds clean
 ./scripts/feeds update -a > /dev/null 2>&1
-}
 
-
-function Package_settings() {
 export HOME_PATH="$GITHUB_WORKSPACE/openwrt"
 cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${HOME_PATH}/build
 cp -Rf $GITHUB_WORKSPACE/common/*.sh ${HOME_PATH}/build/
