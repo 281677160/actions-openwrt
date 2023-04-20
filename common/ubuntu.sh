@@ -13,7 +13,7 @@ sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /
 
 function install_mustrelyon(){
 # 安装我仓库需要的依赖
-sudo apt-get install -y rename pigz curl libfuse-dev
+sudo apt-get install -y rename pigz libfuse-dev
 git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 git config --global user.name "github-actions[bot]"
 
