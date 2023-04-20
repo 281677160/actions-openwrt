@@ -45,6 +45,9 @@ sudo chmod -R +x ${HOME_PATH}/build
 echo "HOME_PATH=${HOME_PATH}" >> $GITHUB_ENV
 echo "BUILD_PATH=${HOME_PATH}/build" >> $GITHUB_ENV
 cd ${HOME_PATH}
+LUCI_CHECKUT="$(git tag| awk 'END {print}')"
+git checkout ${LUCI_CHECKUT}
+git switch -c ${LUCI_CHECKUT}
 ./scripts/feeds update -a > /dev/null 2>&1
 
 sed -i 's/root:.*/root::0:0:99999:7:::/g' ${HOME_PATH}/package/base-files/files/etc/shadow
@@ -68,12 +71,9 @@ fi
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ ! -d "${settingss}" ]] && [[ "${DIY_PART_SH}" == "diy-luci2.sh" ]]; then
   svn export https://github.com/281677160/common/trunk/OFFICIAL/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+  [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && svn export https://github.com/openwrt/luci/branches/openwrt-22.03/libs/luci-lib-base ${HOME_PATH}/feeds/luci/libs/luci-lib-base > /dev/null 2>&1
 elif [[ ! -d "${settingss}" ]] && [[ "${DIY_PART_SH}" == "diy-luci1.sh" ]]; then
   svn export https://github.com/281677160/common/trunk/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
-fi
-
-if [[ -f "${HOME_PATH}/feeds/luci/applications/luci-app-ttyd/luasrc/controller/ttyd.lua" ]]; then
-  sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
 fi
 
 if [[ ! -d "${HOME_PATH}/feeds/packages/devel/packr" ]]; then
