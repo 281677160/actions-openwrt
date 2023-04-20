@@ -45,7 +45,7 @@ sudo chmod -R +x ${HOME_PATH}/build
 echo "HOME_PATH=${HOME_PATH}" >> $GITHUB_ENV
 echo "BUILD_PATH=${HOME_PATH}/build" >> $GITHUB_ENV
 cd ${HOME_PATH}
-LUCI_CHECKUT="$(git tag| awk 'END {print}')"
+export LUCI_CHECKUT="$(git tag| awk 'END {print}')"
 git checkout ${LUCI_CHECKUT}
 git switch -c ${LUCI_CHECKUT}
 ./scripts/feeds update -a > /dev/null 2>&1
