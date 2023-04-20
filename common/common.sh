@@ -351,18 +351,15 @@ if [[ "${CHINESE_LANGUAGE_LUCI}" == "true" ]]; then
 else
   echo -e "\033[31m 编译时更改成默认中文LUCI: 关闭 \033[0m"
 fi
-if [[ "${PACKAGING_FIRMWARE}" == "true" ]]; then
-  echo -e "\033[33m Armvirt_64自动打包成img固件: 开启 \033[0m"
-else
-  echo -e "\033[31m Armvirt_64自动打包成img固件: 关闭 \033[0m"
-fi
-echo
 if [[ "${DELETE_LOGIN_PASSWORD}" == "true" ]]; then
   echo -e "\033[33m 首次进入固件免密登录设置: 开启 \033[0m"
 else
   echo -e "\033[31m 首次进入固件免密登录设置: 关闭 \033[0m"
 fi
-echo -e "\033[33m 清理[X]天之前的Artifacts: ${RETAIN_DAYS}天 \033[0m"
-echo -e "\033[33m 保留[X]个Releases不被删除: ${KEEP_LATEST}个 \033[0m"
+if [[ "${PACKAGING_FIRMWARE}" == "true" ]]; then
+  echo -e "\033[33m Armvirt_64自动打包成img固件: 开启 \033[0m"
+else
+  echo -e "\033[31m Armvirt_64自动打包成img固件: 关闭 \033[0m"
+fi
 echo
 }
