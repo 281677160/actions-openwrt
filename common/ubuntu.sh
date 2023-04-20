@@ -41,4 +41,4 @@ ophub_amlogic-s9xxx
 update_apt_source
 }
 
-main
+main "$@"
