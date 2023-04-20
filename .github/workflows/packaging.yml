@@ -113,6 +113,8 @@ jobs:
       run: |
         sudo /bin/bash ${GITHUB_WORKSPACE}/common/ubuntu.sh
         sudo timedatectl set-timezone "Asia/Shanghai"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
     
