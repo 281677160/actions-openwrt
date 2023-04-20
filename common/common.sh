@@ -37,7 +37,7 @@ echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
 }
 
 
-function Diy_checkout() {
+function Package_settings() {
 cd ${GITHUB_WORKSPACE}/openwrt
 case "${REPO_URL}" in
 https://github.com/openwrt/openwrt)
@@ -48,9 +48,7 @@ https://github.com/openwrt/openwrt)
   fi
 ;;
 esac
-}
 
-function Package_settings() {
 export HOME_PATH="$GITHUB_WORKSPACE/openwrt"
 cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${HOME_PATH}/build
 cp -Rf $GITHUB_WORKSPACE/common/*.sh ${HOME_PATH}/build/
