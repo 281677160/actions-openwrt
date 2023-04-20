@@ -157,9 +157,6 @@ if [[ -n "${rootfs_size}" ]]; then
 else
   echo "rootfs_size=2560" >> ${GITHUB_ENV}
 fi
-if [[ -n "${kernel_repo}" ]]; then
-  echo "kernel_repo=ophub/kernel" >> ${GITHUB_ENV}
-fi
 if [[ -n "${kernel_usage}" ]]; then
   echo "kernel_usage=${kernel_usage}" >> ${GITHUB_ENV}
 else
