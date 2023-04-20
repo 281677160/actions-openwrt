@@ -37,7 +37,7 @@ echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
 }
 
 
-function Package_settings() {
+function Diy_checkout() {
 cd ${GITHUB_WORKSPACE}/openwrt
 case "${REPO_URL}" in
 https://github.com/openwrt/openwrt)
@@ -49,6 +49,12 @@ https://github.com/openwrt/openwrt)
 ;;
 esac
 
+./scripts/feeds clean
+./scripts/feeds update -a > /dev/null 2>&1
+}
+
+
+function Package_settings() {
 export HOME_PATH="$GITHUB_WORKSPACE/openwrt"
 cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${HOME_PATH}/build
 cp -Rf $GITHUB_WORKSPACE/common/*.sh ${HOME_PATH}/build/
@@ -56,7 +62,6 @@ sudo chmod -R +x ${HOME_PATH}/build
 echo "HOME_PATH=${HOME_PATH}" >> $GITHUB_ENV
 echo "BUILD_PATH=${HOME_PATH}/build" >> $GITHUB_ENV
 cd ${HOME_PATH}
-./scripts/feeds update -a > /dev/null 2>&1
 
 sed -i 's/root:.*/root::0:0:99999:7:::/g' ${HOME_PATH}/package/base-files/files/etc/shadow
 if [[ `grep -Eoc "admin:.*" ${HOME_PATH}/package/base-files/files/etc/shadow` -eq '1' ]]; then
@@ -85,8 +90,7 @@ elif [[ ! -d "${settingss}" ]] && [[ "${DIY_PART_SH}" == "diy-luci1.sh" ]]; then
 fi
 
 if [[ ! -d "${HOME_PATH}/feeds/packages/devel/packr" ]]; then
-  mkdir -p ${HOME_PATH}/feeds/packages/devel/packr
-  curl -fsSL https://raw.githubusercontent.com/openwrt/packages/openwrt-22.03/devel/packr/Makefile -o ${HOME_PATH}/feeds/packages/devel/packr/Makefile
+  svn export https://github.com/coolsnowwolf/packages/trunk/devel/packr ${HOME_PATH}/feeds/packages/devel/packr > /dev/null 2>&1
 fi
 
 if [[ ! -d "${HOME_PATH}/feeds/packages/utils/parted" ]]; then
