@@ -330,7 +330,7 @@ echo -e "\033[32m 扩展文件: ${DIY_PART_SH} \033[0m"
 echo -e "\033[32m 配置文件: $(echo "${CONFIG_FILE}" |cut -d"/" -f2) \033[0m"
 echo -e "\033[32m 编译机型: ${TARGET_PROFILE} \033[0m"
 echo -e "\033[32m 固件后台IP: ${TEMPOARY_IP} \033[0m"
-if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ "${TARGET_PROFILE}" == "Armvirt_64" ]]; then
+if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `grep -c 'CONFIG_TARGET_armvirt_64_Default=y' ${HOME_PATH}/.config` -eq '1' ]]; then
   echo -e "\033[32m 内核版本: 以打包内核为准 \033[0m"
   echo
   echo -e "\033[34m 打包机型: ${amlogic_model} \033[0m"
@@ -340,7 +340,7 @@ if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ "${TARGET_PROFILE}" == "Armvirt
   echo -e "\033[34m 内核仓库: ${kernel_usage} \033[0m"
 else
   echo -e "\033[32m 内核版本: ${LINUX_KERNEL} \033[0m"
-  echo "PACKAGING_FIRMWARE=true" >> ${GITHUB_ENV}
+  echo "PACKAGING_FIRMWARE=false" >> ${GITHUB_ENV}
 fi
 echo
 echo -e "\033[35m 服务器CPU: ${CPU_MODEL} \033[0m"
