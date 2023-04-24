@@ -133,6 +133,16 @@ if [[ -n "${TEMPOARY_IP}" ]]; then
   fi
 fi
 
+if [[ "${DIY_PART_SH}" == "diy-luci2.sh" ]]; then
+  for X in $(find . -type f -name 'zh_Hans' |grep po); do rm -rf "${X}"; done
+  cp -Rf ${BUILD_PATH}/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
+  /bin/bash ${HOME_PATH}/zh_Hans.sh
+else
+  for X in $(find . -type f -name 'zh-cn' |grep po); do rm -rf "${X}"; done
+  cp -Rf ${BUILD_PATH}/zh-cn.sh ${HOME_PATH}/zh-cn.sh
+  /bin/bash ${HOME_PATH}/zh-cn.sh
+fi
+
 case "${PACKAGING_FIRMWARE}" in
 true)
 if [[ -n "${amlogic_model}" ]]; then
