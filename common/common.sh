@@ -133,11 +133,6 @@ if [[ -n "${TEMPOARY_IP}" ]]; then
   fi
 fi
 
-if [[ "${DIY_PART_SH}" == "diy-luci2.sh" ]]; then
-  cp -Rf ${BUILD_PATH}/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
-  /bin/bash ${HOME_PATH}/zh_Hans.sh
-fi
-
 case "${PACKAGING_FIRMWARE}" in
 true)
 if [[ -n "${amlogic_model}" ]]; then
