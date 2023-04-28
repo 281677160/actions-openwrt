@@ -54,16 +54,16 @@ makefile_file="$({ find |grep Makefile |grep -v "openclash\|store\|settings" |se
 for f in ${makefile_file}
 do
 	[ -n "$(grep "zh_Hans" "$f")" ] && sed -i "s/zh_Hans/zh-cn/g" "$f"
-	[ -n "$(grep "zh-cn.lmo" "$f")" ] && sed -i "s/zh-cn.lmo/zh_Hans.lmo/g" "$f"
+	[ -n "$(grep "zh_Hans.lmo" "$f")" ] && sed -i "s/zh_Hans.lmo/zh-cn.lmo/g" "$f"
 done
 
 settings_file="$({ find |grep Makefile |grep default-settings |sed "/Makefile./d"; } 2>"/dev/null")"
 for f in ${settings_file}
 do
 	if [ -z "$(grep "LUCI_LANG_zh-cn" "$f")" ] && [ -z "$(grep "LUCI_LANG_zh_Hans" "$f")" ]; then
-		sed -i "s?DEPENDS:=?DEPENDS:=\+\@LUCI_LANG_zh-cn ?g" "$f"
+		[ -f "$f" ] && sed -i "s?DEPENDS:=?DEPENDS:=\+\@LUCI_LANG_zh-cn ?g" "$f"
 	elif [ -n "$(grep "LUCI_LANG_zh_Hans" "$f")" ]; then
-		sed -i "s/LUCI_LANG_zh_Hans/LUCI_LANG_zh-cn/g" "$f"
+		[ -f "$f" ] && sed -i "s/LUCI_LANG_zh_Hans/LUCI_LANG_zh-cn/g" "$f"
 	fi
 done
 exit 0
