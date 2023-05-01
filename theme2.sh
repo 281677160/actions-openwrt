@@ -15,7 +15,7 @@ git clone https://github.com/pymumu/openwrt-smartdns smartdns
 luci_file="$(grep -Eio "<%= ver.luciname %>"  -rl ./ |grep "\.htm")"
 for x in ${luci_file}
 do
-  a="$(grep -Eio 'https://github.com/openwrt/luci' "$x")"
+  a="$(grep -Eio 'https://github.com/openwrt/.*luci' "$x")"
   [[ -n "${a}" ]] && sed -i "s?${a}?/cgi-bin/luci/admin/status/overview?g" "$x"
   
   b="$(grep -Eio 'Powered.*<%= ver.luciname %>' "$x")"
