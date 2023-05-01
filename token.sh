@@ -23,9 +23,9 @@ done
 
 echo "2"
 # 修改几个插件名称
-sed -i "s#"设置向导"#"设置"#g" `egrep "设置向导" -rl ./`
+sed -i "s"设置向导"?"设置"?g" `egrep "设置向导" -rl ./`
 sed -i "s?"Design 主题设置"?"Design设置"?g" `egrep "Design 主题设置" -rl ./`
-sed -i "s?"Argon 主题设置"?"Argon设置"?g" `egrep "Design 主题设置" -rl ./`
+sed -i "s?"Argon 主题设置"?"Argon设置"?g" `egrep "Argon 主题设置" -rl ./`
 sed -i "s?"网络向导"?"向导"?g" `egrep "网络向导" -rl ./`
 sed -i 's/"网络存储"/"NAS"/g' `egrep "网络存储" -rl ./`
 
