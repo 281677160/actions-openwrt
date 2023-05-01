@@ -8,6 +8,7 @@ rm -rf install.sh
 # 增加filebrowser的用户名跟密码提示
 sed -i "s/助您方便的管理设备上的文件。"/助您方便的管理设备上的文件，初始用户名跟密码都为：admin"/g" `grep "助您方便的管理设备上的文件\。" -rl ./`
 
+echo "1"
 # 删除sirpdboy广告
 po_file="$(grep -Eio "GitHub \@sirpdboy/luci-app-.*"  -rl ./ |grep "\.lua")"
 for i in ${po_file}
@@ -20,6 +21,7 @@ do
   [[ -n "${y}" ]] && sed -i "s#${y}##g" "${i}"
 done
 
+echo "2"
 # 修改几个插件名称
 sed -i "s#"设置向导"#"设置"#g" `egrep "设置向导" -rl ./`
 sed -i "s?"Design 主题设置"?"Design设置"?g" `egrep "Design 主题设置" -rl ./`
@@ -27,6 +29,7 @@ sed -i "s?"Argon 主题设置"?"Argon设置"?g" `egrep "Design 主题设置" -rl
 sed -i "s?"网络向导"?"向导"?g" `egrep "网络向导" -rl ./`
 sed -i 's/"网络存储"/"NAS"/g' `egrep "网络存储" -rl ./`
 
+echo "3"
 # 修改主题footer.htm去掉一些LUCI链接
 luci_file="$(grep -Eio "<%= ver.luciname %>"  -rl ./ |grep "\.htm")"
 for x in ${luci_file}
@@ -54,10 +57,12 @@ do
   [[ -n "${d}" ]] && sed -i "s?${d}??g" "$x"
 done
 
+echo "4"
 # 修改路径
 sed -i 's#include ../../luci.mk#include $(TOPDIR)/feeds/luci/luci.mk#g'  `grep "include ../../luci.mk" -rl ./`
 sed -i 's#include ../../lang/golang/golang-package.mk#include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk#g'  `grep "include ../../lang/golang/golang-package.mk" -rl ./`
 
+echo "5"
 ## 修改所有语言包为zh-cn格式，编译时按需改成zh_Hans
 curl -fsSL https://raw.githubusercontent.com/281677160/common/main/language/zh-cn.sh -o zh-cn.sh
 chmod +x zh-cn.sh
