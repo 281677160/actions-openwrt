@@ -29,9 +29,9 @@ do
   c="$(grep -Eio '\(<%= ver.luciversion %>\)</a> /' "$x")"
   if [[ -n "${c}" ]]; then
     sed -i "s?${c}??g" "$x"
-    sed -i 's#<%= ver.distversion %>#<%= ver.distversion %> </a>#g' "$x"
+    sed -i 's?<%= ver.distversion %>?<%= ver.distversion %> </a>?g' "$x"
   else
-    [[ -z "$(grep "<%= ver.distversion %>" "$x")" ]] && sed -i 's#<%= ver.luciversion %>#<%= ver.distversion %>#g' "$x"
+    [[ -z "$(grep "<%= ver.distversion %>" "$x")" ]] && sed -i 's?<%= ver.luciversion %>?<%= ver.distversion %>?g' "$x"
   fi
   
   d="$(grep -Eio '<a href="https://github.com/.*%></a> /' "$x")"
