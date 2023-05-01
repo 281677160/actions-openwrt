@@ -1,0 +1,79 @@
+name: Update package
+
+on:
+  workflow_dispatch:
+  
+  schedule:
+    - cron: 40 3 * * *
+
+env: 
+  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+  SCKEY: ${{ secrets.SCKEY }}
+  PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+  GIT_REPOSITORY: 281677160/openwrt-package
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: Ubuntu-22.04
+
+    name: Update ${{ matrix.target }}
+    
+    env:
+      FOLDER_NAME: ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [theme1]
+       
+        #[immortalwrt,lede,lienol,official,theme1,theme2,adguard]
+        
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install git subversion git-core wget curl grep
+        sudo timedatectl set-timezone "$TZ"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        
+    - name: Clone packages
+      run: |
+        cd $GITHUB_WORKSPACE
+        sudo chmod -R +x ${{ matrix.target }}.sh && sudo chmod +x token.sh
+        git clone -b ${{ matrix.target }} https://github.com/${{ env.GIT_REPOSITORY }} Upload
+        cd Upload
+        rm -Rf *
+        git rm --cache *
+        mkdir -p relevance
+        cd relevance
+        $GITHUB_WORKSPACE/${{ matrix.target }}.sh
+        $GITHUB_WORKSPACE/token.sh
+        
+    - name: Upload
+      continue-on-error: true
+      run: |
+        cd $GITHUB_WORKSPACE
+        sudo chmod -R +x $GITHUB_WORKSPACE/Upload
+        [[ -f "$GITHUB_WORKSPACE/README/LICENSE" ]] && cp $GITHUB_WORKSPACE/README/LICENSE $GITHUB_WORKSPACE/Upload/LICENSE
+        [[ -f "$GITHUB_WORKSPACE/README/master/README.md" ]] && cp $GITHUB_WORKSPACE/README/master/README.md $GITHUB_WORKSPACE/Upload/README.md
+        cd $GITHUB_WORKSPACE/Upload
+        git add .
+        git commit -m "同步源码于$(date +%Y年%m月%d号-%H点%M分)"
+        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{ env.GIT_REPOSITORY }}" HEAD:${{ matrix.target }} 
+        
+    - name: Delete workflow runs
+      continue-on-error: true
+      uses: Mattraks/delete-workflow-runs@main
+      with:
+        token: ${{ secrets.REPO_TOKEN }}
+        repository: ${{ github.repository }}      
+        retain_days: 0.5
+        keep_minimum_runs: 0
