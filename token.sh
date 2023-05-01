@@ -8,30 +8,57 @@ rm -rf install.sh
 # 增加filebrowser的用户名跟密码提示
 sed -i "s/助您方便的管理设备上的文件。"/助您方便的管理设备上的文件，初始用户名跟密码都为：admin"/g" `grep "助您方便的管理设备上的文件\。" -rl ./`
 
-po_file="$(grep -Eio "GitHub \@sirpdboy/luci-app-.*"  -rl ./)"
-for a in ${po_file}
+# 删除sirpdboy广告
+po_file="$(grep -Eio "GitHub \@sirpdboy/luci-app-.*"  -rl ./ |grep "\.lua")"
+for i in ${po_file}
 do
-	sirpdboy="$(grep -Eio "GitHub \@sirpdboy/luci-app-.*" ${a} |cut -d"<" -f1)"
-	[[ -n "${sirpdboy}" ]] && sed -i "s#${sirpdboy}##g" "${a}"
+  p="$(grep -Eio "GitHub \@sirpdboy/luci-app-.*" ${i} |cut -d"<" -f1)"
+  [[ -n "${p}" ]] && sed -i "s#${p}##g" "${i}"
+  o="$(grep -Eio "https://github.com/sirpdboy/luci-app-.*" ${i} |grep 'target' |cut -d"'" -f1)"
+  [[ -n "${o}" ]] && sed -i "s#${o}##g" "${i}"
+  y="$(grep -Eio "For specific usage, see\:" ${i})"
+  [[ -n "${y}" ]] && sed -i "s#${y}##g" "${i}"
 done
-po_file2="$(grep -Eio "https://github.com/sirpdboy/luci-app-.*"  -rl ./)"
-for b in ${po_file2}
-do
-	httpssirpdboy="$(grep -Eio "https://github.com/sirpdboy/luci-app-.*" ${b} |grep 'target' |cut -d"'" -f1)"
-	[[ -n "${httpssirpdboy}" ]] && sed -i "s#${httpssirpdboy}##g" "${b}"
-done
-sed -i "s/For specific usage, see://" `egrep "For specific usage, see" -rl ./ |grep -v "\.po"`
+
+# 修改几个插件名称
 sed -i "s#"设置向导"#"设置"#g" `egrep "设置向导" -rl ./`
 sed -i "s?"Design 主题设置"?"Design设置"?g" `egrep "Design 主题设置" -rl ./`
+sed -i "s?"Argon 主题设置"?"Argon设置"?g" `egrep "Design 主题设置" -rl ./`
 sed -i "s?"网络向导"?"向导"?g" `egrep "网络向导" -rl ./`
 sed -i 's/"网络存储"/"NAS"/g' `egrep "网络存储" -rl ./`
-sed -i '/OpentopdTheme/d' `egrep "https://github.com/sirpdboy/luci-theme-opentopd" -rl ./`
+
+# 修改主题footer.htm去掉一些LUCI链接
+luci_file="$(grep -Eio "<%= ver.luciname %>"  -rl ./ |grep "\.htm")"
+for x in ${luci_file}
+do
+  a="$(grep -Eio 'https://github.com/Lienol/openwrt-luci' "$x")"
+  if [[ -n "${a}" ]]; then
+    sed -i "s?${a}?/cgi-bin/luci/admin/status/overview?g" "$x"
+  else
+    a="$(grep -Eio 'https://github.com/openwrt/luci' "$x")"
+    [[ -n "${a}" ]] && sed -i "s?${a}?/cgi-bin/luci/admin/status/overview?g" "$x"
+  fi
+  
+  b="$(grep -Eio 'Powered.*<%= ver.luciname %>' "$x")"
+  [[ -n "${b}" ]] && sed -i "s?${b}??g" "$x"
+  
+  c="$(grep -Eio '\(<%= ver.luciversion %>\)</a> /' "$x")"
+  if [[ -n "${c}" ]]; then
+    sed -i "s?${c}??g" "$x"
+    sed -i 's?<%= ver.distversion %>?<%= ver.distversion %> </a>?g' "$x"
+  else
+    [[ -z "$(grep "<%= ver.distversion %>" "$x")" ]] && sed -i 's?<%= ver.luciversion %>?<%= ver.distversion %>?g' "$x"
+  fi
+  
+  d="$(grep -Eio '<a href="https://github.com/.*%></a> /' "$x")"
+  [[ -n "${d}" ]] && sed -i "s?${d}??g" "$x"
+done
 
 # 修改路径
 sed -i 's#include ../../luci.mk#include $(TOPDIR)/feeds/luci/luci.mk#g'  `grep "include ../../luci.mk" -rl ./`
 sed -i 's#include ../../lang/golang/golang-package.mk#include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk#g'  `grep "include ../../lang/golang/golang-package.mk" -rl ./`
 
-## 修改语言文件
+## 修改所有语言包为zh-cn格式，编译时按需改成zh_Hans
 curl -fsSL https://raw.githubusercontent.com/281677160/common/main/language/zh-cn.sh -o zh-cn.sh
 chmod +x zh-cn.sh
 /bin/bash zh-cn.sh
@@ -44,14 +71,14 @@ ls -1 -d */ |cut -d"/" -f1 > UpdateList.txt
 [[ -f Update.txt ]] && export FOLDERS=`grep -Fxvf UpdateList.txt Update.txt`
 [[ -n "${FOLDERS}" ]] && export FOLDERSX=`echo $FOLDERS | sed 's/ /、/g'`;echo $FOLDERSX
 
-# 提取所有luci-app
+# 提取所有luci-app和luci-theme存放在根目录
 A="$(ls -1 |grep -Eo "luci-app-.*|luci-theme-.*")"
 for b in ${A}
 do
 	mv -f ${b} ../
 done
 
-# 判断变量值，如果有效发送微信通知
+# 判断变量值，如果有效发送pushplus通知
 if [[ -n "${FOLDERS}" ]]; then
 	curl -k --data token="$PUSH_PLUS_TOKEN" --data title="${FOLDER_NAME}插件同步失败" --data "content=$FOLDERSX" "http://www.pushplus.plus/send"
 fi
