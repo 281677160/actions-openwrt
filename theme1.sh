@@ -24,8 +24,13 @@ git clone https://github.com/pymumu/openwrt-smartdns smartdns
 luci_file="$(grep -Eio "<%= ver.luciname %>"  -rl ./ |grep "\.htm")"
 for x in ${luci_file}
 do
-  a="$(grep -Eio 'https://github.com/openwrt/luci' "$x")"
-  [[ -n "${a}" ]] && sed -i "s?${a}?/cgi-bin/luci/admin/status/overview?g" "$x"
+  a="$(grep -Eio 'https://github.com/Lienol/openwrt-luci' "$x")"
+  if [[ -n "${a}" ]]; then
+    sed -i "s?${a}?/cgi-bin/luci/admin/status/overview?g" "$x"
+  else
+    a="$(grep -Eio 'https://github.com/openwrt/luci' "$x")"
+    [[ -n "${a}" ]] && sed -i "s?${a}?/cgi-bin/luci/admin/status/overview?g" "$x"
+  fi
   
   b="$(grep -Eio 'Powered.*<%= ver.luciname %>' "$x")"
   [[ -n "${b}" ]] && sed -i "s?${b}??g" "$x"
@@ -33,9 +38,9 @@ do
   c="$(grep -Eio '\(<%= ver.luciversion %>\)</a> /' "$x")"
   if [[ -n "${c}" ]]; then
     sed -i "s?${c}??g" "$x"
-    sed -i 's#<%= ver.distversion %>#<%= ver.distversion %> </a>#g' "$x"
+    sed -i 's?<%= ver.distversion %>?<%= ver.distversion %> </a>?g' "$x"
   else
-    [[ -z "$(grep "<%= ver.distversion %>" "$x")" ]] && sed -i 's#<%= ver.luciversion %>#<%= ver.distversion %>#g' "$x"
+    [[ -z "$(grep "<%= ver.distversion %>" "$x")" ]] && sed -i 's?<%= ver.luciversion %>?<%= ver.distversion %>?g' "$x"
   fi
   
   d="$(grep -Eio '<a href="https://github.com/.*%></a> /' "$x")"
