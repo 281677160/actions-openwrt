@@ -30,7 +30,7 @@ do
   b="$(grep -Eio 'Powered.*<%= ver.luciname %>' "$x")"
   [[ -n "${b}" ]] && sed -i "s?${b}??g" "$x"
   
-  c="$(grep -Eio '(<%= ver.luciversion %>)</a> /' "$x")"
+  c="$(grep -Eio '\(<%= ver.luciversion %>\)</a> /' "$x")"
   if [[ -n "${c}" ]]; then
     sed -i "s?${c}??g" "$x"
     sed -i 's#<%= ver.distversion %>#<%= ver.distversion %> </a>#g' "$x"
