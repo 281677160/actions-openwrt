@@ -61,9 +61,9 @@ for x in ${t[@]}; do \
   find . -type d -name "${x}" |xargs -i rm -rf {}; \
 done
 if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
-  git clone -b theme2 https://github.com/281677160/openwrt-package theme_package
+  git clone -b theme2 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_package
 else
-  git clone -b theme1 https://github.com/281677160/openwrt-package theme_package
+  git clone -b theme1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_package
 fi
 
 export HOME_PATH="$GITHUB_WORKSPACE/openwrt"
