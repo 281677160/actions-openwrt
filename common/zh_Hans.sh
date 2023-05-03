@@ -5,15 +5,14 @@
 # Convert translation files zh-cn to zh_Hans
 # The script is still in testing, welcome to report bugs.
 
-for X in $(find . -type l -name 'zh-cn' |grep po |grep -v "openclash\|store\|settings"); do rm -rf "${X}"; done
-for X in $(find . -type f -name 'zh-cn' |grep po |grep -v "openclash\|store\|settings"); do rm -rf "${X}"; done
-for X in $(find . -type l -name 'zh_Hans' |grep po |grep -v "openclash\|store\|settings"); do rm -rf "${X}"; done
-for X in $(find . -type f -name 'zh_Hans' |grep po |grep -v "openclash\|store\|settings"); do rm -rf "${X}"; done
-
+for X in $(find . -regex '.*zh-cn\|.*zh_Hans\|.*rclone.po' -type l |grep po |grep -v "openclash\|store\|settings"); do rm -rf "${X}"; done
+for X in $(find . -regex '.*zh-cn\|.*zh_Hans' -type f |grep po |grep -v "openclash\|store\|settings"); do rm -rf "${X}"; done
 
 po_file="$({ find |grep -E "[a-z0-9]+\.zh\-cn.+po" |grep -v "openclash\|store\|settings"; } 2>"/dev/null")"
 for a in ${po_file}
 do
+	x="$(grep -Eo "Language:.*\n" "$a")"
+	[ -n "${x}" ] && sed -i "s?${x}?Language: zh_Hans\n?g" "$a"
 	po_new_file="$(echo -e "$a"|sed "s/zh-cn/zh_Hans/g")"
 	mv "$a" "${po_new_file}" 2>"/dev/null"
 done
@@ -21,7 +20,8 @@ done
 po_file2="$({ find |grep "/zh-cn/" |grep "\.po" |grep -v "openclash\|store\|settings"; } 2>"/dev/null")"
 for b in ${po_file2}
 do
-	[ -n "$(grep "Language: zh_CN" "$b")" ] && sed -i "s/Language: zh_CN/Language: zh_Hans/g" "$b"
+	xx="$(grep -Eo "Language:.*\n" "$b")"
+	[ -n "${xx}" ] && sed -i "s?${xx}?Language: zh_Hans\n?g" "$b"
 	cc="$(echo ${po_file2%/*})"
 	dd="$(echo ${cc} |sed "s/zh-cn/zh_Hans/g")"
 	[[ -d "${cc}" && -d "${dd}" ]] && rm -rf "${dd}"
