@@ -69,37 +69,26 @@ for x in ${t[@]}; do \
 done
 if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
   git clone -b theme2 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg
+  export LUCI_BANBEN="2"
 else
   git clone -b theme1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg
+  export LUCI_BANBEN="1"
 fi
-
-sed -i 's/root:.*/root::0:0:99999:7:::/g' ${HOME_PATH}/package/base-files/files/etc/shadow
-if [[ `grep -Eoc "admin:.*" ${HOME_PATH}/package/base-files/files/etc/shadow` -eq '1' ]]; then
-  sed -i 's/admin:.*/admin::0:0:99999:7:::/g' ${HOME_PATH}/package/base-files/files/etc/shadow
-fi
-
-rm -rf ${HOME_PATH}/feeds/packages/lang/golang
-svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang ${HOME_PATH}/feeds/packages/lang/golang > /dev/null 2>&1
 
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
-if [[ ! -d "${settingss}" ]] && [[ "${DIY_PART_SH}" == "diy-luci2.sh" ]]; then
+if [[ ! -d "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
   svn export https://github.com/281677160/common/trunk/OFFICIAL/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
   [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
-elif [[ ! -d "${settingss}" ]] && [[ "${DIY_PART_SH}" == "diy-luci1.sh" ]]; then
+elif [[ ! -d "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
   svn export https://github.com/281677160/common/trunk/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
-fi
-
-if [[ ! -d "${HOME_PATH}/feeds/packages/devel/packr" ]]; then
-  svn export https://github.com/coolsnowwolf/packages/trunk/devel/packr ${HOME_PATH}/package/packr > /dev/null 2>&1
 fi
 
 if [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-ipkg" ]]; then
   svn export https://github.com/openwrt/luci/branches/openwrt-22.03/libs/luci-lib-ipkg ${HOME_PATH}/feeds/luci/libs/luci-lib-ipkg > /dev/null 2>&1
 fi
 
-if [[ ! -d "${HOME_PATH}/feeds/packages/utils/parted" ]]; then
-  svn export https://github.com/coolsnowwolf/packages/trunk/utils/parted ${HOME_PATH}/feeds/packages/utils/parted > /dev/null 2>&1
-fi
+rm -rf ${HOME_PATH}/feeds/packages/lang/golang
+svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang ${HOME_PATH}/feeds/packages/lang/golang > /dev/null 2>&1
 
 export ZZZL_PATH="$(find ./package -type f -name "*default-settings" |grep files |cut -d '/' -f2-)"
 echo "ZZZ_PATH=${HOME_PATH}/${ZZZL_PATH}" >> $GITHUB_ENV
@@ -133,12 +122,11 @@ if [[ -n "${TEMPOARY_IP}" ]]; then
   fi
 fi
 
-if [[ "${DIY_PART_SH}" == "diy-luci2.sh" ]]; then
-  for X in $(find . -type f -name 'zh_Hans' |grep po); do rm -rf "${X}"; done
+apptions="$(find . -type d -name "applications" |grep 'luci')"
+if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
   cp -Rf ${BUILD_PATH}/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
   /bin/bash ${HOME_PATH}/zh_Hans.sh
 else
-  for X in $(find . -type f -name 'zh-cn' |grep po); do rm -rf "${X}"; done
   cp -Rf ${BUILD_PATH}/zh-cn.sh ${HOME_PATH}/zh-cn.sh
   /bin/bash ${HOME_PATH}/zh-cn.sh
 fi
