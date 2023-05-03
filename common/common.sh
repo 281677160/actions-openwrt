@@ -52,6 +52,20 @@ esac
 ./scripts/feeds clean
 ./scripts/feeds update -a > /dev/null 2>&1
 
+apptions="$(find . -type d -name "applications" |grep 'luci')"
+z="*luci-theme-argon*,*luci-app-argon-config*,*luci-theme-Butterfly*,*luci-theme-netgear*,*luci-theme-atmaterial*, \
+luci-theme-rosy,luci-theme-darkmatter,luci-theme-infinityfreedom,luci-theme-design,luci-app-design-config, \
+luci-theme-bootstrap-mod,luci-theme-freifunk-generic,luci-theme-opentomato,luci-app-smartdns,smartdns"
+t=(${z//,/ })
+for x in ${t[@]}; do \
+  find . -type d -name "${x}" |xargs -i rm -rf {}; \
+done
+if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
+  git clone -b theme2 https://github.com/281677160/openwrt-package theme_package
+else
+  git clone -b theme1 https://github.com/281677160/openwrt-package theme_package
+fi
+
 export HOME_PATH="$GITHUB_WORKSPACE/openwrt"
 cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${HOME_PATH}/build
 cp -Rf $GITHUB_WORKSPACE/common/*.sh ${HOME_PATH}/build/
@@ -67,19 +81,6 @@ fi
 
 rm -rf ${HOME_PATH}/feeds/packages/lang/golang
 svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang ${HOME_PATH}/feeds/packages/lang/golang > /dev/null 2>&1
-
-if [[ -d "${HOME_PATH}/extra" ]]; then
-  apptions="$(find "${HOME_PATH}/extra" -type d -name "applications"  |grep 'luci')"
-else
-  apptions="$(find "${HOME_PATH}/feeds" -type d -name "applications"  |grep 'luci')"
-fi
-if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
-  DIY_PART_SH="diy-luci2.sh"
-  echo "DIY_PART_SH=diy-luci2.sh" >> ${GITHUB_ENV}
-else
-  DIY_PART_SH="diy-luci1.sh"
-  echo "DIY_PART_SH=diy-luci1.sh" >> ${GITHUB_ENV}
-fi
 
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ ! -d "${settingss}" ]] && [[ "${DIY_PART_SH}" == "diy-luci2.sh" ]]; then
