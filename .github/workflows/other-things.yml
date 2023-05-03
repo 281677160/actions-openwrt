@@ -155,7 +155,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
 
     - name: 运行程序
-      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' || env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
+      if: github.event.inputs.Deletefile == 'true' || github.event.inputs.Establish == 'true' || github.event.inputs.Delete_workflow == 'true' || github.event.inputs.Delete_releases == 'true'
       run: |
         cd $GITHUB_WORKSPACE
         chmod -R 775 repogx
