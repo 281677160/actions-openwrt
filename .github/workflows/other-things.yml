@@ -52,7 +52,7 @@ env:
 jobs:
   del_runs:
     runs-on: Ubuntu-22.04
-    name: 同步上游仓库
+    name: 创建和删除
     
     steps:
     - name: 密匙检测（密匙为空则退出）
