@@ -7,10 +7,17 @@ if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${CONFIG_FILE}" ]]; then
   echo -e "\033[32m 请先创建【$(echo "${CONFIG_FILE}" |cut -d"/" -f2)】文件 \033[0m"
   echo
   exit 1
-fi
-if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/diy-luci1.sh" ]]; then
+elif [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/diy-luci1.sh" ]]; then
   echo -e "\033[31m [${FOLDER_NAME}/${DIY_PART_SH}]文件不存在 \033[0m"
   echo -e "\033[32m 请勿删除【${DIY_PART_SH}】文件,若更改名称请在[build-openwrt.yml]文件里修改好名称 \033[0m"
+  echo
+  exit 1
+elif [[ ! -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
+  echo -e "\033[31m [build]文件夹里,[${FOLDER_NAME}]名称文件不存在 \033[0m"
+  echo
+  exit 1
+elif [[ ! -f "${GITHUB_WORKSPACE}/common/common.sh" ]]; then
+  echo -e "\033[31m [common]文件夹里,[common.sh]文件不存在,请勿删除或随意修改此文件 \033[0m"
   echo
   exit 1
 fi
@@ -28,6 +35,7 @@ echo "CHINESE_LANGUAGE_LUCI=${CHINESE_LANGUAGE_LUCI}" >> ${GITHUB_ENV}
 echo "SOURCE=${SOURCE}" >> $GITHUB_ENV
 echo "LUCI_VERSION=${LUCI_VERSION}" >> $GITHUB_ENV
 echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
+echo "DIY_PART_SH=${DIY_PART_SH}" >> ${GITHUB_ENV}
 }
 
 
