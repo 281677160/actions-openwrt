@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       source_branch:
-        description: '请输入源码仓库,比如：coolsnowwolf/lede'
+        description: '请输入已编译有的源码,比如：coolsnowwolf/lede'
         required: true
         default: ''
       amlogic_model:
