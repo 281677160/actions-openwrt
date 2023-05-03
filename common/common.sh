@@ -90,6 +90,15 @@ svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golan
 
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
+
+if [[ "${CHINESE_LANGUAGE_LUCI}" == "true" ]]; then
+  chinese="$(find "${HOME_PATH}/package" -type f -name "*-default-settings-chinese" |grep files)"
+  if [[ -z "$(grep "default-settings-chn" ${HOME_PATH}/include/target.mk)" ]] && [[ -n "${chinese}" ]]; then
+    sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=default-settings-chn luci luci-newapi luci-lib-fs ?g' "${HOME_PATH}/include/target.mk"
+  elif [[ -z "$(grep "default-settings" ${HOME_PATH}/include/target.mk)" ]]; then
+    sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=default-settings luci luci-newapi luci-lib-fs ?g' "${HOME_PATH}/include/target.mk"
+  fi
+fi
 }
 
 
