@@ -39,6 +39,13 @@ echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
 
 function Diy_checkout() {
 cd ${GITHUB_WORKSPACE}/openwrt
+export HOME_PATH="$GITHUB_WORKSPACE/openwrt"
+cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${HOME_PATH}/build
+cp -Rf $GITHUB_WORKSPACE/common/*.sh ${HOME_PATH}/build/
+sudo chmod -R +x ${HOME_PATH}/build
+echo "HOME_PATH=${HOME_PATH}" >> $GITHUB_ENV
+echo "BUILD_PATH=${HOME_PATH}/build" >> $GITHUB_ENV
+
 case "${REPO_URL}" in
 https://github.com/openwrt/openwrt)
   if [[ "${REPO_BRANCH}" =~ (openwrt-19.07|openwrt-21.02|openwrt-22.03) ]]; then
@@ -65,14 +72,6 @@ if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]
 else
   git clone -b theme1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg
 fi
-
-export HOME_PATH="$GITHUB_WORKSPACE/openwrt"
-cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${HOME_PATH}/build
-cp -Rf $GITHUB_WORKSPACE/common/*.sh ${HOME_PATH}/build/
-sudo chmod -R +x ${HOME_PATH}/build
-echo "HOME_PATH=${HOME_PATH}" >> $GITHUB_ENV
-echo "BUILD_PATH=${HOME_PATH}/build" >> $GITHUB_ENV
-cd ${HOME_PATH}
 
 sed -i 's/root:.*/root::0:0:99999:7:::/g' ${HOME_PATH}/package/base-files/files/etc/shadow
 if [[ `grep -Eoc "admin:.*" ${HOME_PATH}/package/base-files/files/etc/shadow` -eq '1' ]]; then
