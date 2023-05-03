@@ -41,7 +41,7 @@ echo "DIY_PART_SH=${DIY_PART_SH}" >> ${GITHUB_ENV}
 
 function Diy_checkout() {
 cd ${GITHUB_WORKSPACE}/openwrt
-export HOME_PATH="$GITHUB_WORKSPACE/openwrt"
+HOME_PATH="$GITHUB_WORKSPACE/openwrt"
 cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${HOME_PATH}/build
 cp -Rf $GITHUB_WORKSPACE/common/*.sh ${HOME_PATH}/build/
 sudo chmod -R +x ${HOME_PATH}/build
@@ -51,7 +51,7 @@ echo "BUILD_PATH=${HOME_PATH}/build" >> $GITHUB_ENV
 case "${REPO_URL}" in
 https://github.com/openwrt/openwrt)
   if [[ "${REPO_BRANCH}" =~ (openwrt-19.07|openwrt-21.02|openwrt-22.03) ]]; then
-    export LUCI_CHECKUT="$(git tag| awk 'END {print}')"
+    LUCI_CHECKUT="$(git tag| awk 'END {print}')"
     git checkout ${LUCI_CHECKUT}
     git switch -c ${LUCI_CHECKUT}
   fi
@@ -71,10 +71,10 @@ for x in ${t[@]}; do \
 done
 if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
   git clone -b theme2 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg
-  export LUCI_BANBEN="2"
+  LUCI_BANBEN="2"
 else
   git clone -b theme1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg
-  export LUCI_BANBEN="1"
+  LUCI_BANBEN="1"
 fi
 
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
@@ -85,15 +85,11 @@ elif [[ ! -d "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
   svn export https://github.com/281677160/common/trunk/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
 fi
 
-if [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-ipkg" ]]; then
-  svn export https://github.com/openwrt/luci/branches/openwrt-22.03/libs/luci-lib-ipkg ${HOME_PATH}/feeds/luci/libs/luci-lib-ipkg > /dev/null 2>&1
-fi
-
 rm -rf ${HOME_PATH}/feeds/packages/lang/golang
 svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang ${HOME_PATH}/feeds/packages/lang/golang > /dev/null 2>&1
 
-export ZZZL_PATH="$(find ./package -type f -name "*default-settings" |grep files |cut -d '/' -f2-)"
-echo "ZZZ_PATH=${HOME_PATH}/${ZZZL_PATH}" >> $GITHUB_ENV
+ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
+[[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
 }
 
 
