@@ -122,6 +122,7 @@ cp -Rf ddpackages/net/vlmcsd ./vlmcsd
 cp -Rf ddpackages/admin/netdata ./netdata
 cp -Rf ddpackages/multimedia/UnblockNeteaseMusic-Go ./UnblockNeteaseMusic-Go
 cp -Rf ddpackages/multimedia/UnblockNeteaseMusic ./UnblockNeteaseMusic
+cp -Rf ddpackages/utils/parted ./parted
 rm -rf ddpackages
 
 
