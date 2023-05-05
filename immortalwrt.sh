@@ -52,6 +52,8 @@ git clone https://github.com/jerrykuku/luci-app-ttnode luci-app-ttnode
 git clone https://github.com/iwrt/luci-app-ikoolproxy luci-app-ikoolproxy
 git clone https://github.com/esirplayground/luci-app-poweroff luci-app-poweroff
 git clone https://github.com/rufengsuixing/luci-app-autoipsetadder luci-app-autoipsetadder
+git clone https://github.com/ximiTech/msd_lite.git msd_lite
+git clone https://github.com/ximiTech/luci-app-msd_lite.git luci-app-msd_lite
 
 ## coolsnowwolf 插件
 git clone https://github.com/coolsnowwolf/luci ddluci
