@@ -111,6 +111,7 @@ cp -Rf tlluci/applications/luci-app-iptvhelper ./luci-app-iptvhelper
 cp -Rf tlluci/applications/luci-app-smartinfo ./luci-app-smartinfo
 cp -Rf tlluci/applications/luci-app-gost ./luci-app-gost
 cp -Rf tlluci/applications/luci-app-syncthing ./luci-app-syncthing
+cp -Rf tlluci//modules/luci-base ./luci-base
 rm -rf tlluci
 git clone -b openwrt-18.06 https://github.com/immortalwrt/packages tlpackages
 cp -Rf tlpackages/net/gost ./gost
