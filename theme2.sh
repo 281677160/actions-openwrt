@@ -16,12 +16,17 @@ cp -Rf ${GITHUB_WORKSPACE}/README/cascade.css luci-theme-argon/htdocs/luci-stati
 
 ## 生成完整目录清单
 cat > Update.txt <<EOF
+feed-netkeeper
 luci-app-argon-config
 luci-app-design-config
+luci-app-netkeeper-interception
 luci-app-smartdns
+luci-proto-netkeeper
 luci-theme-argon
 luci-theme-bootstrap-mod
 luci-theme-design
+netkeeper-interception
+netkeeper
 smartdns
 EOF
 
