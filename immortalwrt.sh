@@ -4,16 +4,16 @@
 
 ## sbwml 插件
 git clone https://github.com/sbwml/luci-app-alist alist2
-mv alist2/* ./ && rm -rf alist2
+mv alist2/* ./
 git clone https://github.com/sbwml/luci-app-mosdns mosdnszz
-mv mosdnszz/* ./ && rm -rf mosdnszz
+mv mosdnszz/* ./
 git clone https://github.com/sbwml/v2ray-geodata v2ray-geodata
 
 ## istore
-git clone https://github.com/linkease/nas-packages-luci
-mv nas-packages-luci/luci/* ./ && rm -rf nas-packages-luci
 git clone https://github.com/linkease/nas-packages
-mv nas-packages/* ./ && rm -rf nas-packages
+mv nas-packages/* ./
+git clone https://github.com/linkease/nas-packages-luci
+mv nas-packages-luci/luci/* ./
 rm -rf luci-app-unishare
 rm -rf network/services/unishare
 git clone https://github.com/linkease/istore luci-app-store
@@ -26,6 +26,8 @@ cp -Rf sirpdboy-package/switch-lan-play ./switch-lan-play
 cp -Rf sirpdboy-package/luci-app-advanced ./luci-app-advanced
 cp -Rf sirpdboy-package/luci-app-timecontrol ./luci-app-timecontrol
 cp -Rf sirpdboy-package/luci-app-ddns-go ./luci-app-ddns-go
+cp -Rf sirpdboy-package/luci-app-wolplus ./luci-app-wolplus
+cp -Rf sirpdboy-package/luci-app-cupsd ./luci-app-cupsd
 rm -rf sirpdboy-package
 git clone https://github.com/sirpdboy/luci-app-partexp.git luci-app-partexp
 git clone https://github.com/sirpdboy/luci-app-lucky app-lucky && mv app-lucky/* ./
@@ -44,27 +46,45 @@ cp -Rf AutoBuild-Packages/webd ./webd
 rm -rf AutoBuild-Packages
 
 ## 零碎拉取的插件
-git clone https://github.com/281677160/AdGuardHome ardhome && mv -f ardhome/* ./ && rm -rf ardhome
+git clone https://github.com/281677160/AdGuardHome ardhome && mv -f ardhome/* ./
 git clone https://github.com/msylgj/luci-app-tencentddns luci-app-tencentddns
 git clone https://github.com/jerrykuku/luci-app-ttnode luci-app-ttnode
 git clone https://github.com/iwrt/luci-app-ikoolproxy luci-app-ikoolproxy
-git clone https://github.com/NateLol/luci-app-oled luci-app-oled
-svn export https://github.com/quintus-lab/openwrt-package/trunk/luci-app-gost luci-app-gost
-svn export https://github.com/quintus-lab/openwrt-package/trunk/gost gost
-svn export https://github.com/sundaqiang/openwrt-packages/trunk/luci-app-wolplus luci-app-wolplus
-svn export https://github.com/esirplayground/luci-app-poweroff/trunk luci-app-poweroff
-svn export https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-pushbot luci-app-pushbot
-svn export https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-cifsd luci-app-cifsd
-svn export https://github.com/sundaqiang/openwrt-packages/trunk/luci-app-supervisord luci-app-supervisord
+git clone https://github.com/esirplayground/luci-app-poweroff luci-app-poweroff
+git clone https://github.com/rufengsuixing/luci-app-autoipsetadder luci-app-autoipsetadder
+
+## coolsnowwolf 插件
+git clone https://github.com/coolsnowwolf/luci ddluci
+cp -Rf ddluci/applications/luci-app-cifsd ./luci-app-cifsd
+cp -Rf ddluci/applications/luci-app-pushbot ./luci-app-pushbot
+cp -Rf ddluci/applications/luci-app-vlmcsd ./luci-app-aliyundrive-webdav
+rm -rf ddluci
+git clone https://github.com/coolsnowwolf/packages ddpackages
+cp -Rf ddpackages/multimedia/aliyundrive-webdav ./aliyundrive-webdav
+cp -Rf ddpackages/multimedia/aliyundrive-fuse ./aliyundrive-fuse
+rm -rf ddpackages
+
+# sundaqiang
+git clone https://github.com/sundaqiang/openwrt-packages sdpackages
+cp -Rf sdpackages/luci-app-supervisord ./luci-app-supervisord
+cp -Rf sdpackages/luci-app-nginx-manager ./luci-app-nginx-manager
+rm -rf sdpackages
+
+## 天灵 插件
+git clone -b openwrt-18.06 https://github.com/immortalwrt/luci tlluci
+cp -Rf tlluci/applications/luci-app-gost ./luci-app-gost
+rm -rf tlluci
+git clone -b openwrt-18.06 https://github.com/immortalwrt/packages tlpackages
+cp -Rf tlpackages/net/gost ./gost
+rm -rf tlpackages
 
 ## 插件完毕
 
 ## N1和晶晨系列盒子专用的安装和升级固件工具
-svn export https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic luci-app-amlogic
+git clone https://github.com/ophub/luci-app-amlogic amlogi && cp -Rf amlogi/luci-app-amlogic ./luci-app-amlogic && rm -rf amlogi
 
 ## CF优先IP
 git clone https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest larespeedtest && mv -f larespeedtest/applications/luci-app-cloudflarespeedtest ./luci-app-cloudflarespeedtest
-rm -rf larespeedtest
 
 ## 拼拼WiFi，选择以下项目（必选）
 ## Wiwiz/PinPinWiFi -> Portal  --->
@@ -76,16 +96,23 @@ cat > Update.txt <<EOF
 Wiwiz-PinPinWiFi
 adguardhome
 alist
+alist2
+aliyundrive-fuse
+aliyundrive-webdav
 app-lucky
-feed-netkeeper
+ardhome
 gost
+larespeedtest
 luci-app-adguardhome
 luci-app-advanced
 luci-app-alist
+luci-app-aliyundrive-webdav
 luci-app-amlogic
+luci-app-autoipsetadder
 luci-app-autotimeset
 luci-app-cifsd
 luci-app-cloudflarespeedtest
+luci-app-cupsd
 luci-app-ddns-go
 luci-app-ddnsto
 luci-app-gost
@@ -95,7 +122,8 @@ luci-app-linkease
 luci-app-lucky
 luci-app-mosdns
 luci-app-natter
-luci-app-netkeeper-interception
+luci-app-netwizard
+luci-app-nginx-manager
 luci-app-onliner
 luci-app-partexp
 luci-app-poweroff
@@ -110,10 +138,8 @@ luci-app-timecontrol
 luci-app-ttnode
 luci-app-webd
 luci-app-wifidog
-luci-app-netwizard
 luci-app-wolplus
 luci-lib-iform
-luci-proto-netkeeper
 lucky
 mosdns
 mosdnszz
@@ -121,10 +147,10 @@ multimedia
 nas-packages-luci
 nas-packages
 natter
-netkeeper-interception
-netkeeper
 network
+packr
 switch-lan-play
+upx-static
 v2dat
 v2ray-geodata
 webd
