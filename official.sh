@@ -4,16 +4,16 @@
 
 ## sbwml 插件
 git clone https://github.com/sbwml/luci-app-alist alist2
-mv alist2/* ./
+mv alist2/* ./ && rm -rf alist2
 git clone https://github.com/sbwml/luci-app-mosdns mosdnszz
-mv mosdnszz/* ./
+mv mosdnszz/* ./ && rm -rf mosdnszz
 git clone https://github.com/sbwml/v2ray-geodata v2ray-geodata
 
-## store 插件
-git clone https://github.com/linkease/nas-packages
-mv nas-packages/* ./
+## istore
 git clone https://github.com/linkease/nas-packages-luci
-mv nas-packages-luci/luci/* ./
+mv nas-packages-luci/luci/* ./ && rm -rf nas-packages-luci
+git clone https://github.com/linkease/nas-packages
+mv nas-packages/* ./ && rm -rf nas-packages
 rm -rf luci-app-unishare
 rm -rf network/services/unishare
 git clone https://github.com/linkease/istore luci-app-store
