@@ -4,16 +4,16 @@
 
 ## sbwml 插件
 git clone https://github.com/sbwml/luci-app-alist alist2
-mv alist2/* ./
+mv alist2/* ./ && rm -rf alist2
 git clone https://github.com/sbwml/luci-app-mosdns mosdnszz
-mv mosdnszz/* ./
+mv mosdnszz/* ./ && rm -rf mosdnszz
 git clone https://github.com/sbwml/v2ray-geodata v2ray-geodata
 
 ## istore
-git clone https://github.com/linkease/nas-packages
-mv nas-packages/* ./
 git clone https://github.com/linkease/nas-packages-luci
-mv nas-packages-luci/luci/* ./
+mv nas-packages-luci/luci/* ./ && rm -rf nas-packages-luci
+git clone https://github.com/linkease/nas-packages
+mv nas-packages/* ./ && rm -rf nas-packages
 rm -rf luci-app-unishare
 rm -rf network/services/unishare
 git clone https://github.com/linkease/istore luci-app-store
@@ -44,7 +44,7 @@ cp -Rf AutoBuild-Packages/webd ./webd
 rm -rf AutoBuild-Packages
 
 ## 零碎拉取的插件
-git clone https://github.com/281677160/AdGuardHome ardhome && mv -f ardhome/* ./
+git clone https://github.com/281677160/AdGuardHome ardhome && mv -f ardhome/* ./ && rm -rf ardhome
 git clone https://github.com/msylgj/luci-app-tencentddns luci-app-tencentddns
 git clone https://github.com/jerrykuku/luci-app-ttnode luci-app-ttnode
 git clone https://github.com/iwrt/luci-app-ikoolproxy luci-app-ikoolproxy
@@ -64,6 +64,7 @@ svn export https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic luci
 
 ## CF优先IP
 git clone https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest larespeedtest && mv -f larespeedtest/applications/luci-app-cloudflarespeedtest ./luci-app-cloudflarespeedtest
+rm -rf larespeedtest
 
 ## 拼拼WiFi，选择以下项目（必选）
 ## Wiwiz/PinPinWiFi -> Portal  --->
