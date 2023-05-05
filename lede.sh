@@ -126,6 +126,7 @@ cp -Rf ddpackages/utils/parted ./parted
 rm -rf ddpackages
 git clone https://github.com/coolsnowwolf/lede
 cp -Rf lede/package/lean/upx ./upx
+cp -Rf lede/package/lean/ucl ./ucl
 rm -rf lede
 
 
