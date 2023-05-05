@@ -4,16 +4,16 @@
 
 ## sbwml 插件
 git clone https://github.com/sbwml/luci-app-alist alist2
-mv alist2/* ./ && rm -rf alist2
+mv alist2/* ./
 git clone https://github.com/sbwml/luci-app-mosdns mosdnszz
-mv mosdnszz/* ./ && rm -rf mosdnszz
+mv mosdnszz/* ./
 git clone https://github.com/sbwml/v2ray-geodata v2ray-geodata
 
-## istore
-git clone https://github.com/linkease/nas-packages-luci
-mv nas-packages-luci/luci/* ./ && rm -rf nas-packages-luci
+## store 插件
 git clone https://github.com/linkease/nas-packages
-mv nas-packages/* ./ && rm -rf nas-packages
+mv nas-packages/* ./
+git clone https://github.com/linkease/nas-packages-luci
+mv nas-packages-luci/luci/* ./
 rm -rf luci-app-unishare
 rm -rf network/services/unishare
 git clone https://github.com/linkease/istore luci-app-store
@@ -39,38 +39,44 @@ rm -rf luci-app-adguardhome
 rm -rf adguardhome
 rm -rf autosamba
 
-svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/autosamba autosamba
-svn export https://github.com/openwrt/packages/branches/openwrt-22.03/utils/antfs-mount antfs-mount
-svn export https://github.com/openwrt/packages/branches/openwrt-22.03/kernel/antfs antfs
+# 官方的
+git clone -b openwrt-22.03 https://github.com/openwrt/packages gf2203
+cp -Rf gf2203/utils/antfs-mount ./antfs-mount
+cp -Rf gf2203//kernel/antfs ./antfs
+rm -rf gf2203
 
-svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-adbyby-plus luci-app-adbyby-plus
-svn export https://github.com/immortalwrt/packages/trunk/net/adbyby adbyby
-
-svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-softethervpn luci-app-softethervpn
-svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-softethervpn5 luci-app-softethervpn5
-svn export https://github.com/immortalwrt/packages/trunk/net/softethervpn softethervpn
-svn export https://github.com/immortalwrt/packages/trunk/net/softethervpn softethervpn5
-
+## coolsnowwolf 插件
 git clone https://github.com/lisaac/luci-app-dockerman kerman && mv -f kerman/applications/luci-app-dockerman ./luci-app-dockerman
-svn export https://github.com/coolsnowwolf/packages/trunk/utils/cgroupfs-mount
-svn export https://github.com/coolsnowwolf/packages/trunk/utils/docker
-svn export https://github.com/coolsnowwolf/packages/trunk/utils/dockerd
-svn export https://github.com/coolsnowwolf/packages/trunk/utils/containerd
-svn export https://github.com/coolsnowwolf/packages/trunk/utils/libnetwork
-svn export https://github.com/coolsnowwolf/packages/trunk/utils/tini
-svn export https://github.com/coolsnowwolf/packages/trunk/utils/runc
-
-svn export https://github.com/openwrt/openwrt/trunk/package/utils/bcm27xx-userland bcm27xx-userland
-svn export https://github.com/coolsnowwolf/luci/trunk/collections/luci-lib-docker luci-lib-docker
-
-svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/upx
-svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/ucl
-svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/r8101
-svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/r8125
-svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/r8168
-
-svn export https://github.com/coolsnowwolf/packages/trunk/net/frp,
-svn export https://github.com/coolsnowwolf/packages/trunk/net/xfrpc
+git clone https://github.com/coolsnowwolf/luci ddluci
+cp -Rf ddluci/applications/luci-app-accesscontrol ./luci-app-accesscontrol
+cp -Rf ddluci/applications/luci-app-serverchan ./luci-app-serverchan
+cp -Rf ddluci/applications/luci-app-pushbot ./luci-app-pushbot
+cp -Rf ddluci/applications/luci-app-vlmcsd ./luci-app-aliyundrive-webdav
+cp -Rf ddluci/collections/luci-lib-docker ./luci-lib-docker
+rm -rf ddluci
+git clone https://github.com/coolsnowwolf/packages ddpackages
+cp -Rf ddpackages/multimedia/aliyundrive-webdav ./aliyundrive-webdav
+cp -Rf ddpackages/multimedia/aliyundrive-fuse ./aliyundrive-fuse
+cp -Rf ddpackages/utils/cgroupfs-mount ./cgroupfs-mount
+cp -Rf ddpackages/utils/docker ./docker
+cp -Rf ddpackages/utils/dockerd ./dockerd
+cp -Rf ddpackages/utils/containerd ./containerd
+cp -Rf ddpackages/utils/libnetwork ./libnetwork
+cp -Rf ddpackages/utils/tini ./tini
+cp -Rf ddpackages/utils/runc ./runc
+cp -Rf ddpackages/utils/bcm27xx-eeprom ./bcm27xx-eeprom
+cp -Rf ddpackages/net/frp ./frp
+cp -Rf ddpackages/net/xfrpc ./xfrpc
+rm -rf ddpackages
+git clone https://github.com/coolsnowwolf/lede
+cp -Rf lede/package/lean/upx ./upx
+cp -Rf lede/package/lean/ucl ./ucl
+cp -Rf lede/package/lean/r8101 ./r8101
+cp -Rf lede/package/lean/r8125 ./r8125
+cp -Rf lede/package/lean/r8168 ./r8168
+cp -Rf lede/package/lean/autosamba ./autosamba
+cp -Rf lede/package/utils/bcm27xx-userland ./bcm27xx-userland
+rm -rf lede
 
 
 ## sirpdboy 插件
@@ -81,45 +87,56 @@ cp -Rf sirpdboy-package/switch-lan-play ./switch-lan-play
 cp -Rf sirpdboy-package/luci-app-advanced ./luci-app-advanced
 cp -Rf sirpdboy-package/luci-app-timecontrol ./luci-app-timecontrol
 cp -Rf sirpdboy-package/luci-app-ddns-go ./luci-app-ddns-go
+cp -Rf sirpdboy-package/luci-app-wolplus ./luci-app-wolplus
+cp -Rf sirpdboy-package/luci-app-cupsd ./luci-app-cupsd
 rm -rf sirpdboy-package
 git clone https://github.com/sirpdboy/luci-app-partexp.git luci-app-partexp
 git clone https://github.com/sirpdboy/luci-app-lucky app-lucky && mv app-lucky/* ./
 git clone https://github.com/sirpdboy/luci-app-autotimeset luci-app-autotimeset
 git clone https://github.com/sirpdboy/luci-app-netwizard luci-app-netwizard
 
-## kenzok8 插件
-svn export https://github.com/kenzok8/openwrt-packages/trunk/luci-app-aliyundrive-webdav luci-app-aliyundrive-webdav
-svn export https://github.com/kenzok8/openwrt-packages/trunk/aliyundrive-webdav aliyundrive-webdav
-
 ## 天灵 插件
-svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-accesscontrol luci-app-accesscontrol
 git clone https://github.com/immortalwrt/Rclone-OpenWrt && mv -f Rclone-OpenWrt/* ./
 git clone https://github.com/project-openwrt/openwrt-tmate openwrt-tmate
 git clone https://github.com/tindy2013/openwrt-subconverter openwrt-subconverter
-svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-aliddns luci-app-aliddns
-svn export https://github.com/quintus-lab/openwrt-package/trunk/luci-app-gost luci-app-gost
-svn export https://github.com/quintus-lab/openwrt-package/trunk/gost gost
-svn export https://github.com/immortalwrt-collections/openwrt-gowebdav/trunk/luci-app-gowebdav luci-app-gowebdav
-svn export https://github.com/immortalwrt-collections/openwrt-gowebdav/trunk/gowebdav gowebdav
-svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/oscam oscam
-svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-oscam luci-app-oscam
-svn export https://github.com/immortalwrt-collections/luci-app-unblockneteasemusic/trunk luci-app-unblockneteasemusic
-svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-udp2raw luci-app-udp2raw
-svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/udp2raw udp2raw
-svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-cpulimit luci-app-cpulimit
-svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/utils/cpulimit-ng cpulimit-ng
-svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/utils/cpulimit cpulimit
-svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-iptvhelper luci-app-iptvhelper
-svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/iptvhelper iptvhelper
-svn export https://github.com/KFERMercer/OpenWrt/trunk/package/kferm/luci-app-smartinfo luci-app-smartinfo
-svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/utils/smartmontools smartmontools
-svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-mentohust luci-app-mentohust
-svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/mentohust mentohust
+git clone https://github.com/destan19/OpenAppFilter && mv -f OpenAppFilter/* ./
+git clone -b openwrt-18.06 https://github.com/immortalwrt/luci tlluci
+cp -Rf tlluci/applications/luci-app-aliddns ./luci-app-aliddns
+cp -Rf tlluci/applications/luci-app-aliddns ./luci-app-adbyby-plus
+cp -Rf tlluci/applications/luci-app-aliddns ./luci-app-softethervpn
+cp -Rf tlluci/applications/luci-app-aliddns ./luci-app-softethervpn5
+cp -Rf tlluci/applications/luci-app-gowebdav ./luci-app-gowebdav
+cp -Rf tlluci/applications/luci-app-unblockneteasemusic ./luci-app-unblockneteasemusic
+cp -Rf tlluci/applications/luci-app-mentohust ./luci-app-mentohust
+cp -Rf tlluci/applications/luci-app-oscam ./luci-app-oscam
+cp -Rf tlluci/applications/luci-app-filebrowser ./luci-app-filebrowser
+cp -Rf tlluci/applications/luci-app-udp2raw ./luci-app-udp2raw
+cp -Rf tlluci/applications/luci-app-cpulimit ./luci-app-cpulimit
+cp -Rf tlluci/applications/luci-app-iptvhelper ./luci-app-iptvhelper
+cp -Rf tlluci/applications/luci-app-smartinfo ./luci-app-smartinfo
+cp -Rf tlluci/applications/luci-app-gost ./luci-app-gost
+cp -Rf tlluci/applications/luci-app-syncthing ./luci-app-syncthing
+rm -rf tlluci
+git clone -b openwrt-18.06 https://github.com/immortalwrt/packages tlpackages
+cp -Rf tlpackages/net/gost ./gost
+cp -Rf tlpackages/net/adbyby ./adbyby
+cp -Rf tlpackages/net/softethervpn ./softethervpn
+cp -Rf tlpackages/net/softethervpn5 ./softethervpn5
+cp -Rf tlpackages/net/gowebdav ./gowebdav
+cp -Rf tlpackages/net/udp2raw ./udp2raw
+cp -Rf tlpackages/net/oscam ./oscam
+cp -Rf tlpackages/net/socat ./socat
+cp -Rf tlpackages/net/mentohust ./mentohust
+cp -Rf tlpackages/net/iptvhelper ./iptvhelper
+cp -Rf tlpackages/utils/cpulimit-ng ./cpulimit-ng
+cp -Rf tlpackages/utils/cpulimit ./cpulimit
+cp -Rf tlpackages/utils/filebrowser ./filebrowser
+cp -Rf tlpackages/utils/smartmontools ./smartmontools
+cp -Rf tlpackages/utils/syncthing ./syncthing
+rm -rf tlpackages
 
 ## Hyy2001X插件
 git clone https://github.com/Hyy2001X/AutoBuild-Packages
-cp -Rf AutoBuild-Packages/luci-app-natter ./luci-app-natter
-cp -Rf AutoBuild-Packages/natter ./natter
 cp -Rf AutoBuild-Packages/upx-static ./upx-static
 cp -Rf AutoBuild-Packages/luci-app-onliner ./luci-app-onliner
 cp -Rf AutoBuild-Packages/luci-app-shutdown ./luci-app-shutdown
@@ -136,24 +153,25 @@ git clone https://github.com/ximiTech/msd_lite.git msd_lite
 git clone https://github.com/ximiTech/luci-app-msd_lite.git luci-app-msd_lite
 git clone https://github.com/esirplayground/luci-app-poweroff luci-app-poweroff
 git clone https://github.com/NateLol/luci-app-oled luci-app-oled
-svn export https://github.com/quintus-lab/openwrt-package/trunk/luci-app-gost luci-app-gost
-svn export https://github.com/quintus-lab/openwrt-package/trunk/gost gost
-svn export https://github.com/sundaqiang/openwrt-packages/trunk/luci-app-wolplus luci-app-wolplus
-svn export https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-pushbot luci-app-pushbot
-svn export https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-cifsd luci-app-cifsd
-svn export https://github.com/sundaqiang/openwrt-packages/trunk/luci-app-supervisord luci-app-supervisord
+git clone https://github.com/rufengsuixing/luci-app-autoipsetadder luci-app-autoipsetadder
+
+# sundaqiang
+git clone https://github.com/sundaqiang/openwrt-packages sdpackages
+cp -Rf sdpackages/luci-app-supervisord ./luci-app-supervisord
+cp -Rf sdpackages/luci-app-nginx-manager ./luci-app-nginx-manager
+rm -rf sdpackages
+
+## N1和晶晨系列盒子专用的安装和升级固件工具
+git clone https://github.com/ophub/luci-app-amlogic amlogi && cp -Rf amlogi/luci-app-amlogic ./luci-app-amlogic && rm -rf amlogi
 
 ## vssr,openclash,clash三个梯子
 git clone https://github.com/jerrykuku/luci-app-vssr luci-app-vssr
 git clone https://github.com/jerrykuku/lua-maxminddb lua-maxminddb
 git clone https://github.com/frainzy1477/luci-app-clash luci-app-clash
 
-## N1和晶晨系列盒子专用的安装和升级固件工具
-svn export https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic luci-app-amlogic
-
 ## CF优先IP
-svn export https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest/trunk/applications/luci-app-cloudflarespeedtest luci-app-cloudflarespeedtest
-svn export https://github.com/immortalwrt-collections/openwrt-cdnspeedtest/trunk/cdnspeedtest cdnspeedtest
+git clone https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest clud && cp -Rf clud/applications/luci-app-cloudflarespeedtest .//luci-app-cloudflarespeedtest
+git clone https://github.com/immortalwrt-collections/openwrt-cdnspeedtest cdnspeedtest
 
 ## 拼拼WiFi，选择以下项目（必选）
 ## Wiwiz/PinPinWiFi -> Portal  --->
@@ -162,24 +180,31 @@ git clone https://github.com/wiwizcom/WiFiPortal Wiwiz-PinPinWiFi
 
 ## 生成完整目录清单
 cat > Update.txt <<EOF
+OpenAppFilter
+Rclone-OpenWrt
 UnblockNeteaseMusic-Go
 UnblockNeteaseMusic
 Wiwiz-PinPinWiFi
 adbyby
 adguardhome
 alist
+alist2
+aliyundrive-fuse
 aliyundrive-webdav
 antfs-mount
 antfs
 app-lucky
+ardhome
 assets
 autocore
 automount
 autosamba
 baidupcs-web
+bcm27xx-eeprom
 bcm27xx-userland
 cdnspeedtest
 cgroupfs-mount
+clud
 containerd
 cpulimit-ng
 cpulimit
@@ -188,7 +213,7 @@ ddns-scripts_dnspod
 docker
 dockerd
 dsmboot
-feed-netkeeper
+filebrowser
 frp
 gost
 gowebdav
@@ -196,6 +221,7 @@ iptvhelper
 ipv6-helper
 k3-brcmfmac4366c-firmware
 k3screenctrl
+kerman
 libcryptopp
 libnetwork
 lua-maxminddb
@@ -219,6 +245,7 @@ luci-app-control-timewol
 luci-app-control-webrestriction
 luci-app-control-weburl
 luci-app-cpulimit
+luci-app-cupsd
 luci-app-ddns-go
 luci-app-ddnsto
 luci-app-diskman
@@ -231,6 +258,7 @@ luci-app-frps
 luci-app-gost
 luci-app-gowebdav
 luci-app-guest-wifi
+luci-app-ikoolproxy
 luci-app-ipsec-server
 luci-app-iptvhelper
 luci-app-istorex
@@ -240,8 +268,11 @@ luci-app-mentohust
 luci-app-mosdns
 luci-app-msd_lite
 luci-app-mwan3helper
+luci-app-natter
 luci-app-netdata
+luci-app-netwizard
 luci-app-nfs
+luci-app-nginx-manager
 luci-app-nginx-pingos
 luci-app-nps
 luci-app-oaf
@@ -260,7 +291,6 @@ luci-app-ramfree
 luci-app-rclone
 luci-app-serverchan
 luci-app-shutdown
-luci-app-smartdns
 luci-app-smartinfo
 luci-app-socat
 luci-app-softethervpn
@@ -286,7 +316,6 @@ luci-app-vsftpd
 luci-app-vssr
 luci-app-webd
 luci-app-wifidog
-luci-app-netwizard
 luci-app-wolplus
 luci-app-wrtbwmon
 luci-app-xlnetacc
@@ -303,11 +332,15 @@ mt
 multimedia
 nas-packages-luci
 nas-packages
+natter
 network
 nps
+oaf
+open-app-filter
 openwrt-subconverter
 openwrt-tmate
 oscam
+packr
 parted
 qBittorrent-static
 qBittorrent
@@ -321,14 +354,16 @@ rclone-ng
 rclone-webui-react
 rclone
 runc
-smartdns
 smartmontools
+socat
 softethervpn
 softethervpn5
 switch-lan-play
+syncthing
 tini
 ucl
 udp2raw
+upx-static
 upx
 uugamebooster
 v2dat
