@@ -4,16 +4,16 @@
 
 ## sbwml 插件
 git clone https://github.com/sbwml/luci-app-alist alist2
-mv alist2/* ./
+mv alist2/* ./ && rm -rf alist2
 git clone https://github.com/sbwml/luci-app-mosdns mosdnszz
-mv mosdnszz/* ./
+mv mosdnszz/* ./ && rm -rf mosdnszz
 git clone https://github.com/sbwml/v2ray-geodata v2ray-geodata
 
 ## istore
 git clone https://github.com/linkease/nas-packages-luci
-mv nas-packages-luci/luci/* ./
+mv nas-packages-luci/luci/* ./ && rm -rf nas-packages-luci
 git clone https://github.com/linkease/nas-packages
-mv nas-packages/* ./
+mv nas-packages/* ./ && rm -rf nas-packages
 rm -rf luci-app-unishare
 rm -rf network/services/unishare
 git clone https://github.com/linkease/istore luci-app-store
@@ -47,7 +47,7 @@ git clone https://github.com/sirpdboy/luci-app-autotimeset luci-app-autotimeset
 git clone https://github.com/sirpdboy/luci-app-netwizard luci-app-netwizard
 
 ## 天灵 插件
-git clone https://github.com/immortalwrt/Rclone-OpenWrt && mv -f Rclone-OpenWrt/* ./
+git clone https://github.com/immortalwrt/Rclone-OpenWrt && mv -f Rclone-OpenWrt/* ./ && rm -rf Rclone-OpenWrt
 git clone https://github.com/project-openwrt/openwrt-tmate openwrt-tmate
 git clone https://github.com/tindy2013/openwrt-subconverter openwrt-subconverter
 svn export https://github.com/immortalwrt/luci/branches/openwrt-18.06-k5.4/applications/luci-app-aliddns luci-app-aliddns
@@ -85,7 +85,7 @@ cp -Rf AutoBuild-Packages/webd ./webd
 rm -rf AutoBuild-Packages
 
 ## 零碎拉取的插件
-git clone https://github.com/281677160/AdGuardHome ardhome && mv -f ardhome/* ./
+git clone https://github.com/281677160/AdGuardHome ardhome && mv -f ardhome/* ./ && rm -rf ardhome
 git clone https://github.com/msylgj/luci-app-tencentddns luci-app-tencentddns
 git clone https://github.com/jerrykuku/luci-app-ttnode luci-app-ttnode
 git clone https://github.com/iwrt/luci-app-ikoolproxy luci-app-ikoolproxy
