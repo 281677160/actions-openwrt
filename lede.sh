@@ -124,6 +124,9 @@ cp -Rf ddpackages/multimedia/UnblockNeteaseMusic-Go ./UnblockNeteaseMusic-Go
 cp -Rf ddpackages/multimedia/UnblockNeteaseMusic ./UnblockNeteaseMusic
 cp -Rf ddpackages/utils/parted ./parted
 rm -rf ddpackages
+git clone https://github.com/coolsnowwolf/lede
+cp -Rf lede/package/lean/upx ./upx
+rm -rf lede
 
 
 ## N1和晶晨系列盒子专用的安装和升级固件工具
