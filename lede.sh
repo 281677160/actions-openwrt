@@ -62,11 +62,9 @@ cp -Rf tlluci/applications/luci-app-udp2raw ./luci-app-udp2raw
 cp -Rf tlluci/applications/luci-app-cpulimit ./luci-app-cpulimit
 cp -Rf tlluci/applications/luci-app-iptvhelper ./luci-app-iptvhelper
 cp -Rf tlluci/applications/luci-app-smartinfo ./luci-app-smartinfo
-cp -Rf tlluci/applications/luci-app-gost ./luci-app-gost
 cp -Rf tlluci/applications/luci-app-syncthing ./luci-app-syncthing
 rm -rf tlluci
 git clone -b openwrt-18.06 https://github.com/immortalwrt/packages tlpackages
-cp -Rf tlpackages/net/gost ./gost
 cp -Rf tlpackages/net/gowebdav ./gowebdav
 cp -Rf tlpackages/net/udp2raw ./udp2raw
 cp -Rf tlpackages/net/oscam ./oscam
@@ -129,6 +127,13 @@ cp -Rf lede/package/lean/upx ./upx
 cp -Rf lede/package/lean/ucl ./ucl
 rm -rf lede
 
+## luci-app-gost
+git clone https://github.com/quintus-lab/openwrt-package appgost
+cp -Rf appgost/luci-app-gost ./luci-app-gost
+cp -Rf appgost/gost ./gost
+cp -Rf appgost/ddns-scripts_aliyun ./ddns-scripts_aliyun
+cp -Rf appgost/ddns-scripts_dnspod ./ddns-scripts_dnspod
+rm -rf appgost
 
 ## N1和晶晨系列盒子专用的安装和升级固件工具
 git clone https://github.com/ophub/luci-app-amlogic amlogi && cp -Rf amlogi/luci-app-amlogic ./luci-app-amlogic && rm -rf amlogi
