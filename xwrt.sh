@@ -38,6 +38,8 @@ rm -rf luci-app-softether
 rm -rf luci-app-adguardhome
 rm -rf adguardhome
 rm -rf autosamba
+rm -rf luci-app-pptp-server
+rm -rf ddns-scripts_aliyun
 
 ## 官方的
 git clone -b openwrt-22.03 https://github.com/openwrt/packages gf2203
