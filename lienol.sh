@@ -38,7 +38,7 @@ git clone https://github.com/sirpdboy/luci-app-netwizard luci-app-netwizard
 ## coolsnowwolf 插件
 git clone https://github.com/coolsnowwolf/luci ddluci
 cp -Rf ddluci/applications/luci-app-pushbot ./luci-app-pushbot
-cp -Rf ddluci/applications/luci-app-vlmcsd ./luci-app-aliyundrive-webdav
+cp -Rf ddluci/applications/luci-app-aliyundrive-webdav ./luci-app-aliyundrive-webdav
 cp -Rf ddluci/applications/luci-app-serverchan ./luci-app-serverchan
 rm -rf ddluci
 git clone https://github.com/coolsnowwolf/packages ddpackages
