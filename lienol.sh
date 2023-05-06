@@ -110,6 +110,14 @@ cp -Rf sdpackages/luci-app-supervisord ./luci-app-supervisord
 cp -Rf sdpackages/luci-app-nginx-manager ./luci-app-nginx-manager
 rm -rf sdpackages
 
+## luci-app-gost
+git clone https://github.com/quintus-lab/openwrt-package appgost
+cp -Rf appgost/luci-app-gost ./luci-app-gost
+cp -Rf appgost/gost ./gost
+cp -Rf appgost/ddns-scripts_aliyun ./ddns-scripts_aliyun
+cp -Rf appgost/ddns-scripts_dnspod ./ddns-scripts_dnspod
+rm -rf appgost
+
 ## N1和晶晨系列盒子专用的安装和升级固件工具
 git clone https://github.com/ophub/luci-app-amlogic amlogi && cp -Rf amlogi/luci-app-amlogic ./luci-app-amlogic && rm -rf amlogi
 
