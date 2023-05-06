@@ -114,8 +114,6 @@ rm -rf sdpackages
 git clone https://github.com/quintus-lab/openwrt-package appgost
 cp -Rf appgost/luci-app-gost ./luci-app-gost
 cp -Rf appgost/gost ./gost
-cp -Rf appgost/ddns-scripts_aliyun ./ddns-scripts_aliyun
-cp -Rf appgost/ddns-scripts_dnspod ./ddns-scripts_dnspod
 rm -rf appgost
 
 ## N1和晶晨系列盒子专用的安装和升级固件工具
