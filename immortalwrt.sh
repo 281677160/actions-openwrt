@@ -60,8 +60,6 @@ git clone https://github.com/coolsnowwolf/luci ddluci
 cp -Rf ddluci/applications/luci-app-cifsd ./luci-app-cifsd
 cp -Rf ddluci/applications/luci-app-pushbot ./luci-app-pushbot
 cp -Rf ddluci/applications/luci-app-vlmcsd ./luci-app-aliyundrive-webdav
-cp -Rf ddluci/libs/luci-lib-fs ./luci-lib-fs
-cp -Rf ddluci/libs/luci-lib-nixio ./luci-lib-nixio
 rm -rf ddluci
 git clone https://github.com/coolsnowwolf/packages ddpackages
 cp -Rf ddpackages/multimedia/aliyundrive-webdav ./aliyundrive-webdav
@@ -74,13 +72,13 @@ cp -Rf sdpackages/luci-app-supervisord ./luci-app-supervisord
 cp -Rf sdpackages/luci-app-nginx-manager ./luci-app-nginx-manager
 rm -rf sdpackages
 
-## 天灵 插件
-git clone -b openwrt-18.06 https://github.com/immortalwrt/luci tlluci
-cp -Rf tlluci/applications/luci-app-gost ./luci-app-gost
+## luci-app-gost
+git clone https://github.com/quintus-lab/openwrt-package appgost
+cp -Rf appgost/luci-app-gost ./luci-app-gost
+cp -Rf appgost/gost ./gost
+cp -Rf appgost/ddns-scripts_aliyun ./ddns-scripts_aliyun
+cp -Rf appgost/ddns-scripts_dnspod ./ddns-scripts_dnspod
 rm -rf tlluci
-git clone -b openwrt-18.06 https://github.com/immortalwrt/packages tlpackages
-cp -Rf tlpackages/net/gost ./gost
-rm -rf tlpackages
 
 ## 插件完毕
 
