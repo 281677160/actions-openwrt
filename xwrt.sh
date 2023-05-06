@@ -52,6 +52,8 @@ cp -Rf ddluci/applications/luci-app-accesscontrol ./luci-app-accesscontrol
 cp -Rf ddluci/applications/luci-app-serverchan ./luci-app-serverchan
 cp -Rf ddluci/applications/luci-app-pushbot ./luci-app-pushbot
 cp -Rf ddluci/applications/luci-app-vlmcsd ./luci-app-aliyundrive-webdav
+cp -Rf ddluci/libs/luci-lib-fs ./luci-lib-fs
+cp -Rf ddluci/libs/luci-lib-nixio ./luci-lib-nixio
 cp -Rf ddluci/collections/luci-lib-docker ./luci-lib-docker
 rm -rf ddluci
 git clone https://github.com/coolsnowwolf/packages ddpackages
