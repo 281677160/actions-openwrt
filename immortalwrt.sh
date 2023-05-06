@@ -78,7 +78,7 @@ cp -Rf appgost/luci-app-gost ./luci-app-gost
 cp -Rf appgost/gost ./gost
 cp -Rf appgost/ddns-scripts_aliyun ./ddns-scripts_aliyun
 cp -Rf appgost/ddns-scripts_dnspod ./ddns-scripts_dnspod
-rm -rf tlluci
+rm -rf appgost
 
 ## 插件完毕
 
