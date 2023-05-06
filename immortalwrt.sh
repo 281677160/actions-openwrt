@@ -60,6 +60,8 @@ git clone https://github.com/coolsnowwolf/luci ddluci
 cp -Rf ddluci/applications/luci-app-cifsd ./luci-app-cifsd
 cp -Rf ddluci/applications/luci-app-pushbot ./luci-app-pushbot
 cp -Rf ddluci/applications/luci-app-vlmcsd ./luci-app-aliyundrive-webdav
+cp -Rf ddluci/libs/luci-lib-fs ./luci-lib-fs
+cp -Rf ddluci/libs/luci-lib-nixio ./luci-lib-nixio
 rm -rf ddluci
 git clone https://github.com/coolsnowwolf/packages ddpackages
 cp -Rf ddpackages/multimedia/aliyundrive-webdav ./aliyundrive-webdav
