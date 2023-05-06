@@ -144,7 +144,7 @@ git clone https://github.com/jerrykuku/lua-maxminddb lua-maxminddb
 git clone https://github.com/frainzy1477/luci-app-clash luci-app-clash
 
 ## CF优先IP
-git clone https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest clud && cp -Rf clud/applications/luci-app-cloudflarespeedtest .//luci-app-cloudflarespeedtest
+git clone https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest clud && cp -Rf clud/applications/luci-app-cloudflarespeedtest ./luci-app-cloudflarespeedtest
 git clone https://github.com/immortalwrt-collections/openwrt-cdnspeedtest cdnspeedtest
 
 ## 拼拼WiFi，选择以下项目（必选）
