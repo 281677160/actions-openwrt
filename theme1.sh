@@ -10,6 +10,7 @@ git clone https://github.com/sirpdboy/luci-theme-opentopd
 svn export https://github.com/Aslin-Ameng/luci-theme-Light/trunk/luci-theme-Light
 git clone https://github.com/apollo-ng/luci-theme-darkmatter
 svn export https://github.com/sirpdboy/sirpdboy-package/trunk/luci-theme-ifit
+git clone https://github.com/sirpdboy/luci-theme-kucat
 git clone https://github.com/coolsnowwolf/openwrt-gl-ax1800 ax1800
 cp -Rf ax1800/extra/luci/themes/luci-theme-argon-dark-mod ./luci-theme-argon-dark-mod
 cp -Rf ax1800/extra/luci/themes/luci-theme-argon-light-mod ./luci-theme-argon-light-mod
