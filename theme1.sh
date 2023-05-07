@@ -24,6 +24,7 @@ git clone https://github.com/pymumu/openwrt-smartdns smartdns
 git clone -b LUCI-LUA-UCITRACK https://github.com/281677160/feed-netkeeper  && mv feed-netkeeper/* ./
 
 cp -Rf ${GITHUB_WORKSPACE}/README/1806cascade.css luci-theme-argon/htdocs/luci-static/argon/css/cascade.css
+sed -i 's/bypass/shadowsocksr/g' luci-theme-kucat/luasrc/view/themes/kucat/header.htm
 
 
 ## 生成完整目录清单
