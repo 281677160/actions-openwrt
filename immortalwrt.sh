@@ -54,6 +54,7 @@ git clone https://github.com/esirplayground/luci-app-poweroff luci-app-poweroff
 git clone https://github.com/rufengsuixing/luci-app-autoipsetadder luci-app-autoipsetadder
 git clone https://github.com/ximiTech/msd_lite.git msd_lite
 git clone https://github.com/ximiTech/luci-app-msd_lite.git luci-app-msd_lite
+git clone https://github.com/ximliu/luci-app-smartinfo luci-app-smartinfo
 
 ## coolsnowwolf 插件
 git clone https://github.com/coolsnowwolf/luci ddluci
@@ -64,6 +65,8 @@ rm -rf ddluci
 git clone https://github.com/coolsnowwolf/packages ddpackages
 cp -Rf ddpackages/multimedia/aliyundrive-webdav ./aliyundrive-webdav
 cp -Rf ddpackages/multimedia/aliyundrive-fuse ./aliyundrive-fuse
+cp -Rf ddpackages/net/shadowsocks-libev ./shadowsocks-libev
+cp -Rf ddpackages/net/kcptun ./kcptun
 rm -rf ddpackages
 
 # sundaqiang
@@ -72,12 +75,10 @@ cp -Rf sdpackages/luci-app-supervisord ./luci-app-supervisord
 cp -Rf sdpackages/luci-app-nginx-manager ./luci-app-nginx-manager
 rm -rf sdpackages
 
-## luci-app-gost
+# luci-app-gost
 git clone https://github.com/quintus-lab/openwrt-package appgost
 cp -Rf appgost/luci-app-gost ./luci-app-gost
 cp -Rf appgost/gost ./gost
-cp -Rf appgost/ddns-scripts_aliyun ./ddns-scripts_aliyun
-cp -Rf appgost/ddns-scripts_dnspod ./ddns-scripts_dnspod
 rm -rf appgost
 
 ## 插件完毕

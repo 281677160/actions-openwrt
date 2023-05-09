@@ -25,6 +25,7 @@ git clone -b LUCI-LUA-UCITRACK https://github.com/281677160/feed-netkeeper  && m
 
 cp -Rf ${GITHUB_WORKSPACE}/README/1806cascade.css luci-theme-argon/htdocs/luci-static/argon/css/cascade.css
 sed -i 's/bypass/shadowsocksr/g' luci-theme-kucat/luasrc/view/themes/kucat/header.htm
+cp -Rf ${GITHUB_WORKSPACE}/README/style.css luci-theme-kucat/htdocs/luci-static/kucat/css/style.css
 
 
 ## 生成完整目录清单

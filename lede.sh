@@ -51,7 +51,8 @@ git clone https://github.com/immortalwrt/Rclone-OpenWrt && mv -f Rclone-OpenWrt/
 git clone https://github.com/project-openwrt/openwrt-tmate openwrt-tmate
 git clone https://github.com/tindy2013/openwrt-subconverter openwrt-subconverter
 git clone https://github.com/destan19/OpenAppFilter && mv -f OpenAppFilter/* ./
-git clone -b openwrt-18.06 https://github.com/immortalwrt/luci tlluci
+
+git clone -b master https://github.com/immortalwrt/luci tlluci
 cp -Rf tlluci/applications/luci-app-aliddns ./luci-app-aliddns
 cp -Rf tlluci/applications/luci-app-gowebdav ./luci-app-gowebdav
 cp -Rf tlluci/applications/luci-app-unblockneteasemusic ./luci-app-unblockneteasemusic
@@ -61,10 +62,9 @@ cp -Rf tlluci/applications/luci-app-filebrowser ./luci-app-filebrowser
 cp -Rf tlluci/applications/luci-app-udp2raw ./luci-app-udp2raw
 cp -Rf tlluci/applications/luci-app-cpulimit ./luci-app-cpulimit
 cp -Rf tlluci/applications/luci-app-iptvhelper ./luci-app-iptvhelper
-cp -Rf tlluci/applications/luci-app-smartinfo ./luci-app-smartinfo
 cp -Rf tlluci/applications/luci-app-syncthing ./luci-app-syncthing
 rm -rf tlluci
-git clone -b openwrt-18.06 https://github.com/immortalwrt/packages tlpackages
+git clone -b master https://github.com/immortalwrt/packages tlpackages
 cp -Rf tlpackages/net/gowebdav ./gowebdav
 cp -Rf tlpackages/net/udp2raw ./udp2raw
 cp -Rf tlpackages/net/oscam ./oscam
@@ -99,13 +99,19 @@ git clone https://github.com/ximiTech/luci-app-msd_lite.git luci-app-msd_lite
 git clone https://github.com/esirplayground/luci-app-poweroff luci-app-poweroff
 git clone https://github.com/NateLol/luci-app-oled luci-app-oled
 git clone https://github.com/rufengsuixing/luci-app-autoipsetadder luci-app-autoipsetadder
+git clone https://github.com/ximliu/luci-app-smartinfo luci-app-smartinfo
 
-# sundaqiang
+## sundaqiang
 git clone https://github.com/sundaqiang/openwrt-packages sdpackages
 cp -Rf sdpackages/luci-app-supervisord ./luci-app-supervisord
 cp -Rf sdpackages/luci-app-nginx-manager ./luci-app-nginx-manager
 rm -rf sdpackages
 
+## luci-app-gost
+git clone https://github.com/quintus-lab/openwrt-package appgost
+cp -Rf appgost/luci-app-gost ./luci-app-gost
+cp -Rf appgost/gost ./gost
+rm -rf appgost
 
 ## coolsnowwolf 插件
 git clone https://github.com/coolsnowwolf/luci ddluci
@@ -117,6 +123,8 @@ cp -Rf ddluci/applications/luci-app-unblockmusic ./luci-app-unblockmusic
 rm -rf ddluci
 git clone https://github.com/coolsnowwolf/packages ddpackages
 cp -Rf ddpackages/net/vlmcsd ./vlmcsd
+cp -Rf ddpackages/net/shadowsocks-libev ./shadowsocks-libev
+cp -Rf ddpackages/net/kcptun ./kcptun
 cp -Rf ddpackages/admin/netdata ./netdata
 cp -Rf ddpackages/multimedia/UnblockNeteaseMusic-Go ./UnblockNeteaseMusic-Go
 cp -Rf ddpackages/multimedia/UnblockNeteaseMusic ./UnblockNeteaseMusic
@@ -125,15 +133,10 @@ rm -rf ddpackages
 git clone https://github.com/coolsnowwolf/lede
 cp -Rf lede/package/lean/upx ./upx
 cp -Rf lede/package/lean/ucl ./ucl
+cp -Rf lede/package/lean/r8101 ./r8101
+cp -Rf lede/package/lean/r8125 ./r8125
+cp -Rf lede/package/lean/r8168 ./r8168
 rm -rf lede
-
-## luci-app-gost
-git clone https://github.com/quintus-lab/openwrt-package appgost
-cp -Rf appgost/luci-app-gost ./luci-app-gost
-cp -Rf appgost/gost ./gost
-cp -Rf appgost/ddns-scripts_aliyun ./ddns-scripts_aliyun
-cp -Rf appgost/ddns-scripts_dnspod ./ddns-scripts_dnspod
-rm -rf appgost
 
 ## N1和晶晨系列盒子专用的安装和升级固件工具
 git clone https://github.com/ophub/luci-app-amlogic amlogi && cp -Rf amlogi/luci-app-amlogic ./luci-app-amlogic && rm -rf amlogi
@@ -169,6 +172,8 @@ cdnspeedtest
 clud
 cpulimit-ng
 cpulimit
+ddns-scripts_aliyun
+ddns-scripts_dnspod
 filebrowser
 gost
 gowebdav
@@ -255,6 +260,10 @@ openwrt-subconverter
 openwrt-tmate
 oscam
 packr
+parted
+r8101
+r8125
+r8168
 rclone-ng
 rclone-webui-react
 rclone
@@ -262,8 +271,10 @@ smartmontools
 socat
 switch-lan-play
 syncthing
+ucl
 udp2raw
 upx-static
+upx
 v2dat
 v2ray-geodata
 vlmcsd

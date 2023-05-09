@@ -35,6 +35,12 @@ git clone https://github.com/sirpdboy/luci-app-lucky app-lucky && mv app-lucky/*
 git clone https://github.com/sirpdboy/luci-app-autotimeset luci-app-autotimeset
 git clone https://github.com/sirpdboy/luci-app-netwizard luci-app-netwizard
 
+# 官方的
+git clone -b openwrt-22.03 https://github.com/openwrt/packages gf2203
+cp -Rf gf2203/utils/antfs-mount ./antfs-mount
+cp -Rf gf2203//kernel/antfs ./antfs
+rm -rf gf2203
+
 ## coolsnowwolf 插件
 git clone https://github.com/coolsnowwolf/luci ddluci
 cp -Rf ddluci/applications/luci-app-pushbot ./luci-app-pushbot
@@ -44,14 +50,23 @@ rm -rf ddluci
 git clone https://github.com/coolsnowwolf/packages ddpackages
 cp -Rf ddpackages/multimedia/aliyundrive-webdav ./aliyundrive-webdav
 cp -Rf ddpackages/multimedia/aliyundrive-fuse ./aliyundrive-fuse
+cp -Rf ddpackages/net/pdnsd-alt ./pdnsd-alt
+cp -Rf ddpackages/net/shadowsocks-libev ./shadowsocks-libev
+cp -Rf ddpackages/net/kcptun ./kcptun
 rm -rf ddpackages
+git clone https://github.com/coolsnowwolf/lede
+cp -Rf lede/package/lean/automount ./automount
+cp -Rf lede/package/lean/autosamba ./autosamba
+cp -Rf lede/package/lean/mt ./mt
+rm -rf lede
 
 ## 天灵 插件
 git clone https://github.com/immortalwrt/Rclone-OpenWrt && mv -f Rclone-OpenWrt/* ./
 git clone https://github.com/project-openwrt/openwrt-tmate openwrt-tmate
 git clone https://github.com/tindy2013/openwrt-subconverter openwrt-subconverter
 git clone https://github.com/destan19/OpenAppFilter && mv -f OpenAppFilter/* ./
-git clone -b openwrt-18.06 https://github.com/immortalwrt/luci tlluci
+
+git clone -b master https://github.com/immortalwrt/luci tlluci
 cp -Rf tlluci/applications/luci-app-aliddns ./luci-app-aliddns
 cp -Rf tlluci/applications/luci-app-gowebdav ./luci-app-gowebdav
 cp -Rf tlluci/applications/luci-app-unblockneteasemusic ./luci-app-unblockneteasemusic
@@ -61,18 +76,14 @@ cp -Rf tlluci/applications/luci-app-filebrowser ./luci-app-filebrowser
 cp -Rf tlluci/applications/luci-app-udp2raw ./luci-app-udp2raw
 cp -Rf tlluci/applications/luci-app-cpulimit ./luci-app-cpulimit
 cp -Rf tlluci/applications/luci-app-iptvhelper ./luci-app-iptvhelper
-cp -Rf tlluci/applications/luci-app-smartinfo ./luci-app-smartinfo
-cp -Rf tlluci/applications/luci-app-gost ./luci-app-gost
 cp -Rf tlluci/applications/luci-app-syncthing ./luci-app-syncthing
 rm -rf tlluci
-git clone -b openwrt-18.06 https://github.com/immortalwrt/packages tlpackages
-cp -Rf tlpackages/net/gost ./gost
+git clone -b master https://github.com/immortalwrt/packages tlpackages
 cp -Rf tlpackages/net/gowebdav ./gowebdav
 cp -Rf tlpackages/net/udp2raw ./udp2raw
 cp -Rf tlpackages/net/oscam ./oscam
 cp -Rf tlpackages/net/socat ./socat
 cp -Rf tlpackages/net/mentohust ./mentohust
-cp -Rf tlpackages/net/kcptun ./kcptun
 cp -Rf tlpackages/net/iptvhelper ./iptvhelper
 cp -Rf tlpackages/utils/cpulimit-ng ./cpulimit-ng
 cp -Rf tlpackages/utils/cpulimit ./cpulimit
@@ -103,8 +114,9 @@ git clone https://github.com/esirplayground/luci-app-poweroff luci-app-poweroff
 git clone https://github.com/NateLol/luci-app-oled luci-app-oled
 git clone https://github.com/lisaac/luci-app-dockerman kerman && mv -f kerman/applications/luci-app-dockerman ./luci-app-dockerman
 git clone https://github.com/rufengsuixing/luci-app-autoipsetadder luci-app-autoipsetadder
+git clone https://github.com/ximliu/luci-app-smartinfo luci-app-smartinfo
 
-# sundaqiang
+## sundaqiang
 git clone https://github.com/sundaqiang/openwrt-packages sdpackages
 cp -Rf sdpackages/luci-app-supervisord ./luci-app-supervisord
 cp -Rf sdpackages/luci-app-nginx-manager ./luci-app-nginx-manager
@@ -144,9 +156,13 @@ alist
 alist2
 aliyundrive-fuse
 aliyundrive-webdav
+antfs-mount
+antfs
 app-lucky
 ardhome
 assets
+automount
+autosamba
 cdnspeedtest
 clud
 cpulimit-ng
@@ -218,6 +234,7 @@ mentohust
 mosdns
 mosdnszz
 msd_lite
+mt
 multimedia
 nas-packages-luci
 nas-packages
@@ -229,6 +246,7 @@ openwrt-subconverter
 openwrt-tmate
 oscam
 packr
+pdnsd-alt
 rclone-ng
 rclone-webui-react
 rclone

@@ -27,6 +27,7 @@ mv Lienol-packages/* ./
 rm -rf Lienol-packages
 mv lean/* ./
 rm -rf lean
+rm -rf mt
 rm -rf luci-app-dockerman
 rm -rf luci-app-kodexplorer
 rm -rf luci-app-turboacc
@@ -71,9 +72,13 @@ cp -Rf ddpackages/utils/runc ./runc
 cp -Rf ddpackages/utils/bcm27xx-eeprom ./bcm27xx-eeprom
 cp -Rf ddpackages/net/frp ./frp
 cp -Rf ddpackages/net/xfrpc ./xfrpc
+cp -Rf ddpackages/net/shadowsocks-libev ./shadowsocks-libev
+cp -Rf ddpackages/net/kcptun ./kcptun
 rm -rf ddpackages
 git clone https://github.com/coolsnowwolf/lede
 cp -Rf lede/package/lean/upx ./upx
+cp -Rf lede/package/lean/ucl ./ucl
+cp -Rf lede/package/lean/mt ./mt
 cp -Rf lede/package/lean/autosamba ./autosamba
 cp -Rf lede/package/utils/bcm27xx-userland ./bcm27xx-userland
 rm -rf lede
@@ -99,7 +104,8 @@ git clone https://github.com/immortalwrt/Rclone-OpenWrt && mv -f Rclone-OpenWrt/
 git clone https://github.com/project-openwrt/openwrt-tmate openwrt-tmate
 git clone https://github.com/tindy2013/openwrt-subconverter openwrt-subconverter
 git clone https://github.com/destan19/OpenAppFilter && mv -f OpenAppFilter/* ./
-git clone -b openwrt-18.06 https://github.com/immortalwrt/luci tlluci
+
+git clone -b master https://github.com/immortalwrt/luci tlluci
 cp -Rf tlluci/applications/luci-app-aliddns ./luci-app-aliddns
 cp -Rf tlluci/applications/luci-app-aliddns ./luci-app-adbyby-plus
 cp -Rf tlluci/applications/luci-app-aliddns ./luci-app-softethervpn
@@ -112,13 +118,10 @@ cp -Rf tlluci/applications/luci-app-filebrowser ./luci-app-filebrowser
 cp -Rf tlluci/applications/luci-app-udp2raw ./luci-app-udp2raw
 cp -Rf tlluci/applications/luci-app-cpulimit ./luci-app-cpulimit
 cp -Rf tlluci/applications/luci-app-iptvhelper ./luci-app-iptvhelper
-cp -Rf tlluci/applications/luci-app-smartinfo ./luci-app-smartinfo
-cp -Rf tlluci/applications/luci-app-gost ./luci-app-gost
 cp -Rf tlluci/applications/luci-app-syncthing ./luci-app-syncthing
 cp -Rf tlluci//modules/luci-base ./luci-base
 rm -rf tlluci
-git clone -b openwrt-18.06 https://github.com/immortalwrt/packages tlpackages
-cp -Rf tlpackages/net/gost ./gost
+git clone -b master https://github.com/immortalwrt/packages tlpackages
 cp -Rf tlpackages/net/adbyby ./adbyby
 cp -Rf tlpackages/net/softethervpn ./softethervpn
 cp -Rf tlpackages/net/softethervpn5 ./softethervpn5
@@ -137,7 +140,6 @@ rm -rf tlpackages
 
 ## Hyy2001X插件
 git clone https://github.com/Hyy2001X/AutoBuild-Packages
-cp -Rf AutoBuild-Packages/upx-static ./upx-static
 cp -Rf AutoBuild-Packages/luci-app-onliner ./luci-app-onliner
 cp -Rf AutoBuild-Packages/luci-app-shutdown ./luci-app-shutdown
 cp -Rf AutoBuild-Packages/luci-app-webd ./luci-app-webd
@@ -154,6 +156,7 @@ git clone https://github.com/ximiTech/luci-app-msd_lite.git luci-app-msd_lite
 git clone https://github.com/esirplayground/luci-app-poweroff luci-app-poweroff
 git clone https://github.com/NateLol/luci-app-oled luci-app-oled
 git clone https://github.com/rufengsuixing/luci-app-autoipsetadder luci-app-autoipsetadder
+git clone https://github.com/ximliu/luci-app-smartinfo luci-app-smartinfo
 
 ## sundaqiang
 git clone https://github.com/sundaqiang/openwrt-packages sdpackages
@@ -214,7 +217,6 @@ clud
 containerd
 cpulimit-ng
 cpulimit
-ddns-scripts_aliyun
 ddns-scripts_dnspod
 docker
 dockerd
@@ -289,7 +291,6 @@ luci-app-partexp
 luci-app-poweroff
 luci-app-pppoe-relay
 luci-app-pppoe-server
-luci-app-pptp-server
 luci-app-pushbot
 luci-app-qbittorrent
 luci-app-quickstart
@@ -365,7 +366,6 @@ switch-lan-play
 syncthing
 tini
 udp2raw
-upx-static
 upx
 uugamebooster
 v2dat

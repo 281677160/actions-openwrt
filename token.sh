@@ -28,6 +28,8 @@ sed -i 's?"网络向导"?"向导"?g' `egrep "网络向导" -rl ./`
 sed -i 's?"网络存储"?"NAS"?g' `egrep "网络存储" -rl ./`
 sed -i 's?Powered by sundaqiang??g' `egrep "Powered by sundaqiang" -rl ./`
 
+[[ -f "gost/Makefile" ]] && cp -Rf ${GITHUB_WORKSPACE}/README/gost gost/Makefile
+
 # 修改主题footer.htm去掉一些LUCI链接
 luci_file="$(grep -Eio "<%= ver.luciname %>"  -rl ./ |grep "\.htm")"
 for x in ${luci_file}
