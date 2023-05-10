@@ -12,7 +12,6 @@ git clone https://github.com/pymumu/luci-app-smartdns luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns smartdns
 git clone -b master https://github.com/281677160/feed-netkeeper  && mv feed-netkeeper/* ./
 
-cp -Rf ${GITHUB_WORKSPACE}/README/cascade.css luci-theme-argon/htdocs/luci-static/argon/css/cascade.css
 
 ## 生成完整目录清单
 cat > Update.txt <<EOF
