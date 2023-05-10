@@ -2995,8 +2995,8 @@ table table,.table .table,.cbi-value-field table,.cbi-value-field .table,td>tabl
 
 .cbi-dynlist>.add-item:not([ondrop])>input {
 	overflow: hidden;
-	width: 100%;
-	min-width: 15rem;
+	width: 50%;
+	min-width: 15.4rem;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
