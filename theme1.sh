@@ -23,7 +23,6 @@ git clone -b lede https://github.com/pymumu/luci-app-smartdns luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns smartdns
 git clone -b LUCI-LUA-UCITRACK https://github.com/281677160/feed-netkeeper  && mv feed-netkeeper/* ./
 
-cp -Rf ${GITHUB_WORKSPACE}/README/1806cascade.css luci-theme-argon/htdocs/luci-static/argon/css/cascade.css
 sed -i 's/bypass/shadowsocksr/g' luci-theme-kucat/luasrc/view/themes/kucat/header.htm
 cp -Rf ${GITHUB_WORKSPACE}/README/style.css luci-theme-kucat/htdocs/luci-static/kucat/css/style.css
 
