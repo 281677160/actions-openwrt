@@ -2447,7 +2447,7 @@ table table,.table .table,.cbi-value-field table,.cbi-value-field .table,td>tabl
 	text-decoration: none;
 	text-transform: uppercase;
 	color: rgba(0,0,0,0.87);
-	border: 0;
+	border: 1;
 	border-radius: .2rem;
 	background-color: #f0f0f0;
 	background-image: none;
