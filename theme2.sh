@@ -2,7 +2,7 @@
 # https://github.com/281677160/build-actions
 # common Module by 28677160
 
-git clone -b master https://github.com/jerrykuku/luci-theme-argon luci-theme-argon
+git clone -b master https://github.com/281677160/luci-theme-argon luci-theme-argon
 git clone -b argon-config https://github.com/281677160/luci-theme-argon luci-app-argon-config
 git clone -b js https://github.com/gngpp/luci-theme-design.git luci-theme-design
 git clone https://github.com/gngpp/luci-app-design-config.git luci-app-design-config
