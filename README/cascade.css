@@ -3008,7 +3008,7 @@ table table,.table .table,.cbi-value-field table,.cbi-value-field .table,td>tabl
 .cbi-dynlist,.cbi-dropdown {
 	position: relative;
 	display: inline-flex;
-	padding: .2rem .2rem;
+	padding: rem;
 }
 
 .cbi-dropdown[placeholder*="select"] {
