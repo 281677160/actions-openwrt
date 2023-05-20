@@ -370,6 +370,9 @@ else
   echo "PACKAGING_FIRMWARE=false" >> ${GITHUB_ENV}
 fi
 echo
+echo -e "\033[35m  系统空间      类型   总数  已用  可用 使用率 \033[0m"
+df -hT $PWD
+echo
 echo -e "\033[35m 服务器CPU: ${CPU_MODEL} \033[0m"
 echo
 if [[ "${UPLOAD_FIRMWARE}" == "true" ]]; then
