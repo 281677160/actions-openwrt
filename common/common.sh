@@ -196,7 +196,7 @@ if [[ `grep -c 'CONFIG_TARGET_x86_64=y' ${HOME_PATH}/.config` -eq '1' ]]; then
   export TARGET_PROFILE="x86-64"
 elif [[ `grep -c 'CONFIG_TARGET_x86=y' ${HOME_PATH}/.config` -eq '1' ]]; then
   export TARGET_PROFILE="x86-32"
-elif [[ `grep -c 'CONFIG_TARGET_armvirt_64_Default=y' ${HOME_PATH}/.config` -eq '1' ]]; then
+elif [[ `grep -c 'CONFIG_TARGET_armvirt_64=y' ${HOME_PATH}/.config` -eq '1' ]]; then
   export TARGET_PROFILE="Armvirt_64"
   echo "CONFIG_TARGET_ROOTFS_TARGZ=y" >> "${HOME_PATH}/.config"
   if [[ "${SOURCE}" == "openwrt" ]]; then
@@ -239,7 +239,7 @@ echo "CON_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
 
 
 function Diy_armvirt() {
-if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `grep -c 'CONFIG_TARGET_armvirt_64_Default=y' ${HOME_PATH}/.config` -eq '1' ]] && [[ -n "${REPO_TOKEN}" ]]; then
+if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `grep -c 'CONFIG_TARGET_armvirt_64=y' ${HOME_PATH}/.config` -eq '1' ]] && [[ -n "${REPO_TOKEN}" ]]; then
   if [[ `ls -1 |grep -c "64-default-rootfs.tar.gz"` -eq '1' ]]; then
     echo "DABAO_RELEASE=${UPLOAD_RELEASE}" >> $GITHUB_ENV
     echo "UPLOAD_RELEASE=true" >> $GITHUB_ENV
