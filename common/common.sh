@@ -257,6 +257,7 @@ else
   echo "FIRMWARE=*" >> $GITHUB_ENV
   echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
   echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
+  echo "PACKAGING_FIRMWARE=false" >> $GITHUB_ENV
 fi
 }
 
