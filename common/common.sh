@@ -242,6 +242,7 @@ for x in ${k[@]}; do \
   sed -i "s#${x}##g" "${HOME_PATH}/config.txt"; \
 done
 sed -i '/^$/d' "${HOME_PATH}/config.txt"
+echo "CON_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
 }
 
 
