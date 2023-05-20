@@ -65,18 +65,6 @@ on:
   schedule:
    - cron: 25 14 * * *
 
-env:
-  # 定时编译的话，设置这里的控制为准,顺序按手动启动的就是
-  REPO_URL: coolsnowwolf/lede
-  REPO_BRANCH: master
-  CONFIG_FILE: x86_64
-  TEMPOARY_IP: 192.168.1.1
-  UPLOAD_FIRMWARE: true
-  UPLOAD_RELEASE: false
-  CACHEWRTBUILD_SWITCH: true
-  CHINESE_LANGUAGE_LUCI: false
-  DELETE_LOGIN_PASSWORD: true
-  PACKAGING_FIRMWARE: true
 
 jobs:
   build:
@@ -97,7 +85,8 @@ jobs:
     - name: 检测文件
       run: |
         cd ${GITHUB_WORKSPACE}
-        source build/${{ matrix.target }}/settings.ini
+        sudo chmod -R 755 *
+        source $GITHUB_WORKSPACE/build/${{ matrix.target }}/settings.ini
         echo "GIT_REPOSITORY=${{github.repository}}" >> $GITHUB_ENV
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> $GITHUB_ENV
         if [[ -n "${{ inputs.REPO_URL }}" ]]; then
@@ -129,7 +118,6 @@ jobs:
           export LUCI_VERSION="$(echo "${{ env.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
         fi
-        sudo chmod -R +x $GITHUB_WORKSPACE/common
         source ${GITHUB_WORKSPACE}/common/common.sh && wnejian_jiance
 
     - name: 部署编译环境
