@@ -1,7 +1,5 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-3.0-only
-#
-# Copyright (C) ImmortalWrt.org
 
 function Delete_useless(){
 # 删除一些不需要的东西
