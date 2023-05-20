@@ -193,7 +193,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: .config-${{ env.SOURCE }}-${{ env.LUCI_VERSION }}-${{ env.TARGET_PROFILE }}-${{ env.CON_DATE }}
-        path: openwrt/config.txt
+        path:   ConFig/config.txt
 
     - name: 开始编译固件
       id: compile
