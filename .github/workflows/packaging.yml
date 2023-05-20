@@ -69,7 +69,7 @@ on:
 env:
   GIT_REPOSITORY: ${{github.repository}}
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
-  SOURCE: xwrt
+  SOURCE: coolsnowwolf
   FOLDER_NAME: devices
 
 jobs:
