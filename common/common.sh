@@ -79,14 +79,18 @@ fi
 
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ ! -d "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
-  svn export https://github.com/281677160/common/trunk/OFFICIAL/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+  cp -Rf $GITHUB_WORKSPACE/common/default-settings-luci2 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
   [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
 elif [[ ! -d "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
-  svn export https://github.com/281677160/common/trunk/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+  cp -Rf $GITHUB_WORKSPACE/common/default-settings-luci1 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
 fi
 
-rm -rf ${HOME_PATH}/feeds/packages/lang/golang
-svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang ${HOME_PATH}/feeds/packages/lang/golang > /dev/null 2>&1
+git clone --depth 1 https://github.com/openwrt/packages -b master golang-version
+if [[ -d "golang-version/lang/golang" ]]; then
+  rm -rf ${HOME_PATH}/feeds/packages/lang/golang
+  cp -Rf golang-version/lang/golang ${HOME_PATH}/feeds/packages/lang/golang
+  rm -rf golang-version
+fi
 
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
@@ -103,6 +107,8 @@ fi
 
 
 function Diy_partsh() {
+cd ${HOME_PATH}
+
 [[ -d "${BUILD_PATH}/diy" ]] && cp -Rf ${BUILD_PATH}/diy/* ${HOME_PATH}/
 [[ -d "${BUILD_PATH}/files" ]] && mv -f ${BUILD_PATH}/files ${HOME_PATH}/files
 rm -rf ${HOME_PATH}/README ${HOME_PATH}/files/README
@@ -171,6 +177,8 @@ esac
 
 
 function Diy_config() {
+cd ${HOME_PATH}
+
 if [[ -f "${BUILD_PATH}/${CONFIG_FILE}" ]]; then
   cp -Rf ${BUILD_PATH}/${CONFIG_FILE} ${HOME_PATH}/.config
 fi
