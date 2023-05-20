@@ -254,6 +254,7 @@ if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `grep -c 'CONFIG_TARGET_armvirt
     mv -f ${FIRMWARE_PATH}/packages/*64-default-rootfs.tar.gz ${FIRMWARE_PATH}/${SOURCE}-armvirt-64-default-rootfs.tar.gz
   else
     echo "PACKAGING_FIRMWARE=false" >> $GITHUB_ENV
+    echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
     echo "没发现rootfs.tar.gz包存在,关闭触发Armvirt_64自动打包成img固件"
   fi
 else
