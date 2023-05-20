@@ -22,7 +22,7 @@ on:
         required: true
         default: ''
       CONFIG_FILE:
-        description: '请输入[seed]文件夹里的配置文件名称'
+        description: '请输入[${{ matrix.target }}/seed]文件夹里的配置文件名称'
         required: true
         default: ''
       TEMPOARY_IP:
@@ -81,7 +81,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    name: 编译固件
+    name: 使用[${{ matrix.target }}]编译固件
     
     env:
       FOLDER_NAME: ${{ matrix.target }}
