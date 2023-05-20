@@ -44,10 +44,8 @@ jobs:
       if: env.REPO_TOKEN && (github.event.inputs.again-fork == 'fork')
       run: |
         cd $GITHUB_WORKSPACE
-        git clone -b main https://github.com/${{github.repository}} shangyou
         git clone -b main https://github.com/${{github.repository}} repogx
-        mv -f shangyou/build/common repogx/common
-        rm -rf repogx/build/common
+        rm -rf repogx/.*.sh
         
     - name: 同步上游仓库
       if: env.REPO_TOKEN && (github.event.inputs.again-fork == 'fork')
