@@ -14,11 +14,11 @@ on:
   workflow_dispatch:
     inputs:
       REPO_URL:
-        description: '请输入您要编译的源码仓库,比如 coolsnowwolf/lede'
+        description: '请输入您要编译的源码仓库,比如： coolsnowwolf/lede'
         required: true
         default: ''
       REPO_BRANCH:
-        description: '请输入源码的分支,比如 master'
+        description: '请输入源码的分支,比如： master'
         required: true
         default: ''
       CONFIG_FILE:
@@ -26,7 +26,7 @@ on:
         required: true
         default: ''
       TEMPOARY_IP:
-        description: '请输入固件后台IP,默认[192.168.1.1]'
+        description: '请输入固件后台IP,比如： 192.168.1.1'
         required: true
         default: ''
       UPLOAD_FIRMWARE:
