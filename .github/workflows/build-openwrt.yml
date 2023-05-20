@@ -63,7 +63,7 @@ on:
 
 # 定时触发开启开始编译(把下面两个#去掉开启)
   schedule:
-   - cron: 45 17 * * *
+   - cron: 1 18 * * *
 
 
 jobs:
@@ -104,18 +104,18 @@ jobs:
           export LUCI_VERSION="$(echo "${{ inputs.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
         else
-          export REPO_URL="https://github.com/$(echo "${{ env.REPO_URL }}" |sed s/[[:space:]]//g)"
-          export REPO_BRANCH="${{ env.REPO_BRANCH }}"
-          export CONFIG_FILE="seed/${{ env.CONFIG_FILE }}"
-          export TEMPOARY_IP="${{ env.TEMPOARY_IP }}"
-          export UPLOAD_FIRMWARE="${{ env.UPLOAD_FIRMWARE }}"
-          export UPLOAD_RELEASE="${{ env.UPLOAD_RELEASE }}"
-          export CACHEWRTBUILD_SWITCH="${{ env.CACHEWRTBUILD_SWITCH }}"
-          export CHINESE_LANGUAGE_LUCI="${{ env.CHINESE_LANGUAGE_LUCI }}"
-          export DELETE_LOGIN_PASSWORD="${{ env.DELETE_LOGIN_PASSWORD }}"
-          export PACKAGING_FIRMWARE="${{ env.PACKAGING_FIRMWARE }}"
-          export SOURCE="$(echo "${{ env.REPO_URL }}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
-          export LUCI_VERSION="$(echo "${{ env.REPO_BRANCH }}" |cut -d"-" -f2-)"
+          export SOURCE="$(echo "${REPO_URL}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
+          export REPO_URL="https://github.com/$(echo "${REPO_URL}" |sed s/[[:space:]]//g)"
+          export REPO_BRANCH="${REPO_BRANCH}"
+          export CONFIG_FILE="seed/${CONFIG_FILE}"
+          export TEMPOARY_IP="${TEMPOARY_IP}"
+          export UPLOAD_FIRMWARE="${UPLOAD_FIRMWARE}"
+          export UPLOAD_RELEASE="${UPLOAD_RELEASE}"
+          export CACHEWRTBUILD_SWITCH="${CACHEWRTBUILD_SWITCH}"
+          export CHINESE_LANGUAGE_LUCI="${CHINESE_LANGUAGE_LUCI}"
+          export DELETE_LOGIN_PASSWORD="${DELETE_LOGIN_PASSWORD}"
+          export PACKAGING_FIRMWARE="${PACKAGING_FIRMWARE}"
+          export LUCI_VERSION="$(echo "${REPO_BRANCH}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
         fi
         source ${GITHUB_WORKSPACE}/common/common.sh && wnejian_jiance
