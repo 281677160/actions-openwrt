@@ -45,17 +45,17 @@ on:
         default: 'true'
         type: boolean
       CHINESE_LANGUAGE_LUCI:
-        description: '更改成默认中文LUCI'
+        description: '更改成默认中文LUCI(个别源码编译LUCI缺少依赖会编译失败)'
         required: false
         default: 'false'
         type: boolean
       DELETE_LOGIN_PASSWORD:
-        description: '免密登录固件设置'
+        description: '首次安装固件,免密登录固件'
         required: false
         default: 'true'
         type: boolean
       PACKAGING_FIRMWARE:
-        description: 'Armvirt_64自动打包成img固件'
+        description: '自动打包Amlogic或Rockchip固件'
         required: false
         default: 'true'
         type: boolean
