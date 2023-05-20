@@ -79,10 +79,10 @@ fi
 
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
-  [[ -d "${GITHUB_WORKSPACE}/common/default-settings-luci2" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/default-settings-luci2 ${HOME_PATH}/package/default-settings
+  [[ -d "${GITHUB_WORKSPACE}/common/zh_Hans" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans ${HOME_PATH}/package/default-settings
   [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
 elif [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
-  [[ -d "${GITHUB_WORKSPACE}/common/default-settings-luci1" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/default-settings-luci1 ${HOME_PATH}/package/default-settings
+  [[ -d "${GITHUB_WORKSPACE}/common/zh-cn" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/zh-cn ${HOME_PATH}/package/default-settings
 fi
 
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
