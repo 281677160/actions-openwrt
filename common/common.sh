@@ -77,20 +77,22 @@ else
   LUCI_BANBEN="1"
 fi
 
+git clone --depth 1 https://github.com/281677160/common -b main golang-version > /dev/null 2>&1
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
-if [[ ! -d "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
-  cp -Rf $GITHUB_WORKSPACE/common/default-settings-luci2 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+if [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
+  [[ -d "golang-version/Share/default-settings2" ]] && cp -Rf golang-version/Share/default-settings2 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
   [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
-elif [[ ! -d "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
-  cp -Rf $GITHUB_WORKSPACE/common/default-settings-luci1 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+elif [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
+  [[ -d "golang-version/Share/default-settings1" ]] && cp -Rf golang-version/Share/default-settings1 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
 fi
 
-git clone --depth 1 https://github.com/openwrt/packages -b master golang-version
-if [[ -d "golang-version/lang/golang" ]]; then
+if [[ -d "golang-version/Share/golang" ]]; then
   rm -rf ${HOME_PATH}/feeds/packages/lang/golang
-  cp -Rf golang-version/lang/golang ${HOME_PATH}/feeds/packages/lang/golang
-  rm -rf golang-version
+  cp -Rf golang-version/Share/golang ${HOME_PATH}/feeds/packages/lang/golang
 fi
+
+rm -rf golang-version
+
 
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
