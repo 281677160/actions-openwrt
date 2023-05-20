@@ -227,7 +227,8 @@ echo "FIRMWARE_PATH=${FIRMWARE_PATH}" >> ${GITHUB_ENV}
 
 
 function Diy_defconfig() {
-./scripts/diffconfig.sh > ${HOME_PATH}/config.txt
+mkdir -p ${GITHUB_WORKSPACE}/ConFig
+./scripts/diffconfig.sh > ${GITHUB_WORKSPACE}/ConFig/config.txt
 d="CONFIG_CGROUPFS_MOUNT_KERNEL_CGROUPS=y,CONFIG_DOCKER_CGROUP_OPTIONS=y,CONFIG_DOCKER_NET_MACVLAN=y,CONFIG_DOCKER_STO_EXT4=y, \
 CONFIG_KERNEL_CGROUP_DEVICE=y,CONFIG_KERNEL_CGROUP_FREEZER=y,CONFIG_KERNEL_CGROUP_NET_PRIO=y,CONFIG_KERNEL_EXT4_FS_POSIX_ACL=y,CONFIG_KERNEL_EXT4_FS_SECURITY=y, \
 CONFIG_KERNEL_FS_POSIX_ACL=y,CONFIG_KERNEL_NET_CLS_CGROUP=y,CONFIG_PACKAGE_btrfs-progs=y,CONFIG_PACKAGE_cgroupfs-mount=y, \
@@ -239,9 +240,9 @@ CONFIG_PACKAGE_kmod-veth=y,CONFIG_PACKAGE_libdevmapper=y,CONFIG_PACKAGE_liblzo=y
 CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=y,CONFIG_PACKAGE_luci-lib-docker=y,CONFIG_PACKAGE_mount-utils=y,CONFIG_PACKAGE_runc=y,CONFIG_PACKAGE_tini=y,CONFIG_PACKAGE_naiveproxy=y"
 k=(${d//,/ })
 for x in ${k[@]}; do \
-  sed -i "s#${x}##g" "${HOME_PATH}/config.txt"; \
+  sed -i "s#${x}##g" "${GITHUB_WORKSPACE}/ConFig/config.txt"; \
 done
-sed -i '/^$/d' "${HOME_PATH}/config.txt"
+sed -i '/^$/d' "${GITHUB_WORKSPACE}/ConFig/config.txt"
 echo "CON_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
 }
 
