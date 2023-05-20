@@ -77,18 +77,12 @@ else
   LUCI_BANBEN="1"
 fi
 
-git clone --depth 1 https://github.com/281677160/common -b main ${HOME_PATH}/golang-version > /dev/null 2>&1
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
-  [[ -d "${HOME_PATH}/golang-version/Share/default-settings2" ]] && cp -Rf ${HOME_PATH}/golang-version/Share/default-settings2 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+  [[ -d "${GITHUB_WORKSPACE}/common/default-settings-luci2" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/default-settings-luci2 ${HOME_PATH}/package/default-settings
   [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
 elif [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
-  [[ -d "${HOME_PATH}/golang-version/Share/default-settings1" ]] && cp -Rf ${HOME_PATH}/golang-version/Share/default-settings1 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
-fi
-
-if [[ -d "${HOME_PATH}/golang-version/Share/golang" ]]; then
-  rm -rf ${HOME_PATH}/feeds/packages/lang/golang
-  cp -Rf ${HOME_PATH}/golang-version/Share/golang ${HOME_PATH}/feeds/packages/lang/golang
+  [[ -d "${GITHUB_WORKSPACE}/common/default-settings-luci1" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/default-settings-luci1 ${HOME_PATH}/package/default-settings
 fi
 
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
@@ -118,8 +112,6 @@ fi
 source ${BUILD_PATH}/${DIY_PART_SH}
 
 GENERATE_PATH="${HOME_PATH}/package/base-files/files/bin/config_generate"
-IPADDRO="$(grep "ipaddr:-" "${GENERATE_PATH}" |grep -v 'addr_offset' |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
-sed -i "s?${IPADDRO}?192.168.1.1?g" "${GENERATE_PATH}"
 IPADDR="$(grep "ipaddr:-" "${GENERATE_PATH}" |grep -v 'addr_offset' |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
 if [[ -n "${TEMPOARY_IP}" ]]; then
   if [[ -n "$(echo ${TEMPOARY_IP} |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")" ]]; then
@@ -136,18 +128,16 @@ fi
 
 apptions="$(find . -type d -name "applications" |grep 'luci')"
 if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
-  if [[ -f "${HOME_PATH}/golang-version/language/zh_Hans.sh" ]]; then
-    cp -Rf ${HOME_PATH}/golang-version/language/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
+  if [[ -f "${GITHUB_WORKSPACE}/common/zh_Hans.sh" ]]; then
+    cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
     /bin/bash ${HOME_PATH}/zh_Hans.sh
   fi
 else
-  if [[ -f "${HOME_PATH}/golang-version/language/zh-cn.sh" ]]; then
-    cp -Rf ${HOME_PATH}/golang-version/language/zh-cn.sh ${HOME_PATH}/zh-cn.sh
+  if [[ -f "${GITHUB_WORKSPACE}/common/zh-cn.sh" ]]; then
+    cp -Rf ${GITHUB_WORKSPACE}/common/zh-cn.sh ${HOME_PATH}/zh-cn.sh
     /bin/bash ${HOME_PATH}/zh-cn.sh
   fi
 fi
-
-rm -rf ${HOME_PATH}/golang-version > /dev/null 2>&1
 
 case "${PACKAGING_FIRMWARE}" in
 true)
@@ -171,6 +161,7 @@ if [[ -n "${rootfs_size}" ]]; then
 else
   echo "rootfs_size=2560" >> ${GITHUB_ENV}
 fi
+echo "kernel_repo=ophub/kernel" >> ${GITHUB_ENV}
 if [[ -n "${kernel_usage}" ]]; then
   echo "kernel_usage=${kernel_usage}" >> ${GITHUB_ENV}
 else
@@ -308,6 +299,7 @@ amlogic_model="${amlogic_model}"
 amlogic_kernel="${amlogic_kernel}"
 auto_kernel="${auto_kernel}"
 rootfs_size="${rootfs_size}"
+kernel_repo="ophub/kernel"
 kernel_usage="${kernel_usage}"
 SOURCE="${SOURCE}"
 LUCI_VERSION="${LUCI_VERSION}"
