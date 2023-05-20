@@ -244,7 +244,7 @@ if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `grep -c 'CONFIG_TARGET_armvirt
     root_targz="$(ls -1 |grep -E "64.*rootfs.*tar.gz")"
     echo "DABAO_RELEASE=${UPLOAD_RELEASE}" >> $GITHUB_ENV
     echo "UPLOAD_RELEASE=true" >> $GITHUB_ENV
-    echo "FILE_TAG=2020targz" >> $GITHUB_ENV
+    echo "FILE_TAG=targz" >> $GITHUB_ENV
     echo "FILE_NAME=rootfs.tar.gz" >> $GITHUB_ENV
     echo "FIRMWARE=*rootfs.tar.gz" >> $GITHUB_ENV
     echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
