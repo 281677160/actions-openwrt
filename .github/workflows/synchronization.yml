@@ -45,7 +45,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         git clone -b main https://github.com/${{github.repository}} repogx
-        rm -rf repogx/.*.sh
+        rm -rf repogx/*.sh
         
     - name: 同步上游仓库
       if: env.REPO_TOKEN && (github.event.inputs.again-fork == 'fork')
