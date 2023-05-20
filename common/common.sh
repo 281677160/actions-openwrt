@@ -239,7 +239,7 @@ CONFIG_PACKAGE_kmod-veth=y,CONFIG_PACKAGE_libdevmapper=y,CONFIG_PACKAGE_liblzo=y
 CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=y,CONFIG_PACKAGE_luci-lib-docker=y,CONFIG_PACKAGE_mount-utils=y,CONFIG_PACKAGE_runc=y,CONFIG_PACKAGE_tini=y,CONFIG_PACKAGE_naiveproxy=y"
 k=(${d//,/ })
 for x in ${k[@]}; do \
- sed -i "s#${x}##g" "${HOME_PATH}/config.txt"; \
+  sed -i "s#${x}##g" "${HOME_PATH}/config.txt"; \
 done
 sed -i '/^$/d' "${HOME_PATH}/config.txt"
 }
