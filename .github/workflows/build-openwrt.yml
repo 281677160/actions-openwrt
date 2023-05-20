@@ -22,7 +22,7 @@ on:
         required: true
         default: ''
       CONFIG_FILE:
-        description: '请输入[${{ matrix.target }}/seed]文件夹里的配置文件名称'
+        description: '请输入[seed]文件夹里的配置文件名称'
         required: true
         default: ''
       TEMPOARY_IP:
@@ -40,7 +40,7 @@ on:
         default: 'false'
         type: boolean
       CACHEWRTBUILD_SWITCH:
-        description: '缓存加速编译'
+        description: '保留缓存,加速编译'
         required: true
         default: 'true'
         type: boolean
