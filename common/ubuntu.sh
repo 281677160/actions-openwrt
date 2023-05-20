@@ -11,17 +11,14 @@ sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /
 }
 
 function install_mustrelyon(){
-# 安装天灵大佬的依赖
+# 安装依赖
 sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
-
-# 安装我仓库需要的依赖
 sudo apt-get install -y rename pigz libfuse-dev
-
-# 安装打包N1需要用到的依赖
 sudo apt-get install -y $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
 }
 
 function update_apt_source(){
+# 清理下载包
 node --version
 yarn --version
 sudo apt-get autoremove -y --purge
