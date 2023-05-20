@@ -64,7 +64,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/devices/relevance/start'
+      - 'start'
 
 env:
   GIT_REPOSITORY: ${{github.repository}}
