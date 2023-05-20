@@ -14,11 +14,11 @@ on:
   workflow_dispatch:
     inputs:
       REPO_URL:
-        description: '请输入您要编译的源码仓库'
+        description: '请输入您要编译的源码仓库,比如 coolsnowwolf/lede'
         required: true
         default: ''
       REPO_BRANCH:
-        description: '请输入源码的分支'
+        description: '请输入源码的分支,比如 master'
         required: true
         default: ''
       CONFIG_FILE:
@@ -45,7 +45,7 @@ on:
         default: 'true'
         type: boolean
       CHINESE_LANGUAGE_LUCI:
-        description: '更改成默认中文LUCI(个别源码缺少依赖会编译LUCI失败)'
+        description: '更改成默认中文LUCI(个别源码缺少依赖编译LUCI会失败)'
         required: true
         default: 'false'
         type: boolean
