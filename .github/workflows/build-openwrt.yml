@@ -90,6 +90,7 @@ jobs:
         echo "GIT_REPOSITORY=${{github.repository}}" >> $GITHUB_ENV
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> $GITHUB_ENV
         if [[ -n "${{ inputs.REPO_URL }}" ]]; then
+          export SOURCE="$(echo "${{ inputs.REPO_URL }}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
           export REPO_URL="https://github.com/$(echo "${{ inputs.REPO_URL }}" |sed s/[[:space:]]//g)"
           export REPO_BRANCH="${{ inputs.REPO_BRANCH }}"
           export CONFIG_FILE="seed/${{ inputs.CONFIG_FILE }}"
@@ -100,7 +101,6 @@ jobs:
           export CHINESE_LANGUAGE_LUCI="${{ inputs.CHINESE_LANGUAGE_LUCI }}"
           export DELETE_LOGIN_PASSWORD="${{ inputs.DELETE_LOGIN_PASSWORD }}"
           export PACKAGING_FIRMWARE="${{ inputs.PACKAGING_FIRMWARE }}"
-          export SOURCE="$(echo "${{ inputs.REPO_URL }}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
           export LUCI_VERSION="$(echo "${{ inputs.REPO_BRANCH }}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
         else
