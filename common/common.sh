@@ -77,22 +77,19 @@ else
   LUCI_BANBEN="1"
 fi
 
-git clone --depth 1 https://github.com/281677160/common -b main golang-version > /dev/null 2>&1
+git clone --depth 1 https://github.com/281677160/common -b main ${HOME_PATH}/golang-version > /dev/null 2>&1
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
-  [[ -d "golang-version/Share/default-settings2" ]] && cp -Rf golang-version/Share/default-settings2 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+  [[ -d "${HOME_PATH}/golang-version/Share/default-settings2" ]] && cp -Rf ${HOME_PATH}/golang-version/Share/default-settings2 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
   [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
 elif [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
-  [[ -d "golang-version/Share/default-settings1" ]] && cp -Rf golang-version/Share/default-settings1 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+  [[ -d "${HOME_PATH}/golang-version/Share/default-settings1" ]] && cp -Rf ${HOME_PATH}/golang-version/Share/default-settings1 ${HOME_PATH}/package/default-settings > /dev/null 2>&1
 fi
 
-if [[ -d "golang-version/Share/golang" ]]; then
+if [[ -d "${HOME_PATH}/golang-version/Share/golang" ]]; then
   rm -rf ${HOME_PATH}/feeds/packages/lang/golang
-  cp -Rf golang-version/Share/golang ${HOME_PATH}/feeds/packages/lang/golang
+  cp -Rf ${HOME_PATH}/golang-version/Share/golang ${HOME_PATH}/feeds/packages/lang/golang
 fi
-
-rm -rf golang-version
-
 
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
@@ -139,12 +136,18 @@ fi
 
 apptions="$(find . -type d -name "applications" |grep 'luci')"
 if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
-  cp -Rf ${BUILD_PATH}/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
-  /bin/bash ${HOME_PATH}/zh_Hans.sh
+  if [[ -f "${HOME_PATH}/golang-version/language/zh_Hans.sh" ]]; then
+    cp -Rf ${HOME_PATH}/golang-version/language/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
+    /bin/bash ${HOME_PATH}/zh_Hans.sh
+  fi
 else
-  cp -Rf ${BUILD_PATH}/zh-cn.sh ${HOME_PATH}/zh-cn.sh
-  /bin/bash ${HOME_PATH}/zh-cn.sh
+  if [[ -f "${HOME_PATH}/golang-version/language/zh-cn.sh" ]]; then
+    cp -Rf ${HOME_PATH}/golang-version/language/zh-cn.sh ${HOME_PATH}/zh-cn.sh
+    /bin/bash ${HOME_PATH}/zh-cn.sh
+  fi
 fi
+
+rm -rf ${HOME_PATH}/golang-version > /dev/null 2>&1
 
 case "${PACKAGING_FIRMWARE}" in
 true)
@@ -380,9 +383,9 @@ else
   echo -e "\033[31m 首次进入固件免密登录设置: 关闭 \033[0m"
 fi
 if [[ "${PACKAGING_FIRMWARE}" == "true" ]]; then
-  echo -e "\033[33m Armvirt_64自动打包成img固件: 开启 \033[0m"
+  echo -e "\033[33m 自动打包Amlogic或Rockchip固件: 开启 \033[0m"
 else
-  echo -e "\033[31m Armvirt_64自动打包成img固件: 关闭 \033[0m"
+  echo -e "\033[31m 自动打包Amlogic或Rockchip固件: 关闭 \033[0m"
 fi
 echo
 }
