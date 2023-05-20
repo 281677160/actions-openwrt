@@ -220,7 +220,7 @@ jobs:
         replacesArtifacts: true
         artifacts: "${{ env.FIRMWARE_PATH }}/${{ env.FIRMWARE }}"
         
-    - name: 触发Armvirt_64自动打包成img固件
+    - name: 触发自动打包Amlogic或Rockchip固件
       if: steps.release.outcome == 'success' && env.REPO_TOKEN && env.PACKAGING_FIRMWARE == 'true'
       run: |
         source ${BUILD_PATH}/common.sh && Packaged_services
