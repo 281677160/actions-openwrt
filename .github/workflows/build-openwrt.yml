@@ -31,32 +31,32 @@ on:
         default: ''
       UPLOAD_FIRMWARE:
         description: '上传固件到 Artifacts'
-        required: false
+        required: true
         default: 'true'
         type: boolean
       UPLOAD_RELEASE:
         description: '发布固件到 Releases'
-        required: false
+        required: true
         default: 'false'
         type: boolean
       CACHEWRTBUILD_SWITCH:
         description: '缓存加速编译'
-        required: false
+        required: true
         default: 'true'
         type: boolean
       CHINESE_LANGUAGE_LUCI:
         description: '更改成默认中文LUCI(个别源码编译LUCI缺少依赖会编译失败)'
-        required: false
+        required: true
         default: 'false'
         type: boolean
       DELETE_LOGIN_PASSWORD:
         description: '首次安装固件,免密登录固件'
-        required: false
+        required: true
         default: 'true'
         type: boolean
       PACKAGING_FIRMWARE:
         description: '自动打包Amlogic或Rockchip固件'
-        required: false
+        required: true
         default: 'true'
         type: boolean
 
