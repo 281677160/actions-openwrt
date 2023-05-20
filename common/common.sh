@@ -240,18 +240,18 @@ echo "CON_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
 
 function Diy_armvirt() {
 if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `grep -c 'CONFIG_TARGET_armvirt_64=y' ${HOME_PATH}/.config` -eq '1' ]] && [[ -n "${REPO_TOKEN}" ]]; then
-  if [[ `ls -1 |grep -Eoc "64.*rootfs.tar.gz"` -eq '1' ]]; then
+  if [[ `ls -1 |grep -Eoc "64.*rootfs.*tar.gz"` -eq '1' ]]; then
     echo "DABAO_RELEASE=${UPLOAD_RELEASE}" >> $GITHUB_ENV
     echo "UPLOAD_RELEASE=true" >> $GITHUB_ENV
     echo "FILE_TAG=2020targz" >> $GITHUB_ENV
     echo "FILE_NAME=rootfs.tar.gz" >> $GITHUB_ENV
-    echo "FIRMWARE=*rootfs.tar.gz" >> $GITHUB_ENV
+    echo "FIRMWARE=*tar.gz" >> $GITHUB_ENV
     echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
     echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
     [[ ! -d "${FIRMWARE_PATH}/packages" ]] && mkdir -p ${FIRMWARE_PATH}/packages
-    mv -f ${FIRMWARE_PATH}/*rootfs.tar.gz ${FIRMWARE_PATH}/packages/${SOURCE}-armvirt-64-default-rootfs.tar.gz
-    rm -rf ${FIRMWARE_PATH}/*rootfs.tar.gz
-    mv -f ${FIRMWARE_PATH}/packages/*rootfs.tar.gz ${FIRMWARE_PATH}/${SOURCE}-armvirt-64-default-rootfs.tar.gz
+    mv -f ${FIRMWARE_PATH}/*tar.gz ${FIRMWARE_PATH}/packages/${SOURCE}-armvirt-64-default-rootfs.tar.gz
+    rm -rf ${FIRMWARE_PATH}/*tar.gz
+    mv -f ${FIRMWARE_PATH}/packages/*tar.gz ${FIRMWARE_PATH}/${SOURCE}-armvirt-64-default-rootfs.tar.gz
   else
     echo "PACKAGING_FIRMWARE=false" >> $GITHUB_ENV
     echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
@@ -317,9 +317,9 @@ git push --force "https://${REPO_TOKEN}@github.com/${GIT_REPOSITORY}" HEAD:main
 
 
 function Package_amlogic() {
-if [[ `ls -1 "${GITHUB_WORKSPACE}/openwrt" |grep -Eoc "64.*rootfs.tar.gz"` -eq '1' ]]; then
+if [[ `ls -1 "${GITHUB_WORKSPACE}/openwrt" |grep -Eoc "64.*rootfs.*tar.gz"` -eq '1' ]]; then
   mkdir -p ${GITHUB_WORKSPACE}/openwrt/temp_dir
-  cp -Rf ${GITHUB_WORKSPACE}/openwrt/*rootfs.tar.gz ${GITHUB_WORKSPACE}/openwrt/temp_dir/openwrt-armvirt-64-default-rootfs.tar.gz && sync
+  cp -Rf ${GITHUB_WORKSPACE}/openwrt/*tar.gz ${GITHUB_WORKSPACE}/openwrt/temp_dir/openwrt-armvirt-64-default-rootfs.tar.gz && sync
   tar -xzf ${GITHUB_WORKSPACE}/openwrt/temp_dir/openwrt-armvirt-64-default-rootfs.tar.gz -C ${GITHUB_WORKSPACE}/openwrt/temp_dir/
   if [[ `grep -c "DISTRIB_SOURCECODE" ${GITHUB_WORKSPACE}/openwrt/temp_dir/etc/openwrt_release` -eq '1' ]]; then
     source_codename="$(cat "${GITHUB_WORKSPACE}/openwrt/temp_dir/etc/openwrt_release" 2>/dev/null | grep -oE "^DISTRIB_SOURCECODE=.*" | head -n 1 | cut -d"'" -f2)"
