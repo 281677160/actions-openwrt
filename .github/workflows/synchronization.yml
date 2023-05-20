@@ -45,10 +45,6 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         git clone -b main https://github.com/${{github.repository}} repogx
-        rm -rf repogx/common/default-settings-luci1
-        rm -rf repogx/common/default-settings-luci2
-        rm -rf repogx/common/zh-cn.sh
-        rm -rf repogx/common/zh_Hans.sh
         
     - name: 同步上游仓库
       if: env.REPO_TOKEN && (github.event.inputs.again-fork == 'fork')
