@@ -189,7 +189,7 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
 
-    - name: 整理固件包(需配合diy-part.sh设定使用)
+    - name: 整理固件包(需配合${{ env.DIY_PART_SH }}设定使用)
       continue-on-error: true
       if: steps.compile.outcome == 'success'
       run: |
