@@ -38,17 +38,17 @@ echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
 echo "FOLDER_NAME=${FOLDER_NAME}" >> ${GITHUB_ENV}
 echo "DIY_PART_SH=${DIY_PART_SH}" >> ${GITHUB_ENV}
 echo "CLEAR_PATH=${GITHUB_WORKSPACE}/openwrt/Sc_clear" >> ${GITHUB_ENV}
+echo "HOME_PATH=${GITHUB_WORKSPACE}/openwrt" >> $GITHUB_ENV
+echo "BUILD_PATH=${GITHUB_WORKSPACE}/openwrt/build" >> $GITHUB_ENV
 }
 
 
 function Diy_checkout() {
-cd ${GITHUB_WORKSPACE}/openwrt
-HOME_PATH="$GITHUB_WORKSPACE/openwrt"
-cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${HOME_PATH}/build
-cp -Rf $GITHUB_WORKSPACE/common/*.sh ${HOME_PATH}/build/
+cd ${HOME_PATH}
+
+cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${BUILD_PATH}
+cp -Rf $GITHUB_WORKSPACE/common/*.sh ${BUILD_PATH}/
 sudo chmod -R +x ${HOME_PATH}/build
-echo "HOME_PATH=${HOME_PATH}" >> $GITHUB_ENV
-echo "BUILD_PATH=${HOME_PATH}/build" >> $GITHUB_ENV
 
 case "${REPO_URL}" in
 https://github.com/openwrt/openwrt)
