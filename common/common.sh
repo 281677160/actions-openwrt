@@ -62,6 +62,7 @@ esac
 ./scripts/feeds clean
 ./scripts/feeds update -a
 
+echo "1"
 apptions="$(find . -type d -name "applications" |grep 'luci')"
 z="*luci-theme-argon*,*luci-app-argon-config*,*luci-theme-Butterfly*,*luci-theme-netgear*,*luci-theme-atmaterial*, \
 luci-theme-rosy,luci-theme-darkmatter,luci-theme-infinityfreedom,luci-theme-design,luci-app-design-config, \
@@ -78,6 +79,7 @@ else
   LUCI_BANBEN="1"
 fi
 
+echo "2"
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
   [[ -d "${GITHUB_WORKSPACE}/common/zh_Hans" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans ${HOME_PATH}/package/default-settings
