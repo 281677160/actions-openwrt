@@ -240,6 +240,10 @@ echo "CON_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
 
 
 function Diy_armvirt() {
+cd ${FIRMWARE_PATH}
+mkdir -p ipk
+cp -rf $(find ${HOME_PATH}/bin/packages/ -type f -name "*.ipk") ipk/ && sync
+sudo tar -czf ipk.tar.gz ipk && sync
 if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `ls -1 |grep -Eoc "armvirt.*64.*rootfs.*tar.gz"` -eq '1' ]] && [[ -n "${REPO_TOKEN}" ]]; then
   root_targz="$(ls -1 |grep -E "64.*rootfs.*tar.gz")"
   echo "DABAO_RELEASE=${UPLOAD_RELEASE}" >> $GITHUB_ENV
@@ -249,9 +253,8 @@ if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `ls -1 |grep -Eoc "armvirt.*64.
   echo "FIRMWARE=*rootfs.tar.gz" >> $GITHUB_ENV
   echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
   echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
-  [[ ! -d "${FIRMWARE_PATH}/packages" ]] && mkdir -p ${FIRMWARE_PATH}/packages
-  mv -f ${FIRMWARE_PATH}/${root_targz} ${FIRMWARE_PATH}/packages/${SOURCE}-armvirt-64-default-rootfs.tar.gz
-  cp -Rf ${FIRMWARE_PATH}/packages/*rootfs.tar.gz ${FIRMWARE_PATH}/${SOURCE}-armvirt-64-default-rootfs.tar.gz
+  mv -f ${FIRMWARE_PATH}/${root_targz} ${FIRMWARE_PATH}/ipk/${SOURCE}-armvirt-64-default-rootfs.tar.gz
+  cp -Rf ${FIRMWARE_PATH}/ipk/*rootfs.tar.gz ${FIRMWARE_PATH}/${SOURCE}-armvirt-64-default-rootfs.tar.gz
 else
   echo "FILE_TAG=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
   echo "FILE_NAME=${SOURCE}-${LUCI_VERSION}-${TARGET_PROFILE}" >> $GITHUB_ENV
@@ -260,6 +263,11 @@ else
   echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
   echo "PACKAGING_FIRMWARE=false" >> $GITHUB_ENV
 fi
+sudo rm -rf packages ipk
+CLEAR_PATH=${GITHUB_WORKSPACE}/openwrt/Clear
+for X in $(cat ${CLEAR_PATH} |sed "s/.*${TARGET_BOARD}//g"); do
+  rm -rf *"$X"*
+done
 }
 
 function Packaged_services() {
