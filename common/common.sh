@@ -22,19 +22,20 @@ elif [[ ! -f "${GITHUB_WORKSPACE}/common/common.sh" ]]; then
   exit 1
 fi
 
+echo "SOURCE=${SOURCE}" >> $GITHUB_ENV
 echo "REPO_URL=${REPO_URL}" >> ${GITHUB_ENV}
 echo "REPO_BRANCH=${REPO_BRANCH}" >> ${GITHUB_ENV}
-echo "FOLDER_NAME=${FOLDER_NAME}" >> ${GITHUB_ENV}
 echo "CONFIG_FILE=${CONFIG_FILE}" >> ${GITHUB_ENV}
 echo "TEMPOARY_IP=${TEMPOARY_IP}" >> ${GITHUB_ENV}
 echo "UPLOAD_FIRMWARE=${UPLOAD_FIRMWARE}" >> ${GITHUB_ENV}
 echo "UPLOAD_RELEASE=${UPLOAD_RELEASE}" >> ${GITHUB_ENV}
 echo "CACHEWRTBUILD_SWITCH=${CACHEWRTBUILD_SWITCH}" >> ${GITHUB_ENV}
-echo "PACKAGING_FIRMWARE=${PACKAGING_FIRMWARE}" >> ${GITHUB_ENV}
 echo "CHINESE_LANGUAGE_LUCI=${CHINESE_LANGUAGE_LUCI}" >> ${GITHUB_ENV}
-echo "SOURCE=${SOURCE}" >> $GITHUB_ENV
+echo "DELETE_LOGIN_PASSWORD=${DELETE_LOGIN_PASSWORD}" >> ${GITHUB_ENV}
+echo "PACKAGING_FIRMWARE=${PACKAGING_FIRMWARE}" >> ${GITHUB_ENV}
 echo "LUCI_VERSION=${LUCI_VERSION}" >> $GITHUB_ENV
 echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
+echo "FOLDER_NAME=${FOLDER_NAME}" >> ${GITHUB_ENV}
 echo "DIY_PART_SH=${DIY_PART_SH}" >> ${GITHUB_ENV}
 echo "CLEAR_PATH=${GITHUB_WORKSPACE}/openwrt/Sc_clear" >> ${GITHUB_ENV}
 }
@@ -389,7 +390,7 @@ if [[ "${UPLOAD_FIRMWARE}" == "true" ]]; then
 else
   echo -e "\033[31m 上传固件在Artifacts: 关闭 \033[0m"
 fi
-if [[ "${UPLOAD_RELEAS}" == "true" ]]; then
+if [[ "${UPLOAD_RELEASE}" == "true" ]]; then
   echo -e "\033[33m 发布固件(Releases): 开启 \033[0m"
 else
   echo -e "\033[31m 发布固件(Releases): 关闭 \033[0m"
