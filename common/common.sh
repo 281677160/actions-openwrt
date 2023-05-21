@@ -36,6 +36,7 @@ echo "SOURCE=${SOURCE}" >> $GITHUB_ENV
 echo "LUCI_VERSION=${LUCI_VERSION}" >> $GITHUB_ENV
 echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
 echo "DIY_PART_SH=${DIY_PART_SH}" >> ${GITHUB_ENV}
+echo "CLEAR_PATH=${GITHUB_WORKSPACE}/openwrt/Sc_clear" >> ${GITHUB_ENV}
 }
 
 
@@ -264,7 +265,6 @@ else
   echo "PACKAGING_FIRMWARE=false" >> $GITHUB_ENV
 fi
 sudo rm -rf packages ipk
-CLEAR_PATH=${GITHUB_WORKSPACE}/openwrt/Clear
 for X in $(cat ${CLEAR_PATH} |sed "s/.*${TARGET_BOARD}//g"); do
   rm -rf *"$X"*
 done
