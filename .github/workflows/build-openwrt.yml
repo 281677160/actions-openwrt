@@ -45,7 +45,7 @@ on:
         default: 'true'
         type: boolean
       CHINESE_LANGUAGE_LUCI:
-        description: '更改成默认中文LUCI(个别源码缺少依赖编译LUCI会失败)'
+        description: '使用中文LUCI(个别源码缺少依赖编译LUCI会失败)'
         required: true
         default: 'false'
         type: boolean
