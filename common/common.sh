@@ -174,6 +174,7 @@ esac
 
 function Diy_config() {
 cd ${HOME_PATH}
+./scripts/feeds install -a
 
 if [[ -f "${BUILD_PATH}/${CONFIG_FILE}" ]]; then
   cp -Rf ${BUILD_PATH}/${CONFIG_FILE} ${HOME_PATH}/.config
