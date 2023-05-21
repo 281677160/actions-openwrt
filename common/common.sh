@@ -262,20 +262,20 @@ echo "CON_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
 
 function Diy_organize() {
 cd ${FIRMWARE_PATH}
-mkdir -p ipk-packages
-cp -rf $(find ${HOME_PATH}/bin/packages/ -type f -name "*.ipk") ipk-packages/ && sync
-sudo tar -czf ipk-packages.tar.gz ipk-packages && sync
+mkdir -p ipk-package
+cp -rf $(find ${HOME_PATH}/bin/packages/ -type f -name "*.ipk") ipk-package/ && sync
+sudo tar -czf ipk-package.tar.gz ipk-package && sync
 if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `ls -1 |grep -Eoc "armvirt.*64.*rootfs.*tar.gz"` -eq '1' ]] && [[ -n "${REPO_TOKEN}" ]]; then
   root_targz="$(ls -1 |grep -E "64.*rootfs.*tar.gz")"
-  echo "DABAO_RELEASE=${UPLOAD_RELEASE}" >> $GITHUB_ENV
+  echo "PACK_RELEASE=${UPLOAD_RELEASE}" >> $GITHUB_ENV
   echo "UPLOAD_RELEASE=true" >> $GITHUB_ENV
   echo "FILE_TAG=targz" >> $GITHUB_ENV
   echo "FILE_NAME=rootfs.tar.gz" >> $GITHUB_ENV
   echo "FIRMWARE=*rootfs.tar.gz" >> $GITHUB_ENV
   echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
   echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
-  mv -f ${FIRMWARE_PATH}/${root_targz} ${FIRMWARE_PATH}/ipk-packages/${SOURCE}-armvirt-64-default-rootfs.tar.gz
-  cp -Rf ${FIRMWARE_PATH}/ipk-packages/*rootfs.tar.gz ${FIRMWARE_PATH}/${SOURCE}-armvirt-64-default-rootfs.tar.gz
+  mv -f ${FIRMWARE_PATH}/${root_targz} ${FIRMWARE_PATH}/ipk-package/${SOURCE}-armvirt-64-default-rootfs.tar.gz
+  cp -Rf ${FIRMWARE_PATH}/ipk-package/*rootfs.tar.gz ${FIRMWARE_PATH}/${SOURCE}-armvirt-64-default-rootfs.tar.gz
 else
   echo "FILE_TAG=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
   echo "FILE_NAME=${SOURCE}-${LUCI_VERSION}-${LINUX_KERNEL}-${TARGET_PROFILE}" >> $GITHUB_ENV
@@ -284,7 +284,7 @@ else
   echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
   echo "PACKAGING_FIRMWARE=false" >> $GITHUB_ENV
 fi
-sudo rm -rf ipk-packages
+sudo rm -rf ipk-package
 for X in $(cat ${CLEAR_PATH} |sed "s/.*${TARGET_BOARD}//g"); do
   rm -rf *"$X"*
 done
@@ -329,7 +329,7 @@ kernel_usage="${kernel_usage}"
 SOURCE="${SOURCE}"
 LUCI_VERSION="${LUCI_VERSION}"
 UPLOAD_FIRMWARE="${UPLOAD_FIRMWARE}"
-UPLOAD_RELEASE="${DABAO_RELEASE}"
+UPLOAD_RELEASE="${PACK_RELEASE}"
 EOF
 
 chmod -R +x ${REPOS_ITORY}
