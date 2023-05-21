@@ -149,7 +149,6 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a > /dev/null 2>&1
-        ./scripts/feeds install -a
         source ${BUILD_PATH}/common.sh && Diy_config
         
     - name: 编译信息
