@@ -194,11 +194,7 @@ jobs:
       if: steps.compile.outcome == 'success'
       run: |
         cd ${FIRMWARE_PATH}
-        mkdir -p ipk
-        cp -rf $(find ${HOME_PATH}/bin/packages/ -type f -name "*.ipk") ipk/ && sync
-        sudo tar -czf ipk.tar.gz ipk && sync
         source ${BUILD_PATH}/common.sh && Diy_armvirt
-        sudo rm -rf packages ipk
 
     - name: 上传固件至Artifacts
       if: steps.compile.outcome == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
