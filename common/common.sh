@@ -264,7 +264,7 @@ else
   echo "FILE_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
   echo "PACKAGING_FIRMWARE=false" >> $GITHUB_ENV
 fi
-sudo rm -rf packages ipk
+sudo rm -rf ipk
 for X in $(cat ${CLEAR_PATH} |sed "s/.*${TARGET_BOARD}//g"); do
   rm -rf *"$X"*
 done
