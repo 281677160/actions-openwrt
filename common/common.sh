@@ -259,8 +259,8 @@ echo "CON_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
 
 function Diy_organize() {
 cd ${FIRMWARE_PATH}
-mkdir -p ipk
-cp -rf $(find ${HOME_PATH}/bin/packages/ -type f -name "*.ipk") ipk/ && sync
+mkdir -p ipk-packages
+cp -rf $(find ${HOME_PATH}/bin/packages/ -type f -name "*.ipk") ipk-packages/ && sync
 sudo tar -czf ipk-packages.tar.gz ipk-packages && sync
 if [[ "${PACKAGING_FIRMWARE}" == "true" ]] && [[ `ls -1 |grep -Eoc "armvirt.*64.*rootfs.*tar.gz"` -eq '1' ]] && [[ -n "${REPO_TOKEN}" ]]; then
   root_targz="$(ls -1 |grep -E "64.*rootfs.*tar.gz")"
