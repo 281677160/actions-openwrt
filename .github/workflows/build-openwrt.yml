@@ -118,7 +118,7 @@ jobs:
           export LUCI_VERSION="$(echo "${REPO_BRANCH}" |cut -d"-" -f2-)"
           export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
         fi
-        source ${GITHUB_WORKSPACE}/common/common.sh && wnejian_jiance
+        source ${GITHUB_WORKSPACE}/common/common.sh && Diy_wnejian
 
     - name: 部署编译环境
       env:
