@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function wnejian_jiance() {
+function Diy_wnejian() {
 echo
 if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${CONFIG_FILE}" ]]; then
   echo -e "\033[31m [${FOLDER_NAME}/${CONFIG_FILE}]文件不存在 \033[0m"
