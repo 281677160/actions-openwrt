@@ -62,7 +62,6 @@ esac
 ./scripts/feeds clean
 ./scripts/feeds update -a
 
-echo "1"
 apptions="$(find . -type d -name "applications" |grep 'luci')"
 z="*luci-theme-argon*,*luci-app-argon-config*,*luci-theme-Butterfly*,*luci-theme-netgear*,*luci-theme-atmaterial*, \
 luci-theme-rosy,luci-theme-darkmatter,luci-theme-infinityfreedom,luci-theme-design,luci-app-design-config, \
@@ -79,7 +78,6 @@ else
   LUCI_BANBEN="1"
 fi
 
-echo "2"
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
   [[ -d "${GITHUB_WORKSPACE}/common/zh_Hans" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans ${HOME_PATH}/package/default-settings
@@ -91,14 +89,19 @@ fi
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
 
-if [[ "${CHINESE_LANGUAGE_LUCI}" == "true" ]]; then
-  chinese="$(find "${HOME_PATH}/package" -type f -name "*-default-settings-chinese" |grep files)"
-  if [[ -z "$(grep "default-settings-chn" ${HOME_PATH}/include/target.mk)" ]] && [[ -n "${chinese}" ]]; then
-    sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=default-settings-chn luci luci-newapi luci-lib-fs ?g' "${HOME_PATH}/include/target.mk"
-  elif [[ -z "$(grep "default-settings" ${HOME_PATH}/include/target.mk)" ]]; then
-    sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=default-settings luci luci-newapi luci-lib-fs ?g' "${HOME_PATH}/include/target.mk"
+case "${CHINESE_LANGUAGE_LUCI}" in
+true)
+  if [[ -d "${HOME_PATH}/package/emortal" ]]; then
+    if [[ -z "$(grep "default-settings-chn" ${HOME_PATH}/include/target.mk)" ]]; then
+      sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=default-settings-chn default-settings luci luci-newapi luci-lib-fs ?g' "${HOME_PATH}/include/target.mk"
+    fi
+  else
+    if [[ -z "$(grep "default-settings" ${HOME_PATH}/include/target.mk)" ]]; then
+      sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=default-settings luci luci-newapi luci-lib-fs ?g' "${HOME_PATH}/include/target.mk"
+    fi
   fi
-fi
+;;
+esac
 }
 
 
