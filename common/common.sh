@@ -240,7 +240,7 @@ echo "CON_DATE=$(date +"%Y.%m%d.%H%M")" >> $GITHUB_ENV
 }
 
 
-function Diy_armvirt() {
+function Diy_organize() {
 cd ${FIRMWARE_PATH}
 mkdir -p ipk
 cp -rf $(find ${HOME_PATH}/bin/packages/ -type f -name "*.ipk") ipk/ && sync
