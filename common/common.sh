@@ -136,19 +136,6 @@ if [[ -n "${TEMPOARY_IP}" ]]; then
   fi
 fi
 
-apptions="$(find . -type d -name "applications" |grep 'luci')"
-if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
-  if [[ -f "${GITHUB_WORKSPACE}/common/zh_Hans.sh" ]]; then
-    cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
-    /bin/bash ${HOME_PATH}/zh_Hans.sh
-  fi
-else
-  if [[ -f "${GITHUB_WORKSPACE}/common/zh-cn.sh" ]]; then
-    cp -Rf ${GITHUB_WORKSPACE}/common/zh-cn.sh ${HOME_PATH}/zh-cn.sh
-    /bin/bash ${HOME_PATH}/zh-cn.sh
-  fi
-fi
-
 case "${PACKAGING_FIRMWARE}" in
 true)
 if [[ -n "${amlogic_model}" ]]; then
@@ -184,6 +171,22 @@ esac
 
 function Diy_config() {
 cd ${HOME_PATH}
+./scripts/feeds update -a
+
+apptions="$(find . -type d -name "applications" |grep 'luci')"
+if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
+  if [[ -f "${GITHUB_WORKSPACE}/common/zh_Hans.sh" ]]; then
+    cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
+    /bin/bash ${HOME_PATH}/zh_Hans.sh
+  fi
+else
+  if [[ -f "${GITHUB_WORKSPACE}/common/zh-cn.sh" ]]; then
+    cp -Rf ${GITHUB_WORKSPACE}/common/zh-cn.sh ${HOME_PATH}/zh-cn.sh
+    /bin/bash ${HOME_PATH}/zh-cn.sh
+  fi
+fi
+
+./scripts/feeds install -a > /dev/null 2>&1
 ./scripts/feeds install -a
 
 if [[ -f "${BUILD_PATH}/${CONFIG_FILE}" ]]; then
