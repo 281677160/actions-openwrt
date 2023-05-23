@@ -73,9 +73,7 @@ esac
 
 function Diy_1partsh() {
 cd ${HOME_PATH}
-
 source ${BUILD_PATH}/${DIY_PART1_SH}
-
 ./scripts/feeds update packages luci
 
 z="*luci-theme-argon*,*luci-app-argon-config*,*luci-theme-Butterfly*,*luci-theme-netgear*,*luci-theme-atmaterial*,*luci-app-netkeeper*, \
@@ -86,7 +84,7 @@ for x in ${t[@]}; do \
   find . -type d -name "${x}" |xargs -i rm -rf {}; \
 done
 
-apptions="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?")"
+apptions="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?" |awk 'END {print}')"
 if [[ `ls -1 "${apptions}" |grep -c "zh_Hans"` -gt '20' ]]; then
   git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
   LUCI_BANBEN="2"
@@ -94,8 +92,6 @@ else
   git clone -b Theme1 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
   LUCI_BANBEN="1"
 fi
-
-./scripts/feeds update -a
 
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
@@ -145,7 +141,7 @@ fi
 
 function Diy_2partsh() {
 cd ${HOME_PATH}
-
+./scripts/feeds update -a
 source ${BUILD_PATH}/${DIY_PART2_SH}
 
 GENERATE_PATH="${HOME_PATH}/package/base-files/files/bin/config_generate"
