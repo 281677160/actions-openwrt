@@ -79,6 +79,12 @@ ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*default-settings" |grep 
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
 make distclean
 
+if [[ "${LUCI_BANBEN}" == "2" ]]; then
+  git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
+else
+  git clone -b Theme1 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
+fi
+
 case "${REPO_URL}" in
 https://github.com/openwrt/openwrt)
   if [[ "${REPO_BRANCH}" =~ (openwrt-19.07|openwrt-21.02|openwrt-22.03) ]]; then
@@ -96,12 +102,6 @@ cd ${HOME_PATH}
 source ${BUILD_PATH}/${DIY_PART1_SH}
 cat feeds.conf.default|awk '!/^#/'|awk '!/^$/'|awk '!a[$1" "$2]++{print}' >uniq.conf
 mv -f uniq.conf feeds.conf.default
-
-if [[ "${LUCI_BANBEN}" == "2" ]]; then
-  git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
-else
-  git clone -b Theme1 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
-fi
 
 ./scripts/feeds update -a
 
