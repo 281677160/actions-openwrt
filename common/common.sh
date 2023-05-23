@@ -99,6 +99,18 @@ fi
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
 
+if [[ "${LUCI_BANBEN}" == "2" ]]; then
+  if [[ -f "${GITHUB_WORKSPACE}/common/zh_Hans.sh" ]]; then
+    cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
+    /bin/bash ${HOME_PATH}/zh_Hans.sh
+  fi
+else
+  if [[ -f "${GITHUB_WORKSPACE}/common/zh-cn.sh" ]]; then
+    cp -Rf ${GITHUB_WORKSPACE}/common/zh-cn.sh ${HOME_PATH}/zh-cn.sh
+    /bin/bash ${HOME_PATH}/zh-cn.sh
+  fi
+fi
+
 case "${CHINESE_LANGUAGE_LUCI}" in
 true)
   if [[ -d "${HOME_PATH}/package/emortal" ]]; then
@@ -172,19 +184,6 @@ else
 fi
 ;;
 esac
-
-apptions="$(find . -type d -name "applications" |grep 'luci')"
-if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
-  if [[ -f "${GITHUB_WORKSPACE}/common/zh_Hans.sh" ]]; then
-    cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
-    /bin/bash ${HOME_PATH}/zh_Hans.sh
-  fi
-else
-  if [[ -f "${GITHUB_WORKSPACE}/common/zh-cn.sh" ]]; then
-    cp -Rf ${GITHUB_WORKSPACE}/common/zh-cn.sh ${HOME_PATH}/zh-cn.sh
-    /bin/bash ${HOME_PATH}/zh-cn.sh
-  fi
-fi
 
 ./scripts/feeds install -a > /dev/null 2>&1
 ./scripts/feeds install -a
