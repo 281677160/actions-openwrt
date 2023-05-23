@@ -76,19 +76,16 @@ cd ${HOME_PATH}
 
 source ${BUILD_PATH}/${DIY_PART1_SH}
 
-./scripts/feeds update -a
-
-echo "1"
+./scripts/feeds update packages luci
 
 z="*luci-theme-argon*,*luci-app-argon-config*,*luci-theme-Butterfly*,*luci-theme-netgear*,*luci-theme-atmaterial*,*luci-app-netkeeper*, \
 luci-theme-rosy,luci-theme-darkmatter,luci-theme-infinityfreedom,luci-theme-design,luci-app-design-config, \
-luci-theme-bootstrap-mod,luci-theme-freifunk-generic,luci-theme-opentomato,luci-app-smartdns,smartdns"
+luci-theme-bootstrap-mod,luci-theme-freifunk-generic,luci-theme-opentomato,*luci-app-smartdns*,*smartdns*"
 t=(${z//,/ })
 for x in ${t[@]}; do \
   find . -type d -name "${x}" |xargs -i rm -rf {}; \
 done
 
-echo "${apptions}"
 apptions="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?")"
 if [[ `ls -1 "${apptions}" |grep -c "zh_Hans"` -gt '20' ]]; then
   git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
@@ -98,7 +95,8 @@ else
   LUCI_BANBEN="1"
 fi
 
-echo "3"
+./scripts/feeds update -a
+
 settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
   [[ -d "${GITHUB_WORKSPACE}/common/zh_Hans" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans ${HOME_PATH}/package/default-settings
@@ -107,7 +105,6 @@ elif [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
   [[ -d "${GITHUB_WORKSPACE}/common/zh-cn" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/zh-cn ${HOME_PATH}/package/default-settings
 fi
 
-echo "4"
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
 
@@ -123,7 +120,6 @@ else
   fi
 fi
 
-echo "5"
 case "${CHINESE_LANGUAGE_LUCI}" in
 true)
   if [[ -d "${HOME_PATH}/package/emortal" ]]; then
