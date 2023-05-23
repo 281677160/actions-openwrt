@@ -62,8 +62,14 @@ https://github.com/openwrt/openwrt)
   fi
 ;;
 esac
+}
 
-./scripts/feeds clean
+
+function Diy_1partsh() {
+cd ${HOME_PATH}
+
+source ${BUILD_PATH}/${DIY_PART1_SH}
+
 ./scripts/feeds update -a
 
 apptions="$(find . -type d -name "applications" |grep 'luci')"
@@ -106,11 +112,6 @@ true)
   fi
 ;;
 esac
-}
-
-
-function Diy_partsh() {
-cd ${HOME_PATH}
 
 [[ -d "${BUILD_PATH}/diy" ]] && cp -Rf ${BUILD_PATH}/diy/* ${HOME_PATH}/
 [[ -d "${BUILD_PATH}/files" ]] && mv -f ${BUILD_PATH}/files ${HOME_PATH}/files
@@ -118,8 +119,13 @@ rm -rf ${HOME_PATH}/README ${HOME_PATH}/files/README
 if [[ -d "${BUILD_PATH}/patches" ]]; then
   find "${BUILD_PATH}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 --forward --no-backup-if-mismatch"
 fi
+}
 
-source ${BUILD_PATH}/${DIY_PART_SH}
+
+function Diy_2partsh() {
+cd ${HOME_PATH}
+
+source ${BUILD_PATH}/${DIY_PART2_SH}
 
 GENERATE_PATH="${HOME_PATH}/package/base-files/files/bin/config_generate"
 IPADDR="$(grep "ipaddr:-" "${GENERATE_PATH}" |grep -v 'addr_offset' |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
@@ -166,12 +172,6 @@ else
 fi
 ;;
 esac
-}
-
-
-function Diy_config() {
-cd ${HOME_PATH}
-./scripts/feeds update -a
 
 apptions="$(find . -type d -name "applications" |grep 'luci')"
 if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
@@ -199,8 +199,11 @@ if [[ "${CHINESE_LANGUAGE_LUCI}" == "true" ]]; then
   echo "CONFIG_PACKAGE_default-settings-chn=y" >> ${HOME_PATH}/.config
   [[ -f "${ZZZ_PATH}" ]] && sed -i "s?main.lang=.*?main.lang='zh_cn'?g" "${ZZZ_PATH}"
 fi
+}
 
-make defconfig > /dev/null 2>&1
+
+function Diy_config() {
+cd ${HOME_PATH}
 TARGET_BOARD="$(awk -F '[="]+' '/TARGET_BOARD/{print $2}' ${HOME_PATH}/.config)"
 TARGET_SUBTARGET="$(awk -F '[="]+' '/TARGET_SUBTARGET/{print $2}' ${HOME_PATH}/.config)"
 TARGET_PROFILE_DG="$(awk -F '[="]+' '/TARGET_PROFILE/{print $2}' ${HOME_PATH}/.config)"
