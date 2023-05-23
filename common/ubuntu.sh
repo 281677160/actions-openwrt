@@ -2,8 +2,31 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 function Delete_useless(){
-# 删除一些不需要的东西
-echo
+	__info_msg "Checking system info..."
+
+	UBUNTU_CODENAME="$(source /etc/os-release; echo "$UBUNTU_CODENAME")"
+	case "$UBUNTU_CODENAME" in
+	"bionic"|"focal"|"jammy")
+		# Nothing to do
+		;;
+	*)
+		__error_msg "Unsupported OS, use Ubuntu 20.04 instead."
+		exit 1
+		;;
+	esac
+  
+cat <<-EOF >"/etc/apt/sources.list"
+		deb http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME main restricted universe multiverse
+		deb http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-security main restricted universe multiverse
+		deb http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-updates main restricted universe multiverse
+		# deb http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-proposed main restricted universe multiverse
+		deb http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-backports main restricted universe multiverse
+		deb-src http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME main restricted universe multiverse
+		deb-src http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-security main restricted universe multiverse
+		deb-src http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-updates main restricted universe multiverse
+		deb-src http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-backports main restricted universe multiverse
+		# deb-src http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-proposed main restricted universe multiverse
+  EOF
 }
 
 function install_mustrelyon(){
