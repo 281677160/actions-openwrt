@@ -10,9 +10,14 @@ if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${CONFIG_FILE}" ]]; then
   echo -e "\033[32m 请先创建【$(echo "${CONFIG_FILE}" |cut -d"/" -f2)】文件 \033[0m"
   echo
   exit 1
-elif [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${DIY_PART_SH}" ]]; then
-  echo -e "\033[31m [${FOLDER_NAME}/${DIY_PART_SH}]文件不存在 \033[0m"
-  echo -e "\033[32m 请勿删除【${DIY_PART_SH}】文件,若更改名称请在[build-openwrt.yml]文件里修改好名称 \033[0m"
+elif [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${DIY_PART1_SH}" ]]; then
+  echo -e "\033[31m [${FOLDER_NAME}/${DIY_PART1_SH}]文件不存在 \033[0m"
+  echo -e "\033[32m 请勿删除【${DIY_PART1_SH}】文件 \033[0m"
+  echo
+  exit 1
+elif [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${DIY_PART2_SH}" ]]; then
+  echo -e "\033[31m [${FOLDER_NAME}/${DIY_PART2_SH}]文件不存在 \033[0m"
+  echo -e "\033[32m 请勿删除【${DIY_PART2_SH}】文件 \033[0m"
   echo
   exit 1
 elif [[ ! -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
