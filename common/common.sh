@@ -84,37 +84,27 @@ for x in ${t[@]}; do \
   find . -type d -name "${x}" |xargs -i rm -rf {}; \
 done
 
-apptions="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?" |awk 'END {print}')"
-if [[ `ls -1 "${apptions}" |grep -c "zh_Hans"` -gt '20' ]]; then
+App_path="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?" |awk 'END {print}')"
+if [[ `ls -1 "${App_path}" |grep -c "zh_Hans"` -gt '20' ]]; then
   git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
   LUCI_BANBEN="2"
+  echo "LUCI_BANBEN=${LUCI_BANBEN}" >> $GITHUB_ENV
 else
   git clone -b Theme1 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
   LUCI_BANBEN="1"
+  echo "LUCI_BANBEN=${LUCI_BANBEN}" >> $GITHUB_ENV
 fi
 
-settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
-if [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
+Settings_path="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
+if [[ -z "${Settings_path}" ]] && [[ "${LUCI_BANBEN}" == "2" ]]; then
   [[ -d "${GITHUB_WORKSPACE}/common/zh_Hans" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans ${HOME_PATH}/package/default-settings
   [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
-elif [[ -z "${settingss}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
+elif [[ -z "${Settings_path}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
   [[ -d "${GITHUB_WORKSPACE}/common/zh-cn" ]] && cp -Rf ${GITHUB_WORKSPACE}/common/zh-cn ${HOME_PATH}/package/default-settings
 fi
 
-ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
+ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*default-settings" |grep files)"
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
-
-if [[ "${LUCI_BANBEN}" == "2" ]]; then
-  if [[ -f "${GITHUB_WORKSPACE}/common/zh_Hans.sh" ]]; then
-    cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
-    /bin/bash ${HOME_PATH}/zh_Hans.sh
-  fi
-else
-  if [[ -f "${GITHUB_WORKSPACE}/common/zh-cn.sh" ]]; then
-    cp -Rf ${GITHUB_WORKSPACE}/common/zh-cn.sh ${HOME_PATH}/zh-cn.sh
-    /bin/bash ${HOME_PATH}/zh-cn.sh
-  fi
-fi
 
 case "${CHINESE_LANGUAGE_LUCI}" in
 true)
@@ -129,6 +119,12 @@ true)
   fi
 ;;
 esac
+}
+
+
+function Diy_2partsh() {
+cd ${HOME_PATH}
+./scripts/feeds update -a
 
 [[ -d "${BUILD_PATH}/diy" ]] && cp -Rf ${BUILD_PATH}/diy/* ${HOME_PATH}/
 [[ -d "${BUILD_PATH}/files" ]] && mv -f ${BUILD_PATH}/files ${HOME_PATH}/files
@@ -136,12 +132,7 @@ rm -rf ${HOME_PATH}/README ${HOME_PATH}/files/README
 if [[ -d "${BUILD_PATH}/patches" ]]; then
   find "${BUILD_PATH}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 --forward --no-backup-if-mismatch"
 fi
-}
 
-
-function Diy_2partsh() {
-cd ${HOME_PATH}
-./scripts/feeds update -a
 source ${BUILD_PATH}/${DIY_PART2_SH}
 
 GENERATE_PATH="${HOME_PATH}/package/base-files/files/bin/config_generate"
@@ -191,6 +182,19 @@ fi
 esac
 
 ./scripts/feeds install -a > /dev/null 2>&1
+
+if [[ "${LUCI_BANBEN}" == "2" ]]; then
+  if [[ -f "${GITHUB_WORKSPACE}/common/zh_Hans.sh" ]]; then
+    cp -Rf ${GITHUB_WORKSPACE}/common/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
+    /bin/bash ${HOME_PATH}/zh_Hans.sh
+  fi
+else
+  if [[ -f "${GITHUB_WORKSPACE}/common/zh-cn.sh" ]]; then
+    cp -Rf ${GITHUB_WORKSPACE}/common/zh-cn.sh ${HOME_PATH}/zh-cn.sh
+    /bin/bash ${HOME_PATH}/zh-cn.sh
+  fi
+fi
+
 ./scripts/feeds install -a
 
 if [[ -f "${BUILD_PATH}/${CONFIG_FILE}" ]]; then
