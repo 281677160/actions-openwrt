@@ -26,7 +26,7 @@ cat <<-EOF >"/etc/apt/sources.list"
 		deb-src http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-updates main restricted universe multiverse
 		deb-src http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-backports main restricted universe multiverse
 		# deb-src http://mirrors.tencent.com/ubuntu/ $UBUNTU_CODENAME-proposed main restricted universe multiverse
-  EOF
+	EOF
 }
 
 function install_mustrelyon(){
