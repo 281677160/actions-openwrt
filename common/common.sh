@@ -124,6 +124,8 @@ esac
 
 function Diy_2partsh() {
 cd ${HOME_PATH}
+cat feeds.conf.default|awk '!/^#/'|awk '!/^$/'|awk '!a[$1" "$2]++{print}' >uniq.conf
+mv -f uniq.conf feeds.conf.default
 ./scripts/feeds update -a
 
 [[ -d "${BUILD_PATH}/diy" ]] && cp -Rf ${BUILD_PATH}/diy/* ${HOME_PATH}/
