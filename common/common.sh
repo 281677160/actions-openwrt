@@ -88,7 +88,7 @@ for x in ${t[@]}; do \
   find . -type d -name "${x}" |xargs -i rm -rf {}; \
 done
 
-echo "2"
+echo "${apptions}"
 if [[ `find ${apptions} -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
   git clone -b theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
   LUCI_BANBEN="2"
