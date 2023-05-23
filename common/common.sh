@@ -79,7 +79,7 @@ source ${BUILD_PATH}/${DIY_PART1_SH}
 ./scripts/feeds update -a
 
 echo "1"
-apptions="$(find ${HOME_PATH}/ -type d -name "applications" |grep 'luci')"
+apptions="$(find . -type d -name "applications" |grep 'luci')"
 z="*luci-theme-argon*,*luci-app-argon-config*,*luci-theme-Butterfly*,*luci-theme-netgear*,*luci-theme-atmaterial*,*luci-app-netkeeper*, \
 luci-theme-rosy,luci-theme-darkmatter,luci-theme-infinityfreedom,luci-theme-design,luci-app-design-config, \
 luci-theme-bootstrap-mod,luci-theme-freifunk-generic,luci-theme-opentomato,luci-app-smartdns,smartdns"
@@ -89,7 +89,7 @@ for x in ${t[@]}; do \
 done
 
 echo "2"
-if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
+if [[ `find . -type d -name "zh_Hans" |grep 'applications\|luci' |grep -c "zh_Hans"` -gt '20' ]]; then
   git clone -b theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
   LUCI_BANBEN="2"
 else
