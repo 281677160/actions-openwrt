@@ -96,7 +96,13 @@ cd ${HOME_PATH}
 source ${BUILD_PATH}/${DIY_PART1_SH}
 cat feeds.conf.default|awk '!/^#/'|awk '!/^$/'|awk '!a[$1" "$2]++{print}' >uniq.conf
 mv -f uniq.conf feeds.conf.default
-./scripts/feeds clean
+
+if [[ "${LUCI_BANBEN}" == "2" ]]; then
+  git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
+else
+  git clone -b Theme1 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
+fi
+
 ./scripts/feeds update -a
 
 z="*luci-theme-argon*,*luci-app-argon-config*,*luci-theme-Butterfly*,*luci-theme-netgear*,*luci-theme-atmaterial*,*luci-app-netkeeper*, \
@@ -104,13 +110,8 @@ luci-theme-rosy,luci-theme-darkmatter,luci-theme-infinityfreedom,luci-theme-desi
 luci-theme-bootstrap-mod,luci-theme-freifunk-generic,luci-theme-opentomato,*luci-app-smartdns*,*smartdns*"
 t=(${z//,/ })
 for x in ${t[@]}; do \
-  find . -type d -name "${x}" |xargs -i rm -rf {}; \
+  find . -type d -name "${x}" |grep -v 'theme_pkg' |xargs -i rm -rf {}; \
 done
-if [[ "${LUCI_BANBEN}" == "2" ]]; then
-  git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
-else
-  git clone -b Theme1 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
-fi
 
 case "${CHINESE_LANGUAGE_LUCI}" in
 true)
