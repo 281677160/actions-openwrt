@@ -139,21 +139,15 @@ jobs:
         ln -sf /${{ env.DIY_WORK }}/openwrt $GITHUB_WORKSPACE/openwrt
         source $GITHUB_WORKSPACE/common/common.sh && Diy_checkout
 
-    - name: 读取扩展文件
+    - name: 读取扩展文件1(增加插件)
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_partsh
-
-    - name: 安装源码插件源
-      run: |
-        cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_config
+        source ${BUILD_PATH}/common.sh && Diy_1partsh
         
-    - name: 编译信息
-      continue-on-error: true
+    - name: 读取扩展文件2(修改源码之类)
       run: |
-        cd ${GITHUB_WORKSPACE}
-        source ${BUILD_PATH}/common.sh && Diy_xinxi
+        cd openwrt
+        source ${BUILD_PATH}/common.sh && Diy_2partsh
         
     - name: 缓存加速
       if: env.CACHEWRTBUILD_SWITCH == 'true'
@@ -173,12 +167,23 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
         
+    - name: 生成配置文件
+      run: |
+        cd openwrt
+        source ${BUILD_PATH}/common.sh && Diy_config
+        
     - name: 上传[.config]配置文件
       if: steps.package.outcome == 'success'
       uses: actions/upload-artifact@main
       with:
         name: .config-${{ env.SOURCE }}-${{ env.LUCI_VERSION }}-${{ env.TARGET_PROFILE }}-${{ env.CON_DATE }}
         path: ConFig/config.txt
+        
+    - name: 编译信息
+      continue-on-error: true
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        source ${BUILD_PATH}/common.sh && Diy_xinxi
 
     - name: 开始编译固件
       id: compile
