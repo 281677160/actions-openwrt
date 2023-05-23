@@ -79,7 +79,7 @@ source ${BUILD_PATH}/${DIY_PART1_SH}
 ./scripts/feeds update -a
 
 echo "1"
-apptions="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?")"
+
 z="*luci-theme-argon*,*luci-app-argon-config*,*luci-theme-Butterfly*,*luci-theme-netgear*,*luci-theme-atmaterial*,*luci-app-netkeeper*, \
 luci-theme-rosy,luci-theme-darkmatter,luci-theme-infinityfreedom,luci-theme-design,luci-app-design-config, \
 luci-theme-bootstrap-mod,luci-theme-freifunk-generic,luci-theme-opentomato,luci-app-smartdns,smartdns"
@@ -89,11 +89,12 @@ for x in ${t[@]}; do \
 done
 
 echo "${apptions}"
+apptions="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?")"
 if [[ `ls -1 "${apptions}" |grep -c "zh_Hans"` -gt '20' ]]; then
-  git clone -b theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
+  git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
   LUCI_BANBEN="2"
 else
-  git clone -b theme1 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
+  git clone -b Theme1 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
   LUCI_BANBEN="1"
 fi
 
