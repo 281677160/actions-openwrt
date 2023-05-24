@@ -57,15 +57,13 @@ cd ${HOME_PATH}
 cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${BUILD_PATH}
 cp -Rf $GITHUB_WORKSPACE/common/*.sh ${BUILD_PATH}/
 sudo chmod -R +x ${HOME_PATH}/build
-./scripts/feeds update packages luci
+./scripts/feeds update luci
 
 App_path="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?" |awk 'END {print}')"
 if [[ `find "${App_path}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
   LUCI_BANBEN="2"
-  echo "LUCI_BANBEN=${LUCI_BANBEN}" >> $GITHUB_ENV
 else
   LUCI_BANBEN="1"
-  echo "LUCI_BANBEN=${LUCI_BANBEN}" >> $GITHUB_ENV
 fi
 
 Settings_path="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
@@ -77,19 +75,6 @@ elif [[ -z "${Settings_path}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
 fi
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*default-settings" |grep files)"
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
-
-z="*luci-theme-argon*,*luci-app-argon-config*,*luci-theme-Butterfly*,*luci-theme-netgear*,*luci-theme-atmaterial*,*luci-app-netkeeper*, \
-luci-theme-rosy,luci-theme-darkmatter,luci-theme-infinityfreedom,luci-theme-design,luci-app-design-config, \
-luci-theme-bootstrap-mod,luci-theme-freifunk-generic,luci-theme-opentomato,*luci-app-smartdns*,*smartdns*"
-t=(${z//,/ })
-for x in ${t[@]}; do \
-  find . -type d -name "${x}" |xargs -i rm -rf {}; \
-done
-if [[ "${LUCI_BANBEN}" == "2" ]]; then
-  git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
-else
-  git clone -b Theme1 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
-fi
 
 case "${REPO_URL}" in
 https://github.com/openwrt/openwrt)
@@ -110,6 +95,28 @@ cat feeds.conf.default|awk '!/^#/'|awk '!/^$/'|awk '!a[$1" "$2]++{print}' >uniq.
 mv -f uniq.conf feeds.conf.default
 
 ./scripts/feeds update -a
+
+App_path="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?" |awk 'END {print}')"
+if [[ `find "${App_path}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
+  LUCI_BANBEN="2"
+  echo "LUCI_BANBEN=${LUCI_BANBEN}" >> $GITHUB_ENV
+else
+  LUCI_BANBEN="1"
+  echo "LUCI_BANBEN=${LUCI_BANBEN}" >> $GITHUB_ENV
+fi
+
+z="*luci-theme-argon*,*luci-app-argon-config*,*luci-theme-Butterfly*,*luci-theme-netgear*,*luci-theme-atmaterial*,*luci-app-netkeeper*, \
+luci-theme-rosy,luci-theme-darkmatter,luci-theme-infinityfreedom,luci-theme-design,luci-app-design-config, \
+luci-theme-bootstrap-mod,luci-theme-freifunk-generic,luci-theme-opentomato,*luci-app-smartdns*,*smartdns*"
+t=(${z//,/ })
+for x in ${t[@]}; do \
+  find . -type d -name "${x}" |grep -v 'freifunk' |xargs -i rm -rf {}; \
+done
+if [[ "${LUCI_BANBEN}" == "2" ]]; then
+  git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
+else
+  git clone -b Theme1 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
+fi
 
 case "${CHINESE_LANGUAGE_LUCI}" in
 true)
