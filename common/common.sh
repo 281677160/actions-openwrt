@@ -16,7 +16,7 @@ if [[ -n "${INPUTS_REPO_BRANCH}" ]]; then
   DELETE_LOGIN_PASSWORD="${INPUTS_DELETE_LOGIN_PASSWORD}"
   PACKAGING_FIRMWARE="${INPUTS_PACKAGING_FIRMWARE}"
   SOURCE="$(echo "${REPO_URL}" |cut -d"/" -f4)"
-  LUCI_VERSION="$(echo "${INPUTS_REPO_BRANCH}" |sed 's/openwrt-//g')"
+  LUCI_VERSION="$(echo "${REPO_BRANCH}" |sed 's/openwrt-//g')"
   DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
 else
   REPO_URL="https://github.com/$(echo "${REPO_URL}" |sed s/[[:space:]]//g)"
@@ -30,7 +30,7 @@ else
   DELETE_LOGIN_PASSWORD="${DELETE_LOGIN_PASSWORD}"
   PACKAGING_FIRMWARE="${PACKAGING_FIRMWARE}"
   SOURCE="$(echo "${REPO_URL}" |cut -d"/" -f4)"
-  LUCI_VERSION="$(echo "${INPUTS_REPO_BRANCH}" |sed 's/openwrt-//g')"
+  LUCI_VERSION="$(echo "${REPO_BRANCH}" |sed 's/openwrt-//g')"
   DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
 fi
 
@@ -396,6 +396,7 @@ fi
 function Diy_xinxi() {
 CPU_MODEL="$(cat /proc/cpuinfo |grep 'model name' |gawk -F : '{print $2}' |uniq -c |sed 's/^ \+[0-9]\+ //g' |sed 's/^[ ]*//g')"
 echo
+echo -e "\033[32m 固件源码: ${SOURCE} \033[0m"
 echo -e "\033[32m 源码链接: ${REPO_URL} \033[0m"
 echo -e "\033[32m 源码分支: ${REPO_BRANCH} \033[0m"
 echo -e "\033[32m 配置文件: $(echo "${CONFIG_FILE}" |cut -d"/" -f2) \033[0m"
