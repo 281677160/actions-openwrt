@@ -57,7 +57,7 @@ cd ${HOME_PATH}
 cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${BUILD_PATH}
 cp -Rf $GITHUB_WORKSPACE/common/*.sh ${BUILD_PATH}/
 sudo chmod -R +x ${HOME_PATH}/build
-./scripts/feeds update luci > /dev/null 2>&1
+./scripts/feeds update packages luci
 
 App_path="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?" |awk 'END {print}')"
 if [[ `find "${App_path}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
@@ -77,7 +77,6 @@ elif [[ -z "${Settings_path}" ]] && [[ "${LUCI_BANBEN}" == "1" ]]; then
 fi
 ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*default-settings" |grep files)"
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
-make distclean
 
 if [[ "${LUCI_BANBEN}" == "2" ]]; then
   git clone -b Theme2 --depth 1 https://github.com/281677160/openwrt-package ${HOME_PATH}/package/theme_pkg > /dev/null 2>&1
