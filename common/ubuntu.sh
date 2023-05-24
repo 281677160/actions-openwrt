@@ -4,11 +4,15 @@
 function install_mustrelyon(){
 # 安装依赖
 sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
-docker rmi $(docker images -q)
-sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php
-sudo rm -rf /etc/apt/sources.list.d/* /usr/local/lib/android /usr/lib/jvm /opt/ghc /swapfile
 sudo apt-get install -y rename pigz libfuse-dev
 sudo apt-get install -y $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
+}
+
+function Delete_useless(){
+# 删除一些不需要的东西
+docker rmi `docker images -q`
+sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /usr/lib/jvm /opt/ghc /swapfile
+sudo -E apt-get -qq remove -y --purge azure-cli ghc* zulu* llvm* firefox google* powershell openjdk* msodbcsql17 mongodb* moby* snapd* mysql*
 }
 
 function update_apt_source(){
@@ -21,8 +25,8 @@ sudo apt-get clean
 
 function main(){
 INS="sudo -E apt-get -qq"
-Delete_useless
 install_mustrelyon
+Delete_useless
 update_apt_source
 }
 
