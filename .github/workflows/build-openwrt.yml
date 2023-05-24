@@ -139,7 +139,7 @@ jobs:
         ln -sf /${{ env.DIY_WORK }}/openwrt $GITHUB_WORKSPACE/openwrt
         source $GITHUB_WORKSPACE/common/common.sh && Diy_checkout
         
-    - name: 读取扩展文件2(修改源码之类)
+    - name: 读取扩展文件
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_partsh
@@ -186,7 +186,7 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
 
-    - name: 整理固件包(需配合自定义文件2设定使用)
+    - name: 整理固件包(需配合自定义文件使用)
       continue-on-error: true
       if: steps.compile.outcome == 'success'
       run: |
