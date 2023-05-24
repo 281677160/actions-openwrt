@@ -81,6 +81,7 @@ LUCI_CHECKUT="$(git tag -l |grep '^V\|^v' |awk 'END {print}')"
 if [[ -n "${LUCI_CHECKUT}" ]]; then
   git checkout ${LUCI_CHECKUT}
   git switch -c ${LUCI_CHECKUT}
+  git pull
 fi
 }
 
