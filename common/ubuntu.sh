@@ -3,9 +3,10 @@
 
 function install_mustrelyon(){
 # 安装依赖
-systemctl daemon-reload
 sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
-systemctl daemon-reload
+docker rmi $(docker images -q)
+sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php
+sudo rm -rf /etc/apt/sources.list.d/* /usr/local/lib/android /usr/lib/jvm /opt/ghc /swapfile
 sudo apt-get install -y rename pigz libfuse-dev
 sudo apt-get install -y $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
 }
