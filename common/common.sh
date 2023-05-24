@@ -4,25 +4,34 @@
 # matrix.target=${FOLDER_NAME}
 
 function Diy_wnejian() {
-echo
-if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${CONFIG_FILE}" ]]; then
-  echo -e "\033[31m [${FOLDER_NAME}/${CONFIG_FILE}]文件不存在 \033[0m"
-  echo -e "\033[32m 请先创建【$(echo "${CONFIG_FILE}" |cut -d"/" -f2)】文件 \033[0m"
-  echo
-  exit 1
-elif [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${DIY_PART_SH}" ]]; then
-  echo -e "\033[31m [${FOLDER_NAME}/${DIY_PART_SH}]文件不存在 \033[0m"
-  echo -e "\033[32m 请勿删除【${DIY_PART_SH}】文件 \033[0m"
-  echo
-  exit 1
-elif [[ ! -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
-  echo -e "\033[31m [build]文件夹里,[${FOLDER_NAME}]名称文件不存在 \033[0m"
-  echo
-  exit 1
-elif [[ ! -f "${GITHUB_WORKSPACE}/common/common.sh" ]]; then
-  echo -e "\033[31m [common]文件夹里,[common.sh]文件不存在,请勿删除或随意修改此文件 \033[0m"
-  echo
-  exit 1
+if [[ -n "${INPUTS_REPO_BRANCH}" ]]; then
+  REPO_URL="https://github.com/$(echo "${INPUTS_REPO_URL}" |sed s/[[:space:]]//g)"
+  REPO_BRANCH="${INPUTS_REPO_BRANCH}"
+  CONFIG_FILE="seed/${INPUTS_CONFIG_FILE}"
+  TEMPOARY_IP="${INPUTS_TEMPOARY_IP}"
+  UPLOAD_FIRMWARE="${INPUTS_UPLOAD_FIRMWARE}"
+  UPLOAD_RELEASE="${INPUTS_UPLOAD_RELEASE}"
+  CACHEWRTBUILD_SWITCH="${INPUTS_CACHEWRTBUILD_SWITCH}"
+  CHINESE_LANGUAGE_LUCI="${INPUTS_CHINESE_LANGUAGE_LUCI}"
+  DELETE_LOGIN_PASSWORD="${INPUTS_DELETE_LOGIN_PASSWORD}"
+  PACKAGING_FIRMWARE="${INPUTS_PACKAGING_FIRMWARE}"
+  SOURCE="$(echo "${REPO_URL}" |cut -d"/" -f4)"
+  LUCI_VERSION="$(echo "${INPUTS_REPO_BRANCH}" |sed 's/openwrt-//g')"
+  DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
+else
+  REPO_URL="https://github.com/$(echo "${REPO_URL}" |sed s/[[:space:]]//g)"
+  REPO_BRANCH="${REPO_BRANCH}"
+  CONFIG_FILE="seed/${CONFIG_FILE}"
+  TEMPOARY_IP="${TEMPOARY_IP}"
+  UPLOAD_FIRMWARE="${UPLOAD_FIRMWARE}"
+  UPLOAD_RELEASE="${UPLOAD_RELEASE}"
+  CACHEWRTBUILD_SWITCH="${CACHEWRTBUILD_SWITCH}"
+  CHINESE_LANGUAGE_LUCI="${CHINESE_LANGUAGE_LUCI}"
+  DELETE_LOGIN_PASSWORD="${DELETE_LOGIN_PASSWORD}"
+  PACKAGING_FIRMWARE="${PACKAGING_FIRMWARE}"
+  SOURCE="$(echo "${REPO_URL}" |cut -d"/" -f4)"
+  LUCI_VERSION="$(echo "${INPUTS_REPO_BRANCH}" |sed 's/openwrt-//g')"
+  DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
 fi
 
 echo "SOURCE=${SOURCE}" >> $GITHUB_ENV
@@ -43,6 +52,26 @@ echo "DIY_PART_SH=${DIY_PART_SH}" >> ${GITHUB_ENV}
 echo "CLEAR_PATH=${GITHUB_WORKSPACE}/openwrt/Sc_clear" >> ${GITHUB_ENV}
 echo "HOME_PATH=${GITHUB_WORKSPACE}/openwrt" >> $GITHUB_ENV
 echo "BUILD_PATH=${GITHUB_WORKSPACE}/openwrt/build" >> $GITHUB_ENV
+
+if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${CONFIG_FILE}" ]]; then
+  echo -e "\033[31m [${FOLDER_NAME}/${CONFIG_FILE}]文件不存在 \033[0m"
+  echo -e "\033[32m 请先创建【$(echo "${CONFIG_FILE}" |cut -d"/" -f2)】文件 \033[0m"
+  echo
+  exit 1
+elif [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${DIY_PART_SH}" ]]; then
+  echo -e "\033[31m [${FOLDER_NAME}/${DIY_PART_SH}]文件不存在 \033[0m"
+  echo -e "\033[32m 请勿删除【${DIY_PART_SH}】文件 \033[0m"
+  echo
+  exit 1
+elif [[ ! -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
+  echo -e "\033[31m [build]文件夹里,[${FOLDER_NAME}]名称文件不存在 \033[0m"
+  echo
+  exit 1
+elif [[ ! -f "${GITHUB_WORKSPACE}/common/common.sh" ]]; then
+  echo -e "\033[31m [common]文件夹里,[common.sh]文件不存在,请勿删除或随意修改此文件 \033[0m"
+  echo
+  exit 1
+fi
 }
 
 
