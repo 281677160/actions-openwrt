@@ -77,15 +77,11 @@ ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*default-settings" |grep 
 [[ -n "${ZZZ_PATH}" ]] && echo "ZZZ_PATH=${ZZZ_PATH}" >> $GITHUB_ENV
 make distclean
 
-case "${REPO_URL}" in
-https://github.com/openwrt/openwrt)
-  if [[ "${REPO_BRANCH}" =~ (openwrt-19.07|openwrt-21.02|openwrt-22.03) ]]; then
-    LUCI_CHECKUT="$(git tag| awk 'END {print}')"
-    git checkout ${LUCI_CHECKUT}
-    git switch -c ${LUCI_CHECKUT}
-  fi
-;;
-esac
+LUCI_CHECKUT="$(git tag -l |grep '^V\|^v' |awk 'END {print}')"
+if [[ -n "${LUCI_CHECKUT}" ]]; then
+  git checkout ${LUCI_CHECKUT}
+  git switch -c ${LUCI_CHECKUT}
+fi
 }
 
 
