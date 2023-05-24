@@ -89,35 +89,19 @@ jobs:
         source $GITHUB_WORKSPACE/build/${{ matrix.target }}/settings.ini
         echo "GIT_REPOSITORY=${{github.repository}}" >> $GITHUB_ENV
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> $GITHUB_ENV
-        if [[ -n "${{ inputs.REPO_URL }}" ]]; then
-          export SOURCE="$(echo "${{ inputs.REPO_URL }}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
-          export REPO_URL="https://github.com/$(echo "${{ inputs.REPO_URL }}" |sed s/[[:space:]]//g)"
-          export REPO_BRANCH="${{ inputs.REPO_BRANCH }}"
-          export CONFIG_FILE="seed/${{ inputs.CONFIG_FILE }}"
-          export TEMPOARY_IP="${{ inputs.TEMPOARY_IP }}"
-          export UPLOAD_FIRMWARE="${{ inputs.UPLOAD_FIRMWARE }}"
-          export UPLOAD_RELEASE="${{ inputs.UPLOAD_RELEASE }}"
-          export CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
-          export CHINESE_LANGUAGE_LUCI="${{ inputs.CHINESE_LANGUAGE_LUCI }}"
-          export DELETE_LOGIN_PASSWORD="${{ inputs.DELETE_LOGIN_PASSWORD }}"
-          export PACKAGING_FIRMWARE="${{ inputs.PACKAGING_FIRMWARE }}"
-          export LUCI_VERSION="$(echo "${{ inputs.REPO_BRANCH }}" |cut -d"-" -f2-)"
-          export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
-        else
-          export SOURCE="$(echo "${REPO_URL}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
-          export REPO_URL="https://github.com/$(echo "${REPO_URL}" |sed s/[[:space:]]//g)"
-          export REPO_BRANCH="${REPO_BRANCH}"
-          export CONFIG_FILE="seed/${CONFIG_FILE}"
-          export TEMPOARY_IP="${TEMPOARY_IP}"
-          export UPLOAD_FIRMWARE="${UPLOAD_FIRMWARE}"
-          export UPLOAD_RELEASE="${UPLOAD_RELEASE}"
-          export CACHEWRTBUILD_SWITCH="${CACHEWRTBUILD_SWITCH}"
-          export CHINESE_LANGUAGE_LUCI="${CHINESE_LANGUAGE_LUCI}"
-          export DELETE_LOGIN_PASSWORD="${DELETE_LOGIN_PASSWORD}"
-          export PACKAGING_FIRMWARE="${PACKAGING_FIRMWARE}"
-          export LUCI_VERSION="$(echo "${REPO_BRANCH}" |cut -d"-" -f2-)"
-          export DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
-        fi
+        export INPUTS_SOURCE="$(echo "${{ inputs.REPO_URL }}" |cut -d"/" -f1 |sed "s/\.//g" |sed "s/\-//g")"
+        export INPUTS_REPO_URL="https://github.com/$(echo "${{ inputs.REPO_URL }}" |sed s/[[:space:]]//g)"
+        export INPUTS_REPO_BRANCH="${{ inputs.REPO_BRANCH }}"
+        export INPUTS_CONFIG_FILE="seed/${{ inputs.CONFIG_FILE }}"
+        export INPUTS_TEMPOARY_IP="${{ inputs.TEMPOARY_IP }}"
+        export INPUTS_UPLOAD_FIRMWARE="${{ inputs.UPLOAD_FIRMWARE }}"
+        export INPUTS_UPLOAD_RELEASE="${{ inputs.UPLOAD_RELEASE }}"
+        export INPUTS_CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
+        export INPUTS_CHINESE_LANGUAGE_LUCI="${{ inputs.CHINESE_LANGUAGE_LUCI }}"
+        export INPUTS_DELETE_LOGIN_PASSWORD="${{ inputs.DELETE_LOGIN_PASSWORD }}"
+        export INPUTS_PACKAGING_FIRMWARE="${{ inputs.PACKAGING_FIRMWARE }}"
+        export INPUTS_LUCI_VERSION="$(echo "${{ inputs.REPO_BRANCH }}" |cut -d"-" -f2-)"
+        export INPUTS_DIY_WORK="${SOURCE}$(echo "${LUCI_VERSION}" |sed "s/\.//g" |sed "s/\-//g")"
         source ${GITHUB_WORKSPACE}/common/common.sh && Diy_wnejian
 
     - name: 部署编译环境
