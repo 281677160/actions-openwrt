@@ -44,8 +44,7 @@ echo "PACKAGING_FIRMWARE=${PACKAGING_FIRMWARE}" >> ${GITHUB_ENV}
 echo "LUCI_VERSION=${LUCI_VERSION}" >> $GITHUB_ENV
 echo "DIY_WORK=${DIY_WORK}" >> $GITHUB_ENV
 echo "FOLDER_NAME=${FOLDER_NAME}" >> ${GITHUB_ENV}
-echo "DIY_PART1_SH=${DIY_PART1_SH}" >> ${GITHUB_ENV}
-echo "DIY_PART2_SH=${DIY_PART2_SH}" >> ${GITHUB_ENV}
+echo "DIY_PART_SH=${DIY_PART_SH}" >> ${GITHUB_ENV}
 echo "CLEAR_PATH=${GITHUB_WORKSPACE}/openwrt/Sc_clear" >> ${GITHUB_ENV}
 echo "HOME_PATH=${GITHUB_WORKSPACE}/openwrt" >> $GITHUB_ENV
 echo "BUILD_PATH=${GITHUB_WORKSPACE}/openwrt/build" >> $GITHUB_ENV
@@ -57,7 +56,7 @@ cd ${HOME_PATH}
 cp -Rf $GITHUB_WORKSPACE/build/${FOLDER_NAME} ${BUILD_PATH}
 cp -Rf $GITHUB_WORKSPACE/common/*.sh ${BUILD_PATH}/
 sudo chmod -R +x ${HOME_PATH}/build
-./scripts/feeds update luci
+./scripts/feeds update -a
 
 App_path="$(find . -type d -name "applications" |grep 'luci' |sed "s?.?${HOME_PATH}?" |awk 'END {print}')"
 if [[ `find "${App_path}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '20' ]]; then
@@ -107,9 +106,9 @@ fi
 }
 
 
-function Diy_1partsh() {
+function Diy_partsh() {
 cd ${HOME_PATH}
-source ${BUILD_PATH}/${DIY_PART1_SH}
+source ${BUILD_PATH}/${DIY_PART_SH}
 cat feeds.conf.default|awk '!/^#/'|awk '!/^$/'|awk '!a[$1" "$2]++{print}' >uniq.conf
 mv -f uniq.conf feeds.conf.default
 ./scripts/feeds update -a
@@ -127,12 +126,6 @@ true)
   fi
 ;;
 esac
-}
-
-
-function Diy_2partsh() {
-cd ${HOME_PATH}
-source ${BUILD_PATH}/${DIY_PART2_SH}
 
 GENERATE_PATH="${HOME_PATH}/package/base-files/files/bin/config_generate"
 IPADDR="$(grep "ipaddr:-" "${GENERATE_PATH}" |grep -v 'addr_offset' |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
