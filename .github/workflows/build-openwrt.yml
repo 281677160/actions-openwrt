@@ -124,14 +124,6 @@ jobs:
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_partsh
-        
-    - name: 缓存加速
-      if: env.CACHEWRTBUILD_SWITCH == 'true'
-      uses: stupidloud/cachewrtbuild@main
-      with:
-        ccache: 'true'
-        mixkey: "${{ env.TARGET_PROFILE }}"
-        prefix: ${{ github.workspace }}/openwrt
 
     - name: 下载软件源
       id: package
@@ -153,6 +145,14 @@ jobs:
       with:
         name: .config-${{ env.SOURCE }}-${{ env.LUCI_VERSION }}-${{ env.TARGET_PROFILE }}-${{ env.CON_DATE }}
         path: ConFig/config.txt
+        
+    - name: 缓存加速
+      if: env.CACHEWRTBUILD_SWITCH == 'true'
+      uses: stupidloud/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        mixkey: "${{ env.TARGET_PROFILE }}"
+        prefix: ${{ github.workspace }}/openwrt
         
     - name: 编译信息
       continue-on-error: true
