@@ -98,6 +98,7 @@ jobs:
         git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
         if [[ $? -ne 0 ]];then
           echo "创建${{ inputs.establish_name }}文件夹失败"
+          exit 1
         else
           echo "创建${{ inputs.establish_name }}文件夹完成"
         fi
