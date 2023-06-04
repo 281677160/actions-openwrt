@@ -13,29 +13,29 @@ elif [[ ! -d "build/${FOLDER_NAME}" ]]; then
   exit 1
 elif [[ ! -f "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/settings.ini" ]]; then
   echo -e "\033[31m ${FOLDER_NAME}文件夹内缺少[settings.ini]存在 \033[0m"
-  exit 1
-elif [[ ! -d "common" ]]; then
-  echo -e "\033[31m 根目录缺少编译必要的[common]文件夹存在 \033[0m"
+  echo -e "\033[32m 请勿删除【settings.ini】文件 \033[0m"
   exit 1
 elif [[ ! -d "common/zh-cn" ]]; then
   echo -e "\033[31m 根目录缺少编译必要的[common/zh-cn]文件夹存在 \033[0m"
+  echo -e "\033[32m 请勿删除和胡乱修改【zh-cn】文件 \033[0m"
   exit 1
 elif [[ ! -d "common/zh_Hans" ]]; then
   echo -e "\033[31m 根目录缺少编译必要的[common/zh_Hans]文件夹存在 \033[0m"
+  echo -e "\033[32m 请勿删除和胡乱修改【zh_Hans】文件 \033[0m"
   exit 1
 elif [[ ! -f "common/ubuntu.sh" ]]; then
   echo -e "\033[31m 根目录缺少编译必要的[common/ubuntu.sh]文件夹存在 \033[0m"
+  echo -e "\033[32m 请勿删除和胡乱修改【ubuntu.sh】文件 \033[0m"
   exit 1
 elif [[ ! -f "common/zh-cn.sh" ]]; then
   echo -e "\033[31m 根目录缺少编译必要的[common/zh-cn.sh]文件夹存在 \033[0m"
+  echo -e "\033[32m 请勿删除和胡乱修改【zh-cn.sh】文件 \033[0m"
   exit 1
 elif [[ ! -f "common/zh_Hans.sh" ]]; then
   echo -e "\033[31m 根目录缺少编译必要的[common/zh_Hans.sh]文件夹存在 \033[0m"
+  echo -e "\033[32m 请勿删除和胡乱修改【zh_Hans.sh】文件 \033[0m"
   exit 1
-elif [[ ! -f "common/common.sh" ]]; then
-  echo -e "\033[31m 缺少common/common.sh文件 \033[0m"
-  exit 1
-elif [[ -f "common/common.sh" ]]; then
+else
   if [[ -z "$(grep "Diy_wnejian" "common/common.sh")" ]]; then
     echo -e "\033[31m 请勿随意修改common/common.sh文件 \033[0m"
     exit 1
@@ -99,23 +99,10 @@ echo "CLEAR_PATH=${GITHUB_WORKSPACE}/openwrt/Sc_clear" >> ${GITHUB_ENV}
 echo "HOME_PATH=${GITHUB_WORKSPACE}/openwrt" >> $GITHUB_ENV
 echo "BUILD_PATH=${GITHUB_WORKSPACE}/openwrt/build" >> $GITHUB_ENV
 
-if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${CONFIG_FILE}" ]]; then
-  echo -e "\033[31m [${FOLDER_NAME}/${CONFIG_FILE}]文件不存在 \033[0m"
-  echo -e "\033[32m 请先创建【$(echo "${CONFIG_FILE}" |cut -d"/" -f2)】文件 \033[0m"
-  echo
-  exit 1
-elif [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${DIY_PART_SH}" ]]; then
+
+if [[ ! -f "$GITHUB_WORKSPACE/build/${FOLDER_NAME}/${DIY_PART_SH}" ]]; then
   echo -e "\033[31m [${FOLDER_NAME}/${DIY_PART_SH}]文件不存在 \033[0m"
   echo -e "\033[32m 请勿删除【${DIY_PART_SH}】文件 \033[0m"
-  echo
-  exit 1
-elif [[ ! -d "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}" ]]; then
-  echo -e "\033[31m [build]文件夹里,[${FOLDER_NAME}]名称文件不存在 \033[0m"
-  echo
-  exit 1
-elif [[ ! -f "${GITHUB_WORKSPACE}/common/common.sh" ]]; then
-  echo -e "\033[31m [common]文件夹里,[common.sh]文件不存在,请勿删除或随意修改此文件 \033[0m"
-  echo
   exit 1
 fi
 }
