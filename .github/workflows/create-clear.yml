@@ -103,15 +103,13 @@ jobs:
           echo "创建${{ inputs.establish_name }}文件夹完成"
         fi
         
-    - name: 清理Artifacts
-      continue-on-error: true
-      if: env.REPO_TOKEN  && github.event.inputs.Delete_workflow == 'true'
-      uses: GitRML/delete-workflow-runs@main
+    - name: 清理Artifacts 
+      uses: MajorScruffy/delete-old-workflow-runs@v0.2.0
       with:
-        token: ${{ secrets.REPO_TOKEN }}
         repository: ${{ github.repository }}
-        retain_days: ${{ inputs.RETAIN_DAYS }}
-        keep_minimum_runs: 6
+        older-than-seconds: 86400
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
     
     - name: 删除releases
       continue-on-error: true
