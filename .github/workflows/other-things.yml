@@ -5,7 +5,7 @@
 #
 
 
-name: 创建和删除
+name: 创建和清理
 on:
   workflow_dispatch:
     inputs:
@@ -43,7 +43,7 @@ env:
 jobs:
   del_runs:
     runs-on: Ubuntu-22.04
-    name: 创建和删除
+    name: 创建和清理
     
     steps:
     - name: 密匙检测（密匙为空则退出）
