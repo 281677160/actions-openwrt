@@ -259,7 +259,7 @@ if [[ "${CHINESE_LANGUAGE_LUCI}" == "true" ]]; then
   echo "CONFIG_PACKAGE_default-settings-chn=y" >> ${HOME_PATH}/.config
   [[ -f "${ZZZ_PATH}" ]] && sed -i "s?main.lang=.*?main.lang='zh_cn'?g" "${ZZZ_PATH}"
 else
-  sed -i '/CONFIG_PACKAGE_luci=y/d; /CONFIG_PACKAGE_default-settings=y/d' "${HOME_PATH}/.config"
+  sed -i '/CONFIG_PACKAGE_default-settings=y/d' "${HOME_PATH}/.config"
   sed -i '/CONFIG_PACKAGE_default-settings-chn=y/d' "${HOME_PATH}/.config"
 fi
 }
