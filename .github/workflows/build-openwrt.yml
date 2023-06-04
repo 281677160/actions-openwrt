@@ -86,6 +86,7 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         sudo chmod -R +x *
+        source ${GITHUB_WORKSPACE}/common/common.sh && Diy_first
         source $GITHUB_WORKSPACE/build/${{ matrix.target }}/settings.ini
         export GIT_REPOSITORY="${{ github.repository }}"
         export REPO_TOKEN="${{ secrets.REPO_TOKEN }}"
