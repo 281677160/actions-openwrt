@@ -108,7 +108,7 @@ jobs:
       with:
         token: ${{ secrets.REPO_TOKEN }}
         repository: ${{ github.repository }}
-        retain_min: 60
+        retain_min: 10
     
     - name: 删除releases
       continue-on-error: true
