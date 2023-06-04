@@ -18,15 +18,6 @@ on:
         description: '请输入您需要创建的文件夹名称'
         required: false
         default: ''
-      Deletefile:
-        description: '删除文件夹（勾选为执行）'
-        required: false
-        default: 'false'
-        type: boolean
-      Deletefile_name:
-        description: '请输入要删除的文件夹名称,一次删除多个请用英文逗号分开'
-        required: false
-        default: ''
       Delete_workflow:
         description: '清理[X]天之前的Artifacts（勾选为执行）'
         required: false
@@ -108,30 +99,6 @@ jobs:
           git commit -m "up"
           git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
         fi
-  
-    - name: 删除文件夹
-      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true'
-      run: |
-        cd $GITHUB_WORKSPACE
-        if [[ ! -d "repogx" ]]; then
-          git clone -b main https://github.com/${{github.repository}}.git repogx
-        fi
-        if [[ -z "${{ inputs.Deletefile_name }}" ]]; then
-          echo "文件夹名称为空，无法删除文件夹"
-          exit 1
-        else
-          export aa="${{ github.event.inputs.Deletefile_name }}"
-          export bb=(${aa//,/ })
-          for cc in ${bb[@]}; do
-            if [[ -d "repogx/build/${cc}" ]]; then
-              rm -rf repogx/build/"$cc"
-              rm -rf $(grep -rl "target: \[$cc\]" "repogx/.github/workflows" |sed 's/^[ ]*//g' |grep -v '^#\|packaging.yml')
-              echo -e "\033[31m 已删除[${cc}]文件夹 \033[0m"
-            else
-              echo -e "\033[31m [${cc}]文件夹不存在 \033[0m"
-            fi
-          done
-        fi
         
     - name: 清理Artifacts
       continue-on-error: true
@@ -155,7 +122,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
 
     - name: 运行程序
-      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' || env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
+      if: env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
       run: |
         cd $GITHUB_WORKSPACE
         chmod -R 775 repogx
