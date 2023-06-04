@@ -91,14 +91,12 @@ jobs:
           sed -i "s?${yml_name1}?${yml_name2}?g" "${X}"
           echo "${{ inputs.establish_name }}文件夹创建完成"
         fi
-        if [[ -z "${{ inputs.Deletefile_name }}" ]] && [[ "${{ inputs.Deletefile }}" == 'true' ]]; then
-          cd $GITHUB_WORKSPACE
-          chmod -R 775 repogx
-          cd repogx
-          git add .
-          git commit -m "up"
-          git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
-        fi
+        cd $GITHUB_WORKSPACE
+        chmod -R 775 repogx
+        cd repogx
+        git add .
+        git commit -m "up"
+        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
         
     - name: 清理Artifacts
       continue-on-error: true
@@ -120,13 +118,3 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-
-    - name: 运行程序
-      if: env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
-      run: |
-        cd $GITHUB_WORKSPACE
-        chmod -R 775 repogx
-        cd repogx
-        git add .
-        git commit -m "up"
-        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
