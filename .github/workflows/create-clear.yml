@@ -109,7 +109,7 @@ jobs:
         del_releases: true
         releases_keep_latest: 1
         del_workflows: true
-        workflows_keep_day: 10
+        workflows_keep_day: 1
         gh_token: ${{ secrets.REPO_TOKEN }}
     
     - name: 删除releases
