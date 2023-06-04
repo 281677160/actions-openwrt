@@ -124,15 +124,6 @@ jobs:
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_partsh
-
-    - name: 下载软件源
-      id: package
-      run: |
-        cd openwrt
-        make defconfig
-        make download -j8
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
         
     - name: 生成配置文件
       run: |
@@ -159,6 +150,15 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         source ${BUILD_PATH}/common.sh && Diy_xinxi
+        
+    - name: 下载软件源
+      id: package
+      run: |
+        cd openwrt
+        make defconfig
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
 
     - name: 开始编译固件
       id: compile
