@@ -4,7 +4,7 @@
 # matrix.target=${FOLDER_NAME}
 
 
-function Diy_jiance() {
+function Diy_first() {
 if [[ ! -d "build" ]]; then
   echo -e "\033[31m 根目录缺少编译必要的[build]文件夹存在 \033[0m"
   exit 1
