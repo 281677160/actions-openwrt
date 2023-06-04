@@ -103,14 +103,12 @@ jobs:
           echo "创建${{ inputs.establish_name }}文件夹完成"
         fi
         
-    - name: Delete releases and workflows runs
-      uses: ophub/delete-releases-workflows@main
+    - name: Delete workflow runs
+      uses: ActionsRML/delete-workflow-runs@main
       with:
-        delete_releases: true
-        releases_keep_latest: 1
-        delete_workflows: true
-        workflows_keep_day: 0
-        gh_token: ${{ secrets.REPO_TOKEN }}
+        token: ${{ secrets.REPO_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_min: 60
     
     - name: 删除releases
       continue-on-error: true
