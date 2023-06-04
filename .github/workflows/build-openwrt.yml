@@ -132,12 +132,13 @@ jobs:
         source ${BUILD_PATH}/common.sh && Diy_partsh
         
     - name: 生成配置文件
+      id: configs
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_config
         
     - name: 上传[.config]配置文件
-      if: steps.package.outcome == 'success'
+      if: steps.configs.outcome == 'success'
       uses: actions/upload-artifact@main
       with:
         name: .config-${{ env.SOURCE }}-${{ env.LUCI_VERSION }}-${{ env.TARGET_PROFILE }}-${{ env.CON_DATE }}
