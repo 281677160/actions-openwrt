@@ -3,6 +3,50 @@
 # common Module by 28677160
 # matrix.target=${FOLDER_NAME}
 
+
+function Diy_jiance() {
+if [[ ! -d "build" ]]; then
+  echo -e "\033[31m 根目录缺少编译必要的[build]文件夹存在 \033[0m"
+  exit 1
+elif [[ ! -d "build/${FOLDER_NAME}" ]]; then
+  echo -e "\033[31m build文件夹内缺少${FOLDER_NAME}文件夹存在 \033[0m"
+  exit 1
+elif [[ ! -f "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/settings.ini" ]]; then
+  echo -e "\033[31m ${FOLDER_NAME}文件夹内缺少[settings.ini]存在 \033[0m"
+  exit 1
+elif [[ ! -d "common" ]]; then
+  echo -e "\033[31m 根目录缺少编译必要的[common]文件夹存在 \033[0m"
+  exit 1
+elif [[ ! -d "common/zh-cn" ]]; then
+  echo -e "\033[31m 根目录缺少编译必要的[common/zh-cn]文件夹存在 \033[0m"
+  exit 1
+elif [[ ! -d "common/zh_Hans" ]]; then
+  echo -e "\033[31m 根目录缺少编译必要的[common/zh_Hans]文件夹存在 \033[0m"
+  exit 1
+elif [[ ! -f "common/ubuntu.sh" ]]; then
+  echo -e "\033[31m 根目录缺少编译必要的[common/ubuntu.sh]文件夹存在 \033[0m"
+  exit 1
+elif [[ ! -f "common/zh-cn.sh" ]]; then
+  echo -e "\033[31m 根目录缺少编译必要的[common/zh-cn.sh]文件夹存在 \033[0m"
+  exit 1
+elif [[ ! -f "common/zh_Hans.sh" ]]; then
+  echo -e "\033[31m 根目录缺少编译必要的[common/zh_Hans.sh]文件夹存在 \033[0m"
+  exit 1
+elif [[ ! -f "common/common.sh" ]]; then
+  echo -e "\033[31m 缺少common/common.sh文件 \033[0m"
+  exit 1
+elif [[ -f "common/common.sh" ]]; then
+  if [[ -z "$(grep "Diy_wnejian" "common/common.sh")" ]]; then
+    echo -e "\033[31m 请勿随意修改common/common.sh文件 \033[0m"
+    exit 1
+  elif [[ -z "$(grep "Diy_checkout" "common/common.sh")" ]]; then
+    echo -e "\033[31m 请勿随意修改common/common.sh文件 \033[0m"
+    exit 1
+  fi
+fi
+}
+
+
 function Diy_wnejian() {
 if [[ -n "${INPUTS_REPO_BRANCH}" ]]; then
   REPO_URL="https://github.com/$(echo "${INPUTS_REPO_URL}" |sed s/[[:space:]]//g)"
