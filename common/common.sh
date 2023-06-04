@@ -136,6 +136,7 @@ fi
 function Diy_partsh() {
 cd ${HOME_PATH}
 source ${BUILD_PATH}/${DIY_PART_SH}
+cd ${HOME_PATH}
 cat feeds.conf.default|awk '!/^#/'|awk '!/^$/'|awk '!a[$1" "$2]++{print}' >uniq.conf
 mv -f uniq.conf feeds.conf.default
 ./scripts/feeds update -a
