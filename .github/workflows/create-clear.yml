@@ -111,7 +111,7 @@ jobs:
         token: ${{ secrets.REPO_TOKEN }}
         repository: ${{ github.repository }}
         retain_days: ${{ inputs.RETAIN_DAYS }}
-        keep_minimum_runs: 0
+        keep_minimum_runs: 5
     
     - name: 删除releases
       continue-on-error: true
