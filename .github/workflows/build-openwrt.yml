@@ -85,8 +85,13 @@ jobs:
     - name: 检测文件
       run: |
         cd ${GITHUB_WORKSPACE}
-        sudo chmod -R +x *
-        source ${GITHUB_WORKSPACE}/common/common.sh && Diy_first
+        if [[ -f "common/common.sh" ]]; then
+          sudo chmod -R +x *
+          source ${GITHUB_WORKSPACE}/common/common.sh && Diy_first
+        else
+          echo -e "\033[31m 缺少common/common.sh文件 \033[0m"
+          exit 1
+        fi
         source $GITHUB_WORKSPACE/build/${{ matrix.target }}/settings.ini
         export GIT_REPOSITORY="${{ github.repository }}"
         export REPO_TOKEN="${{ secrets.REPO_TOKEN }}"
