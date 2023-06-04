@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       Establish:
-        description: '创建文件夹（勾选为执行）'
+        description: '以[devices]为蓝本,创建其他机型文件夹(勾选为执行)'
         required: false
         default: 'false'
         type: boolean
