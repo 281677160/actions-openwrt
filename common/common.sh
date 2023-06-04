@@ -43,6 +43,7 @@ else
     echo -e "\033[31m 请勿随意修改common/common.sh文件 \033[0m"
     exit 1
   fi
+  source $GITHUB_WORKSPACE/build/${FOLDER_NAME}/settings.ini
 fi
 }
 
