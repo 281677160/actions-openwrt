@@ -104,7 +104,7 @@ jobs:
         fi
         
     - name: Delete workflow runs
-      uses: ActionsRML/delete-workflow-runs@main
+      uses: small-5/delete-workflow-runs@main
       with:
         token: ${{ secrets.REPO_TOKEN }}
         repository: ${{ github.repository }}
