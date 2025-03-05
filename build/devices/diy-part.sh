@@ -37,3 +37,6 @@ EOF
 # 更换golang版本
 rm -rf ${HOME_PATH}/feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 21.x ${HOME_PATH}/feeds/packages/lang/golang
+
+rm -rf ${HOME_PATH}/feeds/packages/mosdns
+rm -rf ${HOME_PATH}/package/feeds/packages/mosdns
