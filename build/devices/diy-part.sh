@@ -25,3 +25,15 @@ openwrt-x86-64-generic-kernel.bin
 openwrt-x86-64-generic.manifest
 openwrt-x86-64-generic-squashfs-rootfs.img.gz
 EOF
+
+cat >>"feeds.conf.default" <<-EOF
+src-git danshui1 https://github.com/281677160/openwrt-package.git;Lede
+src-git helloworld https://github.com/fw876/helloworld.git
+src-git passwall3 https://github.com/xiaorouji/openwrt-passwall-packages;main
+src-git passwall1 https://github.com/xiaorouji/openwrt-passwall.git;main
+src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main
+EOF
+
+# 更换golang版本
+rm -rf ${HOME_PATH}/feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 21.x ${HOME_PATH}/feeds/packages/lang/golang
