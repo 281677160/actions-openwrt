@@ -22,15 +22,15 @@ on:
         required: true
         default: ''
       CONFIG_FILE:
-        description: '请输入配置文件路径,比如：build/seed/x86_64'
+        description: '请输入配置文件路径,比如： build/config-x86_64'
         required: true
         default: ''
       DIY_P1_SH:
-        description: '请输入自定义文件1路径,比如：build/diy-part1.sh'
+        description: '请输入自定义文件1路径,比如： build/diy-part1.sh'
         required: true
         default: ''
       DIY_P2_SH:
-        description: '请输入自定义文件2路径,比如：build/diy-part2.sh'
+        description: '请输入自定义文件2路径,比如： build/diy-part2.sh'
         required: true
         default: ''
       UPLOAD_RELEASE:
