@@ -25,11 +25,11 @@ on:
         description: '请输入配置文件路径,比如：build/seed/x86_64'
         required: true
         default: ''
-      DIY_PART1:
+      DIY_P1_SH:
         description: '请输入自定义文件1路径,比如：build/diy-part1.sh'
         required: true
         default: ''
-      DIY_PART2:
+      DIY_P2_SH:
         description: '请输入自定义文件2路径,比如：build/diy-part2.sh'
         required: true
         default: ''
@@ -66,8 +66,8 @@ jobs:
         echo "REPO_URL=https://github.com/${{ inputs.REPO_URL }}" >> ${GITHUB_ENV}
         echo "REPO_BRANCH=${{ inputs.REPO_BRANCH }}" >> ${GITHUB_ENV}
         echo "CONFIG_FILE=$GITHUB_WORKSPACE/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
-        echo "DIY_PART1=$GITHUB_WORKSPACE/${{ inputs.DIY_PART1 }}" >> ${GITHUB_ENV}
-        echo "DIY_PART2=$GITHUB_WORKSPACE/${{ inputs.DIY_PART2 }}" >> ${GITHUB_ENV}
+        echo "DIY_P1_SH=$GITHUB_WORKSPACE/${{ inputs.DIY_P1_SH }}" >> ${GITHUB_ENV}
+        echo "DIY_P2_SH=$GITHUB_WORKSPACE/${{ inputs.DIY_P2_SH }}" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
         FOLDER_NAME="$(echo "${{ inputs.DIY_PART2 }}" |cut -d"/" -f1)"
@@ -76,6 +76,8 @@ jobs:
         echo "BUILD_DIY=$GITHUB_WORKSPACE/$FOLDER_NAME/diy" >> ${GITHUB_ENV}
         echo "BUILD_FILES=$GITHUB_WORKSPACE/$FOLDER_NAME/files" >> ${GITHUB_ENV}
         echo "BUILD_PATCHES=$GITHUB_WORKSPACE/$FOLDER_NAME/patches" >> ${GITHUB_ENV}
+        [[ -f "$GITHUB_WORKSPACE/${{ inputs.DIY_P1_SH }}" ]] && exit 1 && echo "没有${{ inputs.DIY_P1_SH }}文件存在"
+        [[ -f "$GITHUB_WORKSPACE/${{ inputs.DIY_P2_SH }}" ]] && exit 1 && echo "没有${{ inputs.DIY_P2_SH }}文件存在"
 
     - name: 部署编译环境
       env:
@@ -98,8 +100,8 @@ jobs:
       run: |
         cd openwrt
         [[ -f "$FEEDS_CONF" ]] && mv $FEEDS_CONF $HOME_PATH/feeds.conf.default
-        chmod +x $DIY_PART1
-        $DIY_PART1
+        chmod +x $DIY_P1_SH
+        $DIY_P1_SH
 
     - name: 更新 feeds
       run: cd openwrt && ./scripts/feeds update -a > /dev/null 2>&1
@@ -121,8 +123,8 @@ jobs:
     - name: 读取扩展文件2
       run: |
         cd openwrt
-        chmod +x $DIY_PART2
-        $DIY_PART2
+        chmod +x $DIY_P2_SH
+        $DIY_P2_SH
 
     - name: 定义机型名称
       run: |
