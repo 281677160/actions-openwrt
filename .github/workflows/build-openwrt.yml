@@ -21,16 +21,12 @@ on:
         description: '请输入源码的分支,比如：master'
         required: true
         default: ''
+      FOLDER_NAME:
+        description: '请输入当前应用的文件夹名称,比如：build'
+        required: true
+        default: ''
       CONFIG_FILE:
-        description: '请输入您的机型配置文件路径,比如：build/config-x86_64'
-        required: true
-        default: ''
-      DIY_P1_SH:
-        description: '请输入您的自定义文件(1)路径,比如：build/diy-part1.sh'
-        required: true
-        default: ''
-      DIY_P2_SH:
-        description: '请输入您的自定义文件(2)路径,比如：build/diy-part2.sh'
+        description: '请输入当前应用的文件夹内的配置文件名称,比如：config-x86_64'
         required: true
         default: ''
       RETAIN_MINUTE:
@@ -73,26 +69,25 @@ jobs:
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> ${GITHUB_ENV}
         echo "REPO_URL=https://github.com/${{ inputs.REPO_URL }}" >> ${GITHUB_ENV}
         echo "REPO_BRANCH=${{ inputs.REPO_BRANCH }}" >> ${GITHUB_ENV}
-        echo "CONFIG_FILE=$GITHUB_WORKSPACE/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
-        echo "DIY_P1_SH=$GITHUB_WORKSPACE/${{ inputs.DIY_P1_SH }}" >> ${GITHUB_ENV}
-        echo "DIY_P2_SH=$GITHUB_WORKSPACE/${{ inputs.DIY_P2_SH }}" >> ${GITHUB_ENV}
-        echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
-        echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
         echo "RETAIN_MINUTE=${{ inputs.RETAIN_MINUTE }}" >> ${GITHUB_ENV}
         echo "KEEP_LATEST=${{ inputs.KEEP_LATEST }}" >> ${GITHUB_ENV}
-        export FOLDER_NAME="$(echo "${{ inputs.DIY_P2_SH }}" |cut -d"/" -f1)"
-        echo "FEEDS_CONF=$GITHUB_WORKSPACE/$FOLDER_NAME/feeds.conf.default" >> ${GITHUB_ENV}
-        echo "BUILD_DIY=$GITHUB_WORKSPACE/$FOLDER_NAME/diy" >> ${GITHUB_ENV}
-        echo "BUILD_FILES=$GITHUB_WORKSPACE/$FOLDER_NAME/files" >> ${GITHUB_ENV}
-        echo "BUILD_PATCHES=$GITHUB_WORKSPACE/$FOLDER_NAME/patches" >> ${GITHUB_ENV}
-        if [ ! -f "${{ inputs.CONFIG_FILE }}" ]; then
-          echo "没有${{ inputs.CONFIG_FILE }}文件存在" && exit 1
+        echo "CONFIG_FILE=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
+        echo "DIY_P1_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy-part1.sh" >> ${GITHUB_ENV}
+        echo "DIY_P2_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy-part2.sh" >> ${GITHUB_ENV}
+        echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
+        echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
+        echo "FEEDS_CONF=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/feeds.conf.default" >> ${GITHUB_ENV}
+        echo "BUILD_DIY=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy" >> ${GITHUB_ENV}
+        echo "BUILD_FILES=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/files" >> ${GITHUB_ENV}
+        echo "BUILD_PATCHES=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/patches" >> ${GITHUB_ENV}
+        if [ ! -f "$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}" ]; then
+          echo "${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}文件不存在" && exit 1
         fi
-        if [ ! -f "${{ inputs.CONFIG_FILE }}" ]; then
-          echo "没有${{ inputs.DIY_P1_SH }}文件存在" && exit 1
+        if [ ! -f "$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy-part1.sh" ]; then
+          echo "${{ inputs.FOLDER_NAME }}/diy-part1.sh文件不存在" && exit 1
         fi
-        if [ ! -f "${{ inputs.CONFIG_FILE }}" ]; then
-          echo "没有${{ inputs.DIY_P2_SH }}文件存在" && exit 1
+        if [ ! -f "$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy-part2.sh" ]; then
+          echo "${{ inputs.FOLDER_NAME }}/diy-part2.sh文件不存在" && exit 1
         fi
 
     - name: 部署编译环境
