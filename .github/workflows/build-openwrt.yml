@@ -14,23 +14,23 @@ on:
   workflow_dispatch:
     inputs:
       REPO_URL:
-        description: '请输入您要编译的源码仓库,比如： coolsnowwolf/lede'
+        description: '请输入您要编译的源码仓库,比如：coolsnowwolf/lede'
         required: true
         default: ''
       REPO_BRANCH:
-        description: '请输入源码的分支,比如： master'
+        description: '请输入源码的分支,比如：master'
         required: true
         default: ''
       CONFIG_FILE:
-        description: '请输入配置文件路径,比如： build/config-x86_64'
+        description: '请输入您的机型配置文件路径,比如：build/config-x86_64'
         required: true
         default: ''
       DIY_P1_SH:
-        description: '请输入自定义文件1路径,比如： build/diy-part1.sh'
+        description: '请输入您的自定义文件1路径,比如：build/diy-part1.sh'
         required: true
         default: ''
       DIY_P2_SH:
-        description: '请输入自定义文件2路径,比如： build/diy-part2.sh'
+        description: '请输入您的自定义文件2路径,比如：build/diy-part2.sh'
         required: true
         default: ''
       UPLOAD_RELEASE:
