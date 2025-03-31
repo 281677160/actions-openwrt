@@ -76,7 +76,7 @@ jobs:
         echo "DIY_P2_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY2-PART.sh" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
-        echo "FEEDS_CONF=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/feeds.conf.default" >> ${GITHUB_ENV}
+        echo "FEEDS_CONF=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/zdy-default/feeds.conf.default" >> ${GITHUB_ENV}
         echo "BUILD_DIY=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy" >> ${GITHUB_ENV}
         echo "BUILD_FILES=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/files" >> ${GITHUB_ENV}
         echo "BUILD_PATCHES=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/patches" >> ${GITHUB_ENV}
