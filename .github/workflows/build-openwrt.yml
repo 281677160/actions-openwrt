@@ -181,7 +181,7 @@ jobs:
         fi
         echo "DEVICE_NAME=${TARGET_PROFILE}" >> ${GITHUB_ENV}
         echo "FIRMWARE=${HOME_PATH}/bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}" >> ${GITHUB_ENV}
-        echo "FIRMWARE_BIN=${HOME_PATH}/bin/targets/bin" >> ${GITHUB_ENV}
+        echo "FIRMWARE_BIN=${HOME_PATH}/firmware_bin" >> ${GITHUB_ENV}
         
     - name: 缓存加速
       if: env.CACHEWRTBUILD_SWITCH == 'true'
@@ -205,7 +205,7 @@ jobs:
         make -j$(nproc) || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-        cp -r $FIRMWARE $FIRMWARE_BIN
+        cp -r $HOME_PATH/bin $FIRMWARE_BIN
         cd $FIRMWARE
         rm -rf *.buildinfo
         rm -rf packages profiles.json sha256sums
@@ -215,7 +215,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt-bin-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
-        path: ${{ env.$FIRMWARE_BIN }}
+        path: ${{ env.FIRMWARE_BIN }}
 
     - name: 上传固件至Artifacts
       if: steps.compile.outputs.status == 'success' && !cancelled()
@@ -232,7 +232,7 @@ jobs:
         tag: ${{ env.FILE_DATE }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        body: ${{ steps.gofile.outputs.url }}
+        body: ${{ env.FILE_DATE }}
         artifacts: "${{ env.FIRMWARE }}/*"
     
     - name: 清理Actions空间
