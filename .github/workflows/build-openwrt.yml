@@ -70,11 +70,7 @@ jobs:
         echo "DIY_P2_SH=$GITHUB_WORKSPACE/${{ inputs.DIY_P2_SH }}" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
-        export FOLDER_NAME="$(echo "${{ inputs.DIY_P2_SH }}" |cut -d"/" -f1)"
-        echo "FEEDS_CONF=$GITHUB_WORKSPACE/$FOLDER_NAME/feeds.conf.default" >> ${GITHUB_ENV}
-        echo "BUILD_DIY=$GITHUB_WORKSPACE/$FOLDER_NAME/diy" >> ${GITHUB_ENV}
-        echo "BUILD_FILES=$GITHUB_WORKSPACE/$FOLDER_NAME/files" >> ${GITHUB_ENV}
-        echo "BUILD_PATCHES=$GITHUB_WORKSPACE/$FOLDER_NAME/patches" >> ${GITHUB_ENV}
+        echo "FOLDER_NAME="$(echo "${{ inputs.DIY_P2_SH }}" |cut -d"/" -f1)" >> ${GITHUB_ENV}
         if [ ! -f "${{ inputs.CONFIG_FILE }}" ]; then
           echo "没有${{ inputs.CONFIG_FILE }}文件存在" && exit 1
         fi
@@ -93,6 +89,10 @@ jobs:
         sudo timedatectl set-timezone "Asia/Shanghai"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
+        echo "FEEDS_CONF=$GITHUB_WORKSPACE/$FOLDER_NAME/feeds.conf.default" >> ${GITHUB_ENV}
+        echo "BUILD_DIY=$GITHUB_WORKSPACE/$FOLDER_NAME/diy" >> ${GITHUB_ENV}
+        echo "BUILD_FILES=$GITHUB_WORKSPACE/$FOLDER_NAME/files" >> ${GITHUB_ENV}
+        echo "BUILD_PATCHES=$GITHUB_WORKSPACE/$FOLDER_NAME/patches" >> ${GITHUB_ENV}
 
     - name: 拉取源码
       working-directory: /workdir
