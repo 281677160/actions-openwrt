@@ -71,29 +71,32 @@ jobs:
     - name: 检测文件
       run: |
         cd $GITHUB_WORKSPACE
+        export DIY_P1_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY1-PART.sh"
+        export DIY_P2_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY2-PART.sh"
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> ${GITHUB_ENV}
         echo "REPO_URL=https://github.com/${{ inputs.REPO_URL }}" >> ${GITHUB_ENV}
         echo "REPO_BRANCH=${{ inputs.REPO_BRANCH }}" >> ${GITHUB_ENV}
         echo "RETAIN_MINUTE=${{ inputs.RETAIN_MINUTE }}" >> ${GITHUB_ENV}
         echo "KEEP_LATEST=${{ inputs.KEEP_LATEST }}" >> ${GITHUB_ENV}
         echo "FIRMWARE_APK=${{ inputs.FIRMWARE_APK }}" >> ${GITHUB_ENV}
+        CONFIG_FILE="$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}"
         echo "CONFIG_FILE=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
-        echo "DIY_P1_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY1-PART.sh" >> ${GITHUB_ENV}
-        echo "DIY_P2_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY2-PART.sh" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
         echo "FEEDS_CONF=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/zdy-default/feeds.conf.default" >> ${GITHUB_ENV}
         echo "BUILD_DIY=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy" >> ${GITHUB_ENV}
         echo "BUILD_FILES=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/files" >> ${GITHUB_ENV}
         echo "BUILD_PATCHES=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/patches" >> ${GITHUB_ENV}
+        echo "DIY_P1_SH=$DIY_P1_SH" >> ${GITHUB_ENV}
+        echo "DIY_P2_SH=$DIY_P2_SH" >> ${GITHUB_ENV}
         if [ ! -f "$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}" ]; then
           echo "${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}文件不存在" && exit 1
         fi
-        if [ ! -f "$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy-part1.sh" ]; then
-          echo "${{ inputs.FOLDER_NAME }}/diy-part1.sh文件不存在" && exit 1
+        if [ ! -f "$DIY_P1_SH" ]; then
+          echo "$DIY_P1_SH文件不存在" && exit 1
         fi
-        if [ ! -f "$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy-part2.sh" ]; then
-          echo "${{ inputs.FOLDER_NAME }}/diy-part2.sh文件不存在" && exit 1
+        if [ ! -f "$DIY_P2_SH" ]; then
+          echo "$DIY_P2_SH文件不存在" && exit 1
         fi
 
     - name: 释放Ubuntu磁盘空间
