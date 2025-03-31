@@ -81,8 +81,6 @@ jobs:
       run: |
         sudo /bin/bash ${GITHUB_WORKSPACE}/common/ubuntu.sh
         sudo timedatectl set-timezone "Asia/Shanghai"
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
@@ -102,7 +100,7 @@ jobs:
         $DIY_PART1
 
     - name: 更新 feeds
-      run: cd openwrt && ./scripts/feeds update -a
+      run: cd openwrt && ./scripts/feeds update -a > /dev/null 2>&1
 
     - name: files大法
       run: |
@@ -113,7 +111,10 @@ jobs:
         [[ -f "$CONFIG_FILE" ]] && mv $CONFIG_FILE $HOME_PATH/.config
 
     - name: 安装 feeds
-      run: cd openwrt && ./scripts/feeds install -a
+      run: |
+        cd openwrt
+        ./scripts/feeds install -a > /dev/null 2>&1
+        ./scripts/feeds install -a
 
     - name: 读取扩展文件2
       run: |
