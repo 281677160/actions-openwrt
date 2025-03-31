@@ -74,6 +74,7 @@ jobs:
         echo "BUILD_DIY=$GITHUB_WORKSPACE/$FOLDER_NAME/diy" >> ${GITHUB_ENV}
         echo "BUILD_FILES=$GITHUB_WORKSPACE/$FOLDER_NAME/files" >> ${GITHUB_ENV}
         echo "BUILD_PATCHES=$GITHUB_WORKSPACE/$FOLDER_NAME/patches" >> ${GITHUB_ENV}
+        [[ -f "$GITHUB_WORKSPACE/${{ inputs.CONFIG_FILE }}" ]] && echo "没有${{ inputs.CONFIG_FILE }}文件存在" && exit 1
         [[ -f "$GITHUB_WORKSPACE/${{ inputs.DIY_P1_SH }}" ]] && echo "没有${{ inputs.DIY_P1_SH }}文件存在" && exit 1
         [[ -f "$GITHUB_WORKSPACE/${{ inputs.DIY_P2_SH }}" ]] && echo "没有${{ inputs.DIY_P2_SH }}文件存在" && exit 1
 
