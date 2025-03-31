@@ -174,6 +174,7 @@ jobs:
            export TARGET_PROFILE="${TARGET_PROFILE_DG}"
         fi
         echo "DEVICE_NAME=${TARGET_PROFILE}" >> ${GITHUB_ENV}
+        echo "FIRMWARE=${HOME_PATH}/bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}" >> ${GITHUB_ENV}
         
     - name: 缓存加速
       if: env.CACHEWRTBUILD_SWITCH == 'true'
@@ -202,9 +203,7 @@ jobs:
       id: organize
       if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
-        rm -rf packages
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        rm -rf $FIRMWARE/packages
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传固件至Artifacts
@@ -214,24 +213,16 @@ jobs:
         name: OpenWrt-firmware-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    - name: 整理发布信息
-      id: tag
+    - name: 发布固件
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && env.REPO_TOKEN
-      run: |
-        echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
-        touch release.txt
-        [ ${UPLOAD_GOFILE} = true && ${{ steps.gofile.outputs.url }} ] && echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
-        echo "status=success" >> $GITHUB_OUTPUT
-
-    - name: 发布固件到release
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && env.REPO_TOKEN
-      uses: softprops/action-gh-release@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: ncipollo/release-action@v1
       with:
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: ${{ env.FIRMWARE }}/*
+        name: ${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
+        tag: ${{ env.FILE_DATE }}
+        token: ${{ secrets.REPO_TOKEN }}
+        allowUpdates: true
+        body: ${{ steps.gofile.outputs.url }}
+        artifacts: "${{ env.FIRMWARE }}/*"
     
     - name: 清理Actions空间
       continue-on-error: true
