@@ -72,8 +72,8 @@ jobs:
         echo "RETAIN_MINUTE=${{ inputs.RETAIN_MINUTE }}" >> ${GITHUB_ENV}
         echo "KEEP_LATEST=${{ inputs.KEEP_LATEST }}" >> ${GITHUB_ENV}
         echo "CONFIG_FILE=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
-        echo "DIY_P1_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy-part1.sh" >> ${GITHUB_ENV}
-        echo "DIY_P2_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy-part2.sh" >> ${GITHUB_ENV}
+        echo "DIY_P1_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY1-PART.sh" >> ${GITHUB_ENV}
+        echo "DIY_P2_SH=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY2-PART.sh" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
         echo "FEEDS_CONF=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/feeds.conf.default" >> ${GITHUB_ENV}
