@@ -33,6 +33,14 @@ on:
         description: '请输入您的自定义文件2路径,比如：build/diy-part2.sh'
         required: true
         default: ''
+      RETAIN_MINUTE:
+        description: '清理[X]分钟之后的所有操作记录(最低30)'
+        required: true
+        default: '10080'
+      KEEP_LATEST:
+        description: '保留[X]个Releases不被删除'
+        required: true
+        default: '10080'
       UPLOAD_RELEASE:
         description: '发布固件到 Releases'
         required: true
@@ -70,6 +78,8 @@ jobs:
         echo "DIY_P2_SH=$GITHUB_WORKSPACE/${{ inputs.DIY_P2_SH }}" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
+        echo "RETAIN_MINUTE=${{ inputs.RETAIN_MINUTE }}" >> ${GITHUB_ENV}
+        echo "KEEP_LATEST=${{ inputs.KEEP_LATEST }}" >> ${GITHUB_ENV}
         export FOLDER_NAME="$(echo "${{ inputs.DIY_P2_SH }}" |cut -d"/" -f1)"
         echo "FEEDS_CONF=$GITHUB_WORKSPACE/$FOLDER_NAME/feeds.conf.default" >> ${GITHUB_ENV}
         echo "BUILD_DIY=$GITHUB_WORKSPACE/$FOLDER_NAME/diy" >> ${GITHUB_ENV}
@@ -219,7 +229,7 @@ jobs:
       with:
         token: ${{ secrets.REPO_TOKEN }}
         repository: ${{ github.repository }}
-        retain_min: 10080
+        retain_min: ${{ env.RETAIN_MINUTE }}
     
     - name: 清理releases
       continue-on-error: true
@@ -227,7 +237,7 @@ jobs:
       uses: ophub/delete-releases-workflows@main
       with:
         delete_releases: true
-        releases_keep_latest: 30
+        releases_keep_latest: ${{ env.KEEP_LATEST }}
         delete_tags: true
         delete_workflows: false
         workflows_keep_day: 90
