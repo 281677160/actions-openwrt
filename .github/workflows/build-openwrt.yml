@@ -79,7 +79,6 @@ jobs:
         echo "RETAIN_MINUTE=${{ inputs.RETAIN_MINUTE }}" >> ${GITHUB_ENV}
         echo "KEEP_LATEST=${{ inputs.KEEP_LATEST }}" >> ${GITHUB_ENV}
         echo "FIRMWARE_APK=${{ inputs.FIRMWARE_APK }}" >> ${GITHUB_ENV}
-        CONFIG_FILE="$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}"
         echo "CONFIG_FILE=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
