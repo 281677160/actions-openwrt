@@ -40,7 +40,7 @@ on:
       KEEP_LATEST:
         description: '保留[X]个Releases不被删除'
         required: true
-        default: '10080'
+        default: '30'
       UPLOAD_RELEASE:
         description: '发布固件到 Releases'
         required: true
