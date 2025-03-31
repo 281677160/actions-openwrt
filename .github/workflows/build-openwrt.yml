@@ -96,8 +96,8 @@ jobs:
         
     - name: 读取扩展文件1
       run: |
-        [[ -f "$FEEDS_CONF" ]] && mv $FEEDS_CONF $HOME_PATH/feeds.conf.default
         cd openwrt
+        [[ -f "$FEEDS_CONF" ]] && mv $FEEDS_CONF $HOME_PATH/feeds.conf.default
         chmod +x $DIY_PART1
         $DIY_PART1
 
@@ -106,6 +106,7 @@ jobs:
 
     - name: files大法
       run: |
+        cd openwrt
         [[ -d "$BUILD_PATCHES" ]] && find "$BUILD_PATCHES" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 --forward --no-backup-if-mismatch"
         [[ -d "$BUILD_DIY" ]] && mv $BUILD_DIY/* $HOME_PATH
         [[ -d "$BUILD_FILES" ]] && mv $BUILD_FILES $HOME_PATH/files
