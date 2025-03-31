@@ -26,11 +26,11 @@ on:
         required: true
         default: ''
       DIY_P1_SH:
-        description: '请输入您的自定义文件1路径,比如：build/diy-part1.sh'
+        description: '请输入您的自定义文件(1)路径,比如：build/diy-part1.sh'
         required: true
         default: ''
       DIY_P2_SH:
-        description: '请输入您的自定义文件2路径,比如：build/diy-part2.sh'
+        description: '请输入您的自定义文件(2)路径,比如：build/diy-part2.sh'
         required: true
         default: ''
       RETAIN_MINUTE:
