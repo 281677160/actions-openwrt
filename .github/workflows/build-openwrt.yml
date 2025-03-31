@@ -198,23 +198,17 @@ jobs:
         make -j$(nproc) || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-
-    - name: 整理固件包
-      id: organize
-      if: steps.compile.outputs.status == 'success' && !cancelled()
-      run: |
         rm -rf $FIRMWARE/packages
-        echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传固件至Artifacts
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: steps.compile.outputs.status == 'success' && !cancelled()
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt-firmware-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: 发布固件
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && env.REPO_TOKEN
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@v1
       with:
         name: ${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
