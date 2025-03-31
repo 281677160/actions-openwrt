@@ -70,13 +70,6 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     name: 使用[${{ matrix.target }}]编译固件
-    
-    env:
-      FOLDER_NAME: ${{ matrix.target }}
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [devices]
 
     steps:
     - name: Checkout
@@ -85,13 +78,6 @@ jobs:
     - name: 检测文件
       run: |
         cd ${GITHUB_WORKSPACE}
-        if [[ -f "common/common.sh" ]]; then
-          sudo chmod -R +x *
-          source ${GITHUB_WORKSPACE}/common/common.sh && Diy_first
-        else
-          echo -e "\033[31m 缺少common/common.sh文件 \033[0m"
-          exit 1
-        fi
         export GIT_REPOSITORY="${{ github.repository }}"
         export REPO_TOKEN="${{ secrets.REPO_TOKEN }}"
         export INPUTS_REPO_URL="${{ inputs.REPO_URL }}"
