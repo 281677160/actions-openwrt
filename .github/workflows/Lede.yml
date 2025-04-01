@@ -14,14 +14,13 @@ on:
 
 
 env:
-  # 选择打包机型
   openwrt_board: s905d
-  # 内核版本
-  openwrt_kernel: 6.1.y_6.12.y
-  # 自动采用同系列最新版本内核(false/true)
+  openwrt_kernel: 6.1.y
   auto_kernel: false
-  # 内核作者,默认stable,可选flippy
   kernel_usage: stable
+  kernel_repo: ophub/kernel
+  openwrt_storage: save
+  builder_name: angely
 
 
 jobs:
