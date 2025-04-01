@@ -14,7 +14,7 @@ on:
 
 
 env:
-  openwrt_board: e52c
+  openwrt_board: firefly-rk3399
   openwrt_kernel: 6.1.125
   auto_kernel: true
   kernel_usage: stable
