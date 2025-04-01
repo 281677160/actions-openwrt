@@ -1,33 +1,38 @@
 #
-# 打包Amlogic/Rockchip固件,请勿修改文件名称（packaging.yml）
+# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
+# https://github.com/281677160/build-actions
+# Description: Build OpenWrt using GitHub Actions
 #
 
-name: 打包Amlogic/Rockchip固件
+name: 编译OpenWrt固件
 on:
   repository_dispatch:
-  workflow_dispatch:
 
 
 env:
+  # 选择打包机型
   openwrt_board: s905d
-  openwrt_kernel: 6.1.y
+  # 内核版本
+  openwrt_kernel: 6.1.y_6.12.y
+  # 自动采用同系列最新版本内核(false/true)
   auto_kernel: false
+  # 内核作者,默认stable,可选flippy
   kernel_usage: stable
-  kernel_repo: ophub/kernel
-  openwrt_storage: save
-  builder_name: angely
-  SSH_ACTION: true
+
 
 jobs:
   build:
-    name: 编译
+    name: 编译OpenWrt固件
     runs-on: ubuntu-22.04
-    if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+    steps:
 
-    steps:    
-    - name: 准备结束
+    - name: Checkout
       uses: actions/checkout@v4
-      
+
     - name: 部署编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -39,19 +44,16 @@ jobs:
         sudo timedatectl set-timezone "Asia/Shanghai"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-    
+        sudo chmod -R +x $GITHUB_WORKSPACE/*
+
     - name: 拉取源码
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone -b master --single-branch https://github.com/coolsnowwolf/lede openwrt
+        git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-
-    - name: 更新 feeds
-      run: cd openwrt && ./scripts/feeds update -a > /dev/null 2>&1
-
-    - name: 更新 feeds
-      run: cd openwrt && ./scripts/feeds install -a > /dev/null 2>&1
+        [ -f "$FEEDS_CONF" ] && mv $FEEDS_CONF $GITHUB_WORKSPACE/openwrt/feeds.conf.default
+        echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt" >> ${GITHUB_ENV}
     
     - name: 打包固件
       run: |
