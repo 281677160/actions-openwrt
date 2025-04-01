@@ -43,7 +43,7 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
+        git clone -b master --single-branch https://github.com/coolsnowwolf/lede openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
     
     - name: 打包固件
