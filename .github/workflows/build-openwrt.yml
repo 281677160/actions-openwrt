@@ -18,7 +18,7 @@ on:
         required: true
         default: ''
       REPO_BRANCH:
-        description: '请输入源码的分支,比如：master 或 openwrt-23.05 之类'
+        description: '请输入源码的分支,比如：master 或 main 之类'
         required: true
         default: ''
       FOLDER_NAME:
