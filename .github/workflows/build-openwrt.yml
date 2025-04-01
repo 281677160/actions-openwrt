@@ -48,7 +48,7 @@ on:
         default: 'false'
         type: boolean
       FIRMWARE_APK:
-        description: '上传固件带插件包Artifacts'
+        description: '上传固件带插件包至Artifacts'
         required: true
         default: 'false'
         type: boolean
@@ -204,7 +204,7 @@ jobs:
         rm -rf *.buildinfo
         rm -rf packages profiles.json sha256sums
 
-    - name: 上传固件带插件包Artifacts
+    - name: 上传固件带插件包至Artifacts
       if: steps.compile.outputs.status == 'success' && !cancelled() && env.FIRMWARE_APK == 'true'
       uses: actions/upload-artifact@main
       with:
