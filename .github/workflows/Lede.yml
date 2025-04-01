@@ -46,6 +46,12 @@ jobs:
         df -hT $PWD
         git clone -b master --single-branch https://github.com/coolsnowwolf/lede openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+    - name: 更新 feeds
+      run: cd openwrt && ./scripts/feeds update -a > /dev/null 2>&1
+
+    - name: 更新 feeds
+      run: cd openwrt && ./scripts/feeds install -a > /dev/null 2>&1
     
     - name: 打包固件
       run: |
