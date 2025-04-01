@@ -204,6 +204,18 @@ jobs:
         rm -rf *.buildinfo
         rm -rf packages profiles.json sha256sums
 
+    - name: Packaging OpenWrt
+      if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
+      uses: ophub/amlogic-s9xxx-openwrt@main
+      with:
+        openwrt_path: openwrt/output/*rootfs.tar.gz
+        openwrt_board: ${{ inputs.openwrt_board }}
+        openwrt_kernel: ${{ inputs.openwrt_kernel }}
+        auto_kernel: ${{ inputs.auto_kernel }}
+        kernel_repo: ${{ inputs.kernel_repo }}
+        kernel_usage: ${{ inputs.kernel_usage }}
+        builder_name: ${{ inputs.builder_name }}
+
     - name: 上传固件带插件包至Artifacts
       if: steps.compile.outputs.status == 'success' && !cancelled() && env.FIRMWARE_APK == 'true'
       uses: actions/upload-artifact@main
