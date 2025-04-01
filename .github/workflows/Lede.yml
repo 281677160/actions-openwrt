@@ -16,6 +16,7 @@ env:
   kernel_repo: ophub/kernel
   openwrt_storage: save
   builder_name: angely
+  SSH_ACTION: true
 
 jobs:
   build:
@@ -54,6 +55,7 @@ jobs:
         echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt/bin/targets" >> ${GITHUB_ENV}
 
     - name: SSH远程连接（make menuconfig）
+      if: env.SSH_ACTION == 'true'
       uses: danshui-git/debugger-action@main
 
     - name: Packaging OpenWrt
@@ -68,4 +70,5 @@ jobs:
         builder_name: ${{ env.builder_name }}
 
     - name: SSH远程连接（make menuconfig）
+      if: env.SSH_ACTION == 'true'
       uses: danshui-git/debugger-action@main
