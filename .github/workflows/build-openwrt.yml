@@ -14,11 +14,11 @@ on:
   workflow_dispatch:
     inputs:
       REPO_URL:
-        description: '请输入您要编译的源码仓库,比如：coolsnowwolf/lede'
+        description: '填入编译的源码仓库(账号/仓库),比如：coolsnowwolf/lede'
         required: true
         default: ''
       REPO_BRANCH:
-        description: '请输入源码的分支,比如：master'
+        description: '请输入源码的分支,比如：master 或 openwrt-23.05 之类'
         required: true
         default: ''
       FOLDER_NAME:
