@@ -53,7 +53,7 @@ on:
         default: 'false'
         type: boolean
       UPDATE_AMLOGIC:
-        description: '增加在线更新固件功能/自动打包Amlogic_Rockchip系列固件'
+        description: '自动打包Amlogic_Rockchip系列固件'
         required: false
         default: 'true'
         type: boolean
