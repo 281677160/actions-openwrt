@@ -52,6 +52,11 @@ on:
         required: true
         default: 'false'
         type: boolean
+      UPDATE_AMLOGIC:
+        description: '增加在线更新固件功能/自动打包Amlogic_Rockchip系列固件'
+        required: false
+        default: 'true'
+        type: boolean
 
 
 env:
@@ -90,6 +95,7 @@ jobs:
         echo "RETAIN_MINUTE=${{ inputs.RETAIN_MINUTE }}" >> ${GITHUB_ENV}
         echo "KEEP_LATEST=${{ inputs.KEEP_LATEST }}" >> ${GITHUB_ENV}
         echo "FIRMWARE_APK=${{ inputs.FIRMWARE_APK }}" >> ${GITHUB_ENV}
+        echo "UPDATE_AMLOGIC=${{ inputs.UPDATE_AMLOGIC }}" >> ${GITHUB_ENV}
         echo "CONFIG_FILE=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
@@ -191,8 +197,12 @@ jobs:
            export TARGET_PROFILE="${TARGET_PROFILE_DG}"
         fi
         echo "DEVICE_NAME=${TARGET_PROFILE}" >> ${GITHUB_ENV}
-        echo "FIRMWARE=${HOME_PATH}/bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}" >> ${GITHUB_ENV}
         echo "FIRMWARE_BIN=${HOME_PATH}/firmware_bin" >> ${GITHUB_ENV}
+        if [[ "${TARGET_PROFILE}" == "Armvirt_64" ]] && [[ "${UPDATE_AMLOGIC}" == "true" ]]; then
+          echo "FIRMWARE=${HOME_PATH}/out" >> ${GITHUB_ENV}
+        else
+          echo "FIRMWARE=${HOME_PATH}/bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}" >> ${GITHUB_ENV}
+        fi
         
     - name: 缓存加速
       if: env.CACHEWRTBUILD_SWITCH == 'true'
@@ -219,7 +229,7 @@ jobs:
         rm -rf packages profiles.json sha256sums
 
     - name: Packaging OpenWrt
-      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
+      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled() && env.UPDATE_AMLOGIC == 'true'
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: ${{ env.FIRMWARE }}/*rootfs.tar.gz
