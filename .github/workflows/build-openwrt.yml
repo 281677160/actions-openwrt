@@ -34,7 +34,7 @@ on:
         required: true
         default: '10080'
       KEEP_LATEST:
-        description: '保留[X]个Releases不被删除'
+        description: '清理Releases,保留[X]个Releases不清理'
         required: true
         default: '30'
       CACHEWRTBUILD_SWITCH:
