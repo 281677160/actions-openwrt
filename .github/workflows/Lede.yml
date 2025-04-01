@@ -8,9 +8,9 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: 编译OpenWrt固件
+name: 编译Ope
 on:
-  repository_dispatch:
+  workflow_dispatch:
 
 
 env:
