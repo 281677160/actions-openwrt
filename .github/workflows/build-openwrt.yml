@@ -18,15 +18,15 @@ on:
         required: true
         default: ''
       REPO_BRANCH:
-        description: '请输入源码的分支,比如：master 或 main 之类'
+        description: '填入源码的分支,比如：master 或 main 之类'
         required: true
         default: ''
       FOLDER_NAME:
-        description: '请输入当前使用的文件夹名称,比如：build'
+        description: '填入当前使用的文件夹名称(可按格式自建),比如：build'
         required: true
         default: ''
       CONFIG_FILE:
-        description: '当前使用文件夹内的配置文件名称,比如：x86_64'
+        description: '填入当前使用文件夹内的配置文件名称,比如：x86_64'
         required: true
         default: ''
       RETAIN_MINUTE:
