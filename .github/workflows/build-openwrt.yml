@@ -238,7 +238,7 @@ jobs:
       run: |
         cd openwrt
         if [[ -d "${PACKAGED_OUTPUTPATH}" ]]; then
-          cp -Rf ${PACKAGED_OUTPUTPATH}/* $FIRMWARE
+          cp -Rf $PACKAGED_OUTPUTPATH/* $FIRMWARE
         fi
         cp -Rf $HOME_PATH/bin $FIRMWARE_BIN
         cd $FIRMWARE
