@@ -22,11 +22,11 @@ on:
         required: true
         default: ''
       FOLDER_NAME:
-        description: '请输入当前应用的文件夹名称,比如：build'
+        description: '请输入当前使用的文件夹名称,比如：build'
         required: true
         default: ''
       CONFIG_FILE:
-        description: '请输入当前应用的文件夹内的配置文件名称,比如：x86_64'
+        description: '当前使用文件夹内的配置文件名称,比如：x86_64'
         required: true
         default: ''
       RETAIN_MINUTE:
