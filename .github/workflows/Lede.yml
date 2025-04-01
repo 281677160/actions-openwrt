@@ -21,7 +21,7 @@ env:
   kernel_repo: ophub/kernel
   builder_name: angely
   SSH_ACTION: true
-
+  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
 
 jobs:
   build:
