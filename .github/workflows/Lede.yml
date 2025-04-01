@@ -15,8 +15,8 @@ on:
 
 env:
   openwrt_board: s905d
-  openwrt_kernel: 6.1.y
-  auto_kernel: false
+  openwrt_kernel: 6.1.125
+  auto_kernel: true
   kernel_usage: stable
   kernel_repo: ophub/kernel
   builder_name: angely
