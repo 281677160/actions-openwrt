@@ -54,6 +54,17 @@ on:
         type: boolean
 
 
+env:
+  # 选择打包机型
+  openwrt_board: s905d
+  # 内核版本
+  openwrt_kernel: 6.1.y_6.12.y
+  # 自动采用同系列最新版本内核(false/true)
+  auto_kernel: false
+  # 内核作者,默认stable,可选flippy
+  kernel_usage: stable
+
+
 # 定时触发开启开始编译(把下面两个#去掉开启)
 #  schedule:
 #   - cron: 25 17 * * *
@@ -86,6 +97,9 @@ jobs:
         echo "BUILD_DIY=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy" >> ${GITHUB_ENV}
         echo "BUILD_FILES=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/files" >> ${GITHUB_ENV}
         echo "BUILD_PATCHES=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/patches" >> ${GITHUB_ENV}
+        echo "kernel_repo=ophub/kernel" >> ${GITHUB_ENV}
+        echo "openwrt_storage=save" >> ${GITHUB_ENV}
+        echo "builder_name=angely" >> ${GITHUB_ENV}
         echo "DIY_P1_SH=$DIY_P1_SH" >> ${GITHUB_ENV}
         echo "DIY_P2_SH=$DIY_P2_SH" >> ${GITHUB_ENV}
         if [ ! -f "$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}" ]; then
@@ -205,16 +219,16 @@ jobs:
         rm -rf packages profiles.json sha256sums
 
     - name: Packaging OpenWrt
-      if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
+      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
-        openwrt_path: openwrt/output/*rootfs.tar.gz
-        openwrt_board: ${{ inputs.openwrt_board }}
-        openwrt_kernel: ${{ inputs.openwrt_kernel }}
-        auto_kernel: ${{ inputs.auto_kernel }}
-        kernel_repo: ${{ inputs.kernel_repo }}
-        kernel_usage: ${{ inputs.kernel_usage }}
-        builder_name: ${{ inputs.builder_name }}
+        openwrt_path: ${{ env.FIRMWARE }}/*rootfs.tar.gz
+        openwrt_board: ${{ env.openwrt_board }}
+        openwrt_kernel: ${{ env.openwrt_kernel }}
+        auto_kernel: ${{ env.auto_kernel }}
+        kernel_repo: ${{ env.kernel_repo }}
+        kernel_usage: ${{ env.kernel_usage }}
+        builder_name: ${{ env.builder_name }}
 
     - name: 上传固件带插件包至Artifacts
       if: steps.compile.outputs.status == 'success' && !cancelled() && env.FIRMWARE_APK == 'true'
