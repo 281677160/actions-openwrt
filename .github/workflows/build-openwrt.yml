@@ -122,6 +122,7 @@ jobs:
         sudo timedatectl set-timezone "Asia/Shanghai"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
+        sudo chmod -R +x $GITHUB_WORKSPACE/*
 
     - name: 拉取源码
       working-directory: /workdir
@@ -129,14 +130,11 @@ jobs:
         df -hT $PWD
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        [ -f "$FEEDS_CONF" ] && mv $FEEDS_CONF $GITHUB_WORKSPACE/openwrt/feeds.conf.default
         echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt" >> ${GITHUB_ENV}
         
     - name: 读取1自定义文件
-      run: |
-        cd openwrt
-        [ -f "$FEEDS_CONF" ] && mv $FEEDS_CONF $HOME_PATH/feeds.conf.default
-        chmod +x $DIY_P1_SH
-        $DIY_P1_SH
+      run: cd openwrt && $DIY_P1_SH
 
     - name: 更新 feeds
       run: cd openwrt && ./scripts/feeds update -a > /dev/null 2>&1
@@ -156,10 +154,7 @@ jobs:
         ./scripts/feeds install -a
 
     - name: 读取2自定义文件
-      run: |
-        cd openwrt
-        chmod +x $DIY_P2_SH
-        $DIY_P2_SH
+      run: cd openwrt && $DIY_P2_SH
 
     - name: 读取机型名称
       run: |
@@ -194,10 +189,7 @@ jobs:
         prefix: ${{ github.workspace }}/openwrt
 
     - name: 下载软件源
-      id: package
-      run: |
-        cd openwrt
-        make download -j8
+      run: cd openwrt && make download -j8
         
     - name: 开始编译固件
       id: compile
@@ -207,7 +199,7 @@ jobs:
         make -j$(nproc) || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-        cp -r $HOME_PATH/bin $FIRMWARE_BIN
+        cp -Rf $HOME_PATH/bin $FIRMWARE_BIN
         cd $FIRMWARE
         rm -rf *.buildinfo
         rm -rf packages profiles.json sha256sums
@@ -234,7 +226,7 @@ jobs:
         tag: ${{ env.FILE_DATE }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        body: ${{ env.FILE_DATE }}
+        body: ${{ env.DEVICE_NAME }}固件
         artifacts: "${{ env.FIRMWARE }}/*"
     
     - name: 清理Actions空间
