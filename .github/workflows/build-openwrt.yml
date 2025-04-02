@@ -47,7 +47,7 @@ on:
         required: true
         default: 'false'
         type: boolean
-      FIRMWARE_APK:
+      FIRMWARE_BIN:
         description: '上传整个bin文件夹至Artifacts'
         required: true
         default: 'false'
@@ -219,7 +219,7 @@ jobs:
           TARGET_PROFILE="${TARGET_PROFILE_DG}"
         fi
         echo "DEVICE_NAME=${TARGET_PROFILE}" >> ${GITHUB_ENV}
-        echo "FIRMWARE_BIN=${HOME_PATH}/firmware_bin" >> ${GITHUB_ENV}
+        echo "BIN_TARGETS=${HOME_PATH}/firmware_bin" >> ${GITHUB_ENV}
         echo "FIRMWARE=${HOME_PATH}/bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}" >> ${GITHUB_ENV}
         
     - name: 缓存加速
@@ -261,17 +261,17 @@ jobs:
         if [[ -d "${PACKAGED_OUTPUTPATH}" ]]; then
           cp -Rf $PACKAGED_OUTPUTPATH/* $FIRMWARE
         fi
-        cp -Rf $HOME_PATH/bin $FIRMWARE_BIN
+        cp -Rf $HOME_PATH/bin $BIN_TARGETS
         cd $FIRMWARE
         rm -rf *.buildinfo
         rm -rf packages profiles.json sha256sums
 
     - name: 上传整个bin文件夹至Artifacts
-      if: steps.compile.outcome == 'success' && env.FIRMWARE_APK == 'true'
+      if: steps.compile.outcome == 'success' && env.FIRMWARE_BIN == 'true'
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt-bin-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
-        path: ${{ env.FIRMWARE_BIN }}
+        path: ${{ env.BIN_TARGETS }}
 
     - name: 上传固件至Artifacts
       if: steps.compile.outcome == 'success'
