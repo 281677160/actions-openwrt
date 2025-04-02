@@ -127,7 +127,7 @@ jobs:
         echo "UPDATE_AMLOGIC=${UPDATE_AMLOGIC}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${CACHEWRTBUILD_SWITCH}" >> ${GITHUB_ENV}
         echo "kernel_repo=ophub/kernel" >> ${GITHUB_ENV}
-        echo "openwrt_storage=save" >> ${GITHUB_ENV}
+        echo "builder_name=ophub" >> ${GITHUB_ENV}
         echo "DIY_P1_SH=$DIY_P1_SH" >> ${GITHUB_ENV}
         echo "DIY_P2_SH=$DIY_P2_SH" >> ${GITHUB_ENV}
         if [ ! -f "${FOLDER_NAME}/seed/${CONFIG_FILE}" ]; then
