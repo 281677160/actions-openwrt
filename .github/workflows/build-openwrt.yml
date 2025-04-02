@@ -243,7 +243,7 @@ jobs:
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: 打包Amlogic_Rockchip系列固件
-      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled() && env.UPDATE_AMLOGIC == 'true'
+      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled() && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'Armvirt_64'
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
