@@ -105,7 +105,7 @@ jobs:
           CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
           UPLOAD_RELEASE="${{ inputs.UPLOAD_RELEASE }}"
           FIRMWARE_APK="${{ inputs.FIRMWARE_APK }}"
-          UPDATE_AMLOGIC="${{ inputs.FUPDATE_AMLOGIC }}"
+          UPDATE_AMLOGIC="${{ inputs.UPDATE_AMLOGIC }}"
         fi
         export DIY_P1_SH="$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy1-part.sh"
         export DIY_P2_SH="$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy2-part.sh"
