@@ -209,9 +209,9 @@ jobs:
         elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*x86.*=y' .config)" ]]; then
           TARGET_PROFILE="x86-32"
         elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*armsr.*armv8.*=y' .config)" ]]; then
-          TARGET_PROFILE="Armvirt_64"
+          TARGET_PROFILE="Aarch-64"
         elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*armvirt.*64.*=y' .config)" ]]; then
-          TARGET_PROFILE="Armvirt_64"
+          TARGET_PROFILE="Aarch-64"
         elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*DEVICE.*=y' .config)" ]]; then
           TARGET_PROFILE="$(grep -Eo "CONFIG_TARGET.*DEVICE.*=y" .config | sed -r 's/.*DEVICE_(.*)=y/\1/')"
         else
@@ -241,7 +241,7 @@ jobs:
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: 打包Amlogic_Rockchip系列固件
-      if: steps.compile.outcome == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'Armvirt_64'
+      if: steps.compile.outcome == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'Aarch-64'
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
