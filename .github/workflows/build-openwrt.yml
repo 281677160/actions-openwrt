@@ -237,7 +237,6 @@ jobs:
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
-        echo "status=success" >> $GITHUB_OUTPUT
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: 打包Amlogic_Rockchip系列固件
