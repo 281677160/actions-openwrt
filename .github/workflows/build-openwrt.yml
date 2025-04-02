@@ -21,12 +21,12 @@ on:
         description: '填入源码的分支,比如：master 或 main 之类'
         required: true
         default: ''
-      FOLDER_NAME:
-        description: '填入当前使用的文件夹名称(可按格式自建),比如：build'
+      CONFIG_FILE:
+        description: 'seed文件夹内的配置文件名称(可自建),比如：x86_64'
         required: true
         default: ''
-      CONFIG_FILE:
-        description: '当前使用文件夹内的配置文件名称(可自建),比如：x86_64'
+      FOLDER_NAME:
+        description: '填入当前使用的文件夹名称(可按格式自建),比如：build'
         required: true
         default: ''
       RETAIN_MINUTE:
@@ -87,6 +87,24 @@ jobs:
     - name: 检测文件
       run: |
         cd $GITHUB_WORKSPACE
+        if [[ -n "${{ inputs.REPO_URL }}" ]]; then
+          REPO_URL="${{ inputs.REPO_URL }}"
+          REPO_BRANCH="${{ inputs.REPO_BRANCH }}"
+          CONFIG_FILE="${{ inputs.CONFIG_FILE }}"
+          FOLDER_NAME="${{ inputs.FOLDER_NAME }}"
+          RETAIN_MINUTE="${{ inputs.RETAIN_MINUTE }}"
+          KEEP_LATEST="${{ inputs.KEEP_LATEST }}"
+          CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
+          UPLOAD_RELEASE="${{ inputs.UPLOAD_RELEASE }}"
+          FIRMWARE_APK="${{ inputs.FIRMWARE_APK }}"
+          UPDATE_AMLOGIC="${{ inputs.FUPDATE_AMLOGIC }}"
+        else
+        
+          
+
+
+
+        
         export DIY_P1_SH="$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY1-PART.sh"
         export DIY_P2_SH="$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY2-PART.sh"
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> ${GITHUB_ENV}
