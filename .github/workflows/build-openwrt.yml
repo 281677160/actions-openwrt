@@ -112,6 +112,10 @@ jobs:
         fi
         export DIY_P1_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy1-part.sh"
         export DIY_P2_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy2-part.sh"
+        echo "BUILD_DIY=${FOLDER_NAME}/diy" >> ${GITHUB_ENV}
+        echo "BUILD_FILES=${FOLDER_NAME}/files" >> ${GITHUB_ENV}
+        echo "BUILD_PATCHES=${FOLDER_NAME}/patches" >> ${GITHUB_ENV}
+        echo "FEEDS_CONF=${FOLDER_NAME}/s.conf/feeds.conf.default" >> ${GITHUB_ENV}
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> ${GITHUB_ENV}
         echo "REPO_URL=https://github.com/${REPO_URL}" >> ${GITHUB_ENV}
         echo "REPO_BRANCH=${REPO_BRANCH}" >> ${GITHUB_ENV}
@@ -122,10 +126,6 @@ jobs:
         echo "FIRMWARE_APK=${FIRMWARE_APK}" >> ${GITHUB_ENV}
         echo "UPDATE_AMLOGIC=${UPDATE_AMLOGIC}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${CACHEWRTBUILD_SWITCH}" >> ${GITHUB_ENV}
-        echo "BUILD_DIY=${FOLDER_NAME}/diy" >> ${GITHUB_ENV}
-        echo "BUILD_FILES=${FOLDER_NAME}/files" >> ${GITHUB_ENV}
-        echo "BUILD_PATCHES=${FOLDER_NAME}/patches" >> ${GITHUB_ENV}
-        echo "FEEDS_CONF=${FOLDER_NAME}/s.conf/feeds.conf.default" >> ${GITHUB_ENV}
         echo "kernel_repo=ophub/kernel" >> ${GITHUB_ENV}
         echo "openwrt_storage=save" >> ${GITHUB_ENV}
         echo "DIY_P1_SH=$DIY_P1_SH" >> ${GITHUB_ENV}
@@ -242,7 +242,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
-    - name: Packaging OpenWrt
+    - name: 打包Amlogic_Rockchip系列固件
       if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled() && env.UPDATE_AMLOGIC == 'true'
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
