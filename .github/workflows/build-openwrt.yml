@@ -108,8 +108,8 @@ jobs:
           source $GITHUB_WORKSPACE/${{ matrix.target }}/settings.ini
           FOLDER_NAME="${{ matrix.target }}"
         fi
-        export DIY_P1_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy1-part.sh"
-        export DIY_P2_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy2-part.sh"
+        DIY_P1_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy1-part.sh"
+        DIY_P2_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy2-part.sh"
         echo "BUILD_DIY=$GITHUB_WORKSPACE/${FOLDER_NAME}/diy" >> ${GITHUB_ENV}
         echo "BUILD_FILES=$GITHUB_WORKSPACE/${FOLDER_NAME}/files" >> ${GITHUB_ENV}
         echo "BUILD_PATCHES=$GITHUB_WORKSPACE/${FOLDER_NAME}/patches" >> ${GITHUB_ENV}
