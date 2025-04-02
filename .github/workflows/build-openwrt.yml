@@ -273,7 +273,7 @@ jobs:
         name: OpenWrt-bin-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
         path: ${{ env.BIN_TARGETS }}
 
-    - name: 上传固件至Artifacts（默认）
+    - name: 上传固件至Artifacts(默认)
       if: steps.compile.outcome == 'success'
       uses: actions/upload-artifact@main
       with:
