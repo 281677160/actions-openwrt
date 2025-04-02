@@ -119,7 +119,7 @@ jobs:
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> ${GITHUB_ENV}
         echo "REPO_URL=https://github.com/${REPO_URL}" >> ${GITHUB_ENV}
         echo "REPO_BRANCH=${REPO_BRANCH}" >> ${GITHUB_ENV}
-        echo "CONFIG_FILE=${FOLDER_NAME}/seed/${CONFIG_FILE}" >> ${GITHUB_ENV}
+        echo "CONFIG_FILE=$GITHUB_WORKSPACE/${FOLDER_NAME}/seed/${CONFIG_FILE}" >> ${GITHUB_ENV}
         echo "RETAIN_MINUTE=${RETAIN_MINUTE}" >> ${GITHUB_ENV}
         echo "KEEP_LATEST=${KEEP_LATEST}" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${UPLOAD_RELEASE}" >> ${GITHUB_ENV}
