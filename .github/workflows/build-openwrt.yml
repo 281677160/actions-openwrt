@@ -63,6 +63,7 @@ on:
   schedule:
    - cron: 25 11 * * *
 
+
 env:
   # 选择打包机型
   openwrt_board: s905d
@@ -72,6 +73,7 @@ env:
   auto_kernel: true
   # 内核作者,默认stable,可选flippy
   kernel_usage: stable
+
 
 jobs:
   build:
@@ -86,7 +88,6 @@ jobs:
         target: [Lede]
     
     steps:
-
     - name: Checkout
       uses: actions/checkout@v4
       
