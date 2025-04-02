@@ -234,7 +234,7 @@ jobs:
         cd openwrt && make download -j8
 
     - name: 打包Amlogic_Rockchip系列固件
-      if: ${{ steps.compipp.outputs.status }} == 'success' && env.UPDATE_AMLOGIC == 'true' && $DEVICE_NAME == "Armvirt_64" && !cancelled()
+      if: ${{ steps.compipp.outputs.status }} == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'Armvirt_64'
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
