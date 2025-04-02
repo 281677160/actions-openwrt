@@ -79,6 +79,14 @@ jobs:
   build:
     name: 编译OpenWrt固件
     runs-on: ubuntu-22.04
+
+    env:
+      FOLDER_NAME: ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [Lede1]
+    
     steps:
 
     - name: Checkout
@@ -98,13 +106,7 @@ jobs:
           UPLOAD_RELEASE="${{ inputs.UPLOAD_RELEASE }}"
           FIRMWARE_APK="${{ inputs.FIRMWARE_APK }}"
           UPDATE_AMLOGIC="${{ inputs.FUPDATE_AMLOGIC }}"
-        else
-        
-          
-
-
-
-        
+        fi
         export DIY_P1_SH="$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY1-PART.sh"
         export DIY_P2_SH="$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/DIY2-PART.sh"
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> ${GITHUB_ENV}
@@ -114,19 +116,19 @@ jobs:
         echo "KEEP_LATEST=${{ inputs.KEEP_LATEST }}" >> ${GITHUB_ENV}
         echo "FIRMWARE_APK=${{ inputs.FIRMWARE_APK }}" >> ${GITHUB_ENV}
         echo "UPDATE_AMLOGIC=${{ inputs.UPDATE_AMLOGIC }}" >> ${GITHUB_ENV}
-        echo "CONFIG_FILE=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
+        echo "CONFIG_FILE=$GITHUB_WORKSPACE/${FOLDER_NAME}/${{ inputs.CONFIG_FILE }}" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${{ inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${{ inputs.CACHEWRTBUILD_SWITCH }}" >> ${GITHUB_ENV}
-        echo "FEEDS_CONF=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/zdy-default/feeds.conf.default" >> ${GITHUB_ENV}
-        echo "BUILD_DIY=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/diy" >> ${GITHUB_ENV}
-        echo "BUILD_FILES=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/files" >> ${GITHUB_ENV}
-        echo "BUILD_PATCHES=$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/patches" >> ${GITHUB_ENV}
+        echo "FEEDS_CONF=$GITHUB_WORKSPACE/${FOLDER_NAME}/zdy-default/feeds.conf.default" >> ${GITHUB_ENV}
+        echo "BUILD_DIY=$GITHUB_WORKSPACE/${FOLDER_NAME}/diy" >> ${GITHUB_ENV}
+        echo "BUILD_FILES=$GITHUB_WORKSPACE/${FOLDER_NAME}/files" >> ${GITHUB_ENV}
+        echo "BUILD_PATCHES=$GITHUB_WORKSPACE/${FOLDER_NAME}/patches" >> ${GITHUB_ENV}
         echo "kernel_repo=ophub/kernel" >> ${GITHUB_ENV}
         echo "openwrt_storage=save" >> ${GITHUB_ENV}
         echo "builder_name=angely" >> ${GITHUB_ENV}
         echo "DIY_P1_SH=$DIY_P1_SH" >> ${GITHUB_ENV}
         echo "DIY_P2_SH=$DIY_P2_SH" >> ${GITHUB_ENV}
-        if [ ! -f "$GITHUB_WORKSPACE/${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}" ]; then
+        if [ ! -f "$GITHUB_WORKSPACE/${FOLDER_NAME}/${{ inputs.CONFIG_FILE }}" ]; then
           echo "${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}文件不存在" && exit 1
         fi
         if [ ! -f "$DIY_P1_SH" ]; then
