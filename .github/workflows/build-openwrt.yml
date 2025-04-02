@@ -186,6 +186,7 @@ jobs:
         [ -d "$BUILD_PATCHES" ] && find "$BUILD_PATCHES" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 --forward --no-backup-if-mismatch"
         [ -d "$BUILD_DIY" ] && cp -Rf $BUILD_DIY/* $HOME_PATH
         [ -d "$BUILD_FILES" ] && cp -Rf $BUILD_FILES $HOME_PATH
+        rm -rf $HOME_PATH/files/README
         mv $CONFIG_FILE $HOME_PATH/.config
 
     - name: 安装 feeds
