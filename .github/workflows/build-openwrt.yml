@@ -77,7 +77,7 @@ env:
 
 jobs:
   build:
-    name: 编译OpenWrt固件
+    name: 编译"${{ inputs.REPO_BRANCH }}"
     runs-on: ubuntu-22.04
 
     env:
