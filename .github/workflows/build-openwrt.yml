@@ -128,8 +128,8 @@ jobs:
         echo "builder_name=angely" >> ${GITHUB_ENV}
         echo "DIY_P1_SH=$DIY_P1_SH" >> ${GITHUB_ENV}
         echo "DIY_P2_SH=$DIY_P2_SH" >> ${GITHUB_ENV}
-        if [ ! -f "$GITHUB_WORKSPACE/${FOLDER_NAME}/${{ inputs.CONFIG_FILE }}" ]; then
-          echo "${{ inputs.FOLDER_NAME }}/${{ inputs.CONFIG_FILE }}文件不存在" && exit 1
+        if [ ! -f "$GITHUB_WORKSPACE/${FOLDER_NAME}/seed/${{ inputs.CONFIG_FILE }}" ]; then
+          echo "$GITHUB_WORKSPACE/${FOLDER_NAME}/seed/${{ inputs.CONFIG_FILE }}文件不存在" && exit 1
         fi
         if [ ! -f "$DIY_P1_SH" ]; then
           echo "$DIY_P1_SH文件不存在" && exit 1
