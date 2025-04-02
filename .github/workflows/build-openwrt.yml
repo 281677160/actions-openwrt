@@ -238,7 +238,7 @@ jobs:
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: 打包Amlogic_Rockchip系列固件
-      if: steps.compipp.outcome == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'Armvirt_64'
+      if: steps.compile.outcome == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'Armvirt_64'
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
@@ -251,7 +251,7 @@ jobs:
 
     - name: 整理固件
       continue-on-error: true
-      if: steps.compipp.outcome == 'success' && !cancelled()
+      if: steps.compile.outcome == 'success' && !cancelled()
       run: |
         cd openwrt
         if [[ -d "${PACKAGED_OUTPUTPATH}" ]]; then
@@ -263,21 +263,21 @@ jobs:
         rm -rf packages profiles.json sha256sums
 
     - name: 上传固件带插件包至Artifacts
-      if: steps.compipp.outcome == 'success' && !cancelled() && env.FIRMWARE_APK == 'true'
+      if: steps.compile.outcome == 'success' && env.FIRMWARE_APK == 'true'
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt-bin-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE_BIN }}
 
     - name: 上传固件至Artifacts
-      if: steps.compipp.outcome == 'success' && !cancelled()
+      if: steps.compile.outcome == 'success'
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt-firmware-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: 发布固件
-      if: steps.compipp.outcome == 'success' && env.UPLOAD_RELEASE == 'true'
+      if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true'
       uses: ncipollo/release-action@v1
       with:
         name: ${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
