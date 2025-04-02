@@ -229,7 +229,21 @@ jobs:
         prefix: ${{ github.workspace }}/openwrt
 
     - name: 下载软件源
-      run: cd openwrt && make download -j8
+      id: compipp
+      run: |
+        cd openwrt && make download -j8
+
+    - name: 打包Amlogic_Rockchip系列固件
+      if: ${{ steps.compipp.outputs.status }} == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'Armvirt_64' && !cancelled()
+      uses: ophub/amlogic-s9xxx-openwrt@main
+      with:
+        openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
+        openwrt_board: ${{ env.openwrt_board }}
+        openwrt_kernel: ${{ env.openwrt_kernel }}
+        auto_kernel: ${{ env.auto_kernel }}
+        kernel_repo: ${{ env.kernel_repo }}
+        kernel_usage: ${{ env.kernel_usage }}
+        builder_name: ${{ env.builder_name }}
         
     - name: 开始编译固件
       id: compile
@@ -240,17 +254,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
-    - name: 打包Amlogic_Rockchip系列固件
-      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled() && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'Armvirt_64'
-      uses: ophub/amlogic-s9xxx-openwrt@main
-      with:
-        openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
-        openwrt_board: ${{ env.openwrt_board }}
-        openwrt_kernel: ${{ env.openwrt_kernel }}
-        auto_kernel: ${{ env.auto_kernel }}
-        kernel_repo: ${{ env.kernel_repo }}
-        kernel_usage: ${{ env.kernel_usage }}
-        builder_name: ${{ env.builder_name }}
+
 
     - name: 整理固件
       continue-on-error: true
