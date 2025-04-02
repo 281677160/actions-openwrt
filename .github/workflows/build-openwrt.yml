@@ -85,7 +85,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lede1]
+        target: [Lede]
     
     steps:
 
@@ -108,6 +108,7 @@ jobs:
           UPDATE_AMLOGIC="${{ inputs.UPDATE_AMLOGIC }}"
         else
           source build/${{ env.FOLDER_NAME }}/settings.ini
+          FOLDER_NAME="${{ matrix.target }}"
         fi
         export DIY_P1_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy1-part.sh"
         export DIY_P2_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy2-part.sh"
