@@ -107,7 +107,7 @@ jobs:
           FIRMWARE_APK="${{ inputs.FIRMWARE_APK }}"
           UPDATE_AMLOGIC="${{ inputs.UPDATE_AMLOGIC }}"
         else
-          source $GITHUB_WORKSPACE/build/${{ matrix.target }}/settings.ini
+          source $GITHUB_WORKSPACE/${{ matrix.target }}/settings.ini
           FOLDER_NAME="${{ matrix.target }}"
         fi
         export DIY_P1_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy1-part.sh"
