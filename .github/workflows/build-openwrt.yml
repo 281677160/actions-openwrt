@@ -103,7 +103,7 @@ jobs:
           KEEP_LATEST="${{ inputs.KEEP_LATEST }}"
           CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
           UPLOAD_RELEASE="${{ inputs.UPLOAD_RELEASE }}"
-          FIRMWARE_APK="${{ inputs.FIRMWARE_APK }}"
+          FIRMWARE_BIN="${{ inputs.FIRMWARE_BIN }}"
           UPDATE_AMLOGIC="${{ inputs.UPDATE_AMLOGIC }}"
         else
           source $GITHUB_WORKSPACE/${{ matrix.target }}/settings.ini
@@ -122,7 +122,7 @@ jobs:
         echo "RETAIN_MINUTE=${RETAIN_MINUTE}" >> ${GITHUB_ENV}
         echo "KEEP_LATEST=${KEEP_LATEST}" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${UPLOAD_RELEASE}" >> ${GITHUB_ENV}
-        echo "FIRMWARE_APK=${FIRMWARE_APK}" >> ${GITHUB_ENV}
+        echo "FIRMWARE_BIN=${FIRMWARE_BIN}" >> ${GITHUB_ENV}
         echo "UPDATE_AMLOGIC=${UPDATE_AMLOGIC}" >> ${GITHUB_ENV}
         echo "CACHEWRTBUILD_SWITCH=${CACHEWRTBUILD_SWITCH}" >> ${GITHUB_ENV}
         echo "kernel_repo=ophub/kernel" >> ${GITHUB_ENV}
@@ -219,7 +219,7 @@ jobs:
           TARGET_PROFILE="${TARGET_PROFILE_DG}"
         fi
         echo "DEVICE_NAME=${TARGET_PROFILE}" >> ${GITHUB_ENV}
-        echo "BIN_TARGETS=${HOME_PATH}/firmware_bin" >> ${GITHUB_ENV}
+        echo "BIN_TARGETS=${HOME_PATH}/bin_firmware" >> ${GITHUB_ENV}
         echo "FIRMWARE=${HOME_PATH}/bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}" >> ${GITHUB_ENV}
         
     - name: 缓存加速
