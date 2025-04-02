@@ -1,3 +1,0 @@
-
-1、需要自定义feeds.conf.default文件的，就在此s.conf文件夹内建立feeds.conf.default文件和设置好.
-2、如果不需要自定义feeds.conf.default文件的切勿在此建立feeds.conf.default文件，因为编译的时候会优先使用此文件夹内的feeds.conf.default文件
