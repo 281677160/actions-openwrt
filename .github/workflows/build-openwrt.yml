@@ -178,13 +178,13 @@ jobs:
         echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt" >> ${GITHUB_ENV}
         ls -a $GITHUB_WORKSPACE
         
-    - name: 读取1自定义文件
+    - name: 读取自定义1文件
       run: cd openwrt && $DIY_P1_SH
 
     - name: 更新 feeds
       run: cd openwrt && ./scripts/feeds update -a > /dev/null 2>&1
 
-    - name: files大法
+    - name: 应用配置文件
       run: |
         cd openwrt
         [ -d "$BUILD_PATCHES" ] && find "$BUILD_PATCHES" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 --forward --no-backup-if-mismatch"
@@ -199,7 +199,7 @@ jobs:
         ./scripts/feeds install -a > /dev/null 2>&1
         ./scripts/feeds install -a
 
-    - name: 读取2自定义文件
+    - name: 读取自定义2文件
       run: cd openwrt && $DIY_P2_SH
 
     - name: 读取机型名称
