@@ -59,7 +59,7 @@ on:
         type: boolean
 
 
-# 定时触发开启开始编译(把下面两个#去掉开启)
+# 定时触发开启开始编译(把下面两个#去掉开启,同时在下面把编译文件夹设置好)
   schedule:
    - cron: 25 11 * * *
 
@@ -86,6 +86,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [Lede]
+        # 定时编译读取此这里设置的文件夹名称,手动编译则以手动启动时设置为准
     
     steps:
     - name: Checkout
