@@ -40,8 +40,6 @@ inputs:
     default: ""
 runs:
   using: "composite"
-  steps:
-    - shell: bash
         - uses: actions/upload-artifact@main
           with:
             name: firmware
