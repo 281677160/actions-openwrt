@@ -42,14 +42,12 @@ runs:
   using: "composite"
   steps:
     - shell: bash
-        - name: 上传固件在 github Artifacts
-          uses: actions/upload-artifact@main
+        - uses: actions/upload-artifact@main
           with:
             name: firmware
             path: ${{ env.FIRMWARE_PATH }}
-    
-        - name: 发布固件
-          uses: ncipollo/release-action@v1
+
+        - uses: ncipollo/release-action@v1
           with:
             name: Artifacts
             tag: a555555
