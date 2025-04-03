@@ -169,7 +169,7 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
+        git clone -q -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         [ -f "$FEEDS_CONF" ] && mv $FEEDS_CONF $GITHUB_WORKSPACE/openwrt/feeds.conf.default
         echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt" >> ${GITHUB_ENV}
