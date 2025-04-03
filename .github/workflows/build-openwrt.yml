@@ -140,7 +140,7 @@ jobs:
         fi
 
     - name: Free Disk Space
-      uses: 281677160/free-disk-space@v2
+      uses: 281677160/free-disk-space@main
       with:
         remove_android: true
         remove_dotnet: true
