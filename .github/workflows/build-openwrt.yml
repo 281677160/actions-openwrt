@@ -73,6 +73,7 @@ env:
   auto_kernel: true
   # 内核作者,默认stable,可选flippy
   kernel_usage: stable
+  BRANCH_NAME: ${{ github.ref_name }}
 
 
 jobs:
@@ -139,27 +140,6 @@ jobs:
           echo "$DIY_P2_SH文件不存在" && exit 1
         fi
 
-    - name: "Optimize Disk Space"
-      uses: "hugoalh/disk-space-optimizer-ghaction@v0.8.0"
-      with:
-        operate_sudo: "True"
-        general_include: ".+"
-        general_exclude: |-
-          ^GCC$
-          ^G\+\+$
-          Clang
-          LLVM
-        docker_include: ".+"
-        docker_prune: "True"
-        docker_clean: "True"
-        apt_prune: "True"
-        apt_clean: "True"
-        homebrew_prune: "True"
-        homebrew_clean: "True"
-        npm_prune: "True"
-        npm_clean: "True"
-        os_swap: "True"
-
     - name: Freeing up disk space
       uses: easimon/maximize-build-space@master
       with: 
@@ -188,7 +168,7 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone https://user:${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}.git trwnepo
+        git clone -b main https://user:${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}.git trwnepo
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         [ -f "$FEEDS_CONF" ] && mv $FEEDS_CONF $GITHUB_WORKSPACE/openwrt/feeds.conf.default
