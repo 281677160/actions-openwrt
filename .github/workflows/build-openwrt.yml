@@ -73,7 +73,6 @@ env:
   auto_kernel: true
   # 内核作者,默认stable,可选flippy
   kernel_usage: stable
-  BRANCH_NAME: ${{ github.ref_name }}
 
 
 jobs:
@@ -162,16 +161,16 @@ jobs:
         sudo timedatectl set-timezone "Asia/Shanghai"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-        sudo chmod -R +x $GITHUB_WORKSPACE/*
 
     - name: 拉取源码
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone -b main https://user:${{ secrets.REPO_TOKEN }}@github.com/${{ github.repository }}.git trwnepo
+        git clone -b ${{ github.ref_name }} https://user:${{ secrets.REPO_TOKEN }}@github.com/${{ github.repository }}.git trwnepo
+        cp -Rf trwnepo/* $GITHUB_WORKSPACE
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/trwnepo
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        sudo chmod -R +x $GITHUB_WORKSPACE/*
         [ -f "$FEEDS_CONF" ] && mv $FEEDS_CONF $GITHUB_WORKSPACE/openwrt/feeds.conf.default
         echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt" >> ${GITHUB_ENV}
 
