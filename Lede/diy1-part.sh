@@ -3,4 +3,4 @@
 
 git clone --depth 1 https://github.com/fw876/helloworld package/luci-app-ssr-plus
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall package/luci-app-passwall
-echo 'src-git passwallpackages https://github.com/xiaorouji/openwrt-passwall-packages;main' >> feeds.conf.default
+echo 'src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall-packages;main' >> feeds.conf.default
