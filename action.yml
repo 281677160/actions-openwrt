@@ -25,14 +25,14 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: firmware
-        path: ${{ env.FIRMWARE_PATH }}
+        path: ${FIRMWARE_PATH}
     
     - name: 发布固件
       uses: ncipollo/release-action@v1
       with:
         name: Artifacts
         tag: a555555
-        token: ${{ secrets.REPO_TOKEN }}
+        token: ${REPO_TOKEN}
         allowUpdates: true
         body: 22222222222222222
-        artifacts: "${{ env.FIRMWARE_PATH }}/*"
+        artifacts: "${FIRMWARE_PATH}/*"
