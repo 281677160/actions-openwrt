@@ -86,7 +86,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [Lede]
-        # 定时编译读取此这里设置的文件夹名称,手动编译则以手动启动时设置为准
+        # 定时编译读取这里设置的文件夹名称,手动编译则以手动启动时设置为准
     
     steps:
     - name: Checkout
