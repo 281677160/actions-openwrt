@@ -170,6 +170,7 @@ jobs:
         df -hT $PWD
         git clone -b main https://user:${{ secrets.REPO_TOKEN }}@github.com/${{ github.repository }}.git trwnepo
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/trwnepo
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         [ -f "$FEEDS_CONF" ] && mv $FEEDS_CONF $GITHUB_WORKSPACE/openwrt/feeds.conf.default
         echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt" >> ${GITHUB_ENV}
