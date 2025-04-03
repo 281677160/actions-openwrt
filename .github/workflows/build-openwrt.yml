@@ -53,7 +53,7 @@ on:
         default: 'false'
         type: boolean
       UPDATE_AMLOGIC:
-        description: '自动打包Amlogic_Rockchip系列固件'
+        description: '自动打包aarch64系列固件'
         required: false
         default: 'true'
         type: boolean
@@ -239,7 +239,7 @@ jobs:
         make -j$(nproc) || make -j1 V=s
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
-    - name: 打包Amlogic_Rockchip系列固件
+    - name: 打包aarch64系列固件
       if: steps.compile.outcome == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'aarch_64'
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
