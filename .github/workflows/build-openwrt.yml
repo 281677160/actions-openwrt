@@ -169,14 +169,11 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone -q -b ${{ github.ref_name }} https://user:${{ secrets.REPO_TOKEN }}@github.com/${{ github.repository }}.git trwnepo
-        cp -Rf trwnepo/* $GITHUB_WORKSPACE && rm -rf trwnepo
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        sudo chmod -R +x $GITHUB_WORKSPACE/*
         [ -f "$FEEDS_CONF" ] && mv $FEEDS_CONF $GITHUB_WORKSPACE/openwrt/feeds.conf.default
         echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt" >> ${GITHUB_ENV}
-        ls -a $GITHUB_WORKSPACE
+        sudo chmod -R +x $GITHUB_WORKSPACE/*
         
     - name: 读取自定义1文件
       run: cd openwrt && $DIY_P1_SH
