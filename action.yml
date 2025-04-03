@@ -39,7 +39,11 @@ inputs:
     required: false
     default: ""
 runs:
-  using: "composite"
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:    
+        - uses: actions/checkout@v4
         - uses: actions/upload-artifact@main
           with:
             name: firmware
