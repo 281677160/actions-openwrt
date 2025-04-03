@@ -142,8 +142,8 @@ jobs:
     - name: Freeing up disk space
       uses: easimon/maximize-build-space@master
       with: 
-        root-reserve-mb: 2048
-        swap-size-mb: 1
+        root-reserve-mb: 1024
+        swap-size-mb: 4096
         remove-docker-images: 'true'
 
     - name: 部署编译环境
@@ -170,9 +170,6 @@ jobs:
         [ -f "$FEEDS_CONF" ] && mv $FEEDS_CONF $GITHUB_WORKSPACE/openwrt/feeds.conf.default
         echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt" >> ${GITHUB_ENV}
         ls -a $GITHUB_WORKSPACE
-
-    - name: SSH远程连接（make menuconfig）
-      uses: danshui-git/debugger-action@main
         
     - name: 读取1自定义文件
       run: cd openwrt && $DIY_P1_SH
