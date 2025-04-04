@@ -76,6 +76,8 @@ jobs:
   build:
     name: 编译${{ inputs.REPO_URL }}固件
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
 
     env:
       FOLDER_NAME: ${{ matrix.target }}
