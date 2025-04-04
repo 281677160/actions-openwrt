@@ -161,7 +161,7 @@ jobs:
         echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt" >> ${GITHUB_ENV}
         sudo chmod -R +x $GITHUB_WORKSPACE/*
         
-    - name: 读取自定义1文件
+    - name: 读取自定义文件和下载软件源
       uses: 281677160/common@v1
         
     - name: 开始编译固件
