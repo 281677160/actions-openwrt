@@ -174,14 +174,6 @@ jobs:
         
     - name: 读取自定义1文件
       uses: 281677160/common@main
-        
-    - name: 缓存加速
-      if: env.CACHEWRTBUILD_SWITCH == 'true'
-      uses: stupidloud/cachewrtbuild@main
-      with:
-        ccache: 'true'
-        mixkey: "${{ env.DEVICE_NAME }}"
-        prefix: ${{ github.workspace }}/openwrt
 
     - name: 下载软件源
       run: cd openwrt && make download -j8
