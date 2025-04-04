@@ -1,36 +1,154 @@
 #
 # Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
-#
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
-#
-# https://github.com/281677160/build-actions
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: 编译Ope
+name: 编译OpenWrt固件222
 on:
+  repository_dispatch:
   workflow_dispatch:
+    inputs:
+      REPO_URL:
+        description: '填入编译的源码仓库(账号/仓库),比如：coolsnowwolf/lede'
+        required: true
+        default: ''
+      REPO_BRANCH:
+        description: '填入源码的分支,比如：master 或 main 之类'
+        required: true
+        default: ''
+      CONFIG_FILE:
+        description: 'seed文件夹内的配置文件名称(可自建),比如：x86_64'
+        required: true
+        default: ''
+      FOLDER_NAME:
+        description: '填入当前使用文件夹名称(可按格式自建),比如：Lede'
+        required: true
+        default: ''
+      RETAIN_MINUTE:
+        description: '清理[X]分钟之后的所有操作记录(最低30)'
+        required: true
+        default: '10080'
+      KEEP_LATEST:
+        description: '清理Releases,保留[X]个Releases不清理'
+        required: true
+        default: '30'
+      CACHEWRTBUILD_SWITCH:
+        description: '保留缓存,加速编译'
+        required: true
+        default: 'true'
+        type: boolean
+      UPLOAD_RELEASE:
+        description: '发布固件到 Releases'
+        required: true
+        default: 'false'
+        type: boolean
+      FIRMWARE_BIN:
+        description: '上传整个bin文件夹至Artifacts'
+        required: true
+        default: 'false'
+        type: boolean
+      UPDATE_AMLOGIC:
+        description: '自动打包aarch64系列固件'
+        required: false
+        default: 'true'
+        type: boolean
+
+
+# 定时触发开启开始编译(把下面两个#去掉开启,同时在下面把编译文件夹设置好)
+  schedule:
+   - cron: 25 11 * * *
 
 
 env:
-  openwrt_board: firefly-rk3399
-  openwrt_kernel: 6.1.125
+  # 选择打包机型
+  openwrt_board: s905d
+  # 内核版本
+  openwrt_kernel: 6.1.116_6.12.13
+  # 自动采用同系列最新版本内核(false/true)
   auto_kernel: true
+  # 内核作者,默认stable,可选flippy
   kernel_usage: stable
-  kernel_repo: ophub/kernel
-  builder_name: angely
-  SSH_ACTION: true
-  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+
 
 jobs:
   build:
-    name: 编译OpenWrt固件
+    name: 编译${{ inputs.REPO_URL }}固件
     runs-on: ubuntu-22.04
-    steps:
 
+    env:
+      FOLDER_NAME: ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [Lede]
+        # 定时编译读取这里设置的文件夹名称,手动编译则以手动启动时设置为准
+    
+    steps:
     - name: Checkout
       uses: actions/checkout@v4
+      
+    - name: 检测文件
+      run: |
+        cd $GITHUB_WORKSPACE
+        if [[ -n "${{ inputs.REPO_URL }}" ]]; then
+          REPO_URL="${{ inputs.REPO_URL }}"
+          REPO_BRANCH="${{ inputs.REPO_BRANCH }}"
+          CONFIG_FILE="${{ inputs.CONFIG_FILE }}"
+          FOLDER_NAME="${{ inputs.FOLDER_NAME }}"
+          RETAIN_MINUTE="${{ inputs.RETAIN_MINUTE }}"
+          KEEP_LATEST="${{ inputs.KEEP_LATEST }}"
+          CACHEWRTBUILD_SWITCH="${{ inputs.CACHEWRTBUILD_SWITCH }}"
+          UPLOAD_RELEASE="${{ inputs.UPLOAD_RELEASE }}"
+          FIRMWARE_BIN="${{ inputs.FIRMWARE_BIN }}"
+          UPDATE_AMLOGIC="${{ inputs.UPDATE_AMLOGIC }}"
+        else
+          source $GITHUB_WORKSPACE/${{ matrix.target }}/settings.ini
+          FOLDER_NAME="${{ matrix.target }}"
+        fi
+        DIY_P1_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy1-part.sh"
+        DIY_P2_SH="$GITHUB_WORKSPACE/${FOLDER_NAME}/diy2-part.sh"
+        echo "BUILD_DIY=$GITHUB_WORKSPACE/${FOLDER_NAME}/diy" >> ${GITHUB_ENV}
+        echo "BUILD_FILES=$GITHUB_WORKSPACE/${FOLDER_NAME}/files" >> ${GITHUB_ENV}
+        echo "BUILD_PATCHES=$GITHUB_WORKSPACE/${FOLDER_NAME}/patches" >> ${GITHUB_ENV}
+        echo "FEEDS_CONF=$GITHUB_WORKSPACE/${FOLDER_NAME}/sconf/feeds.conf.default" >> ${GITHUB_ENV}
+        echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> ${GITHUB_ENV}
+        echo "REPO_URL=https://github.com/${REPO_URL}" >> ${GITHUB_ENV}
+        echo "REPO_BRANCH=${REPO_BRANCH}" >> ${GITHUB_ENV}
+        echo "CONFIG_FILE=$GITHUB_WORKSPACE/${FOLDER_NAME}/seed/${CONFIG_FILE}" >> ${GITHUB_ENV}
+        echo "RETAIN_MINUTE=${RETAIN_MINUTE}" >> ${GITHUB_ENV}
+        echo "KEEP_LATEST=${KEEP_LATEST}" >> ${GITHUB_ENV}
+        echo "UPLOAD_RELEASE=${UPLOAD_RELEASE}" >> ${GITHUB_ENV}
+        echo "FIRMWARE_BIN=${FIRMWARE_BIN}" >> ${GITHUB_ENV}
+        echo "UPDATE_AMLOGIC=${UPDATE_AMLOGIC}" >> ${GITHUB_ENV}
+        echo "CACHEWRTBUILD_SWITCH=${CACHEWRTBUILD_SWITCH}" >> ${GITHUB_ENV}
+        echo "kernel_repo=ophub/kernel" >> ${GITHUB_ENV}
+        echo "builder_name=ophub" >> ${GITHUB_ENV}
+        echo "DIY_P1_SH=$DIY_P1_SH" >> ${GITHUB_ENV}
+        echo "DIY_P2_SH=$DIY_P2_SH" >> ${GITHUB_ENV}
+        if [ ! -f "${FOLDER_NAME}/seed/${CONFIG_FILE}" ]; then
+          echo "${FOLDER_NAME}/seed/${CONFIG_FILE}文件不存在" && exit 1
+        fi
+        if [ ! -f "$DIY_P1_SH" ]; then
+          echo "$DIY_P1_SH文件不存在" && exit 1
+        fi
+        if [ ! -f "$DIY_P2_SH" ]; then
+          echo "$DIY_P2_SH文件不存在" && exit 1
+        fi
+
+    - name: 释放Ubuntu磁盘空间
+      uses: endersonmenezes/free-disk-space@v2
+      with:
+        remove_android: true
+        remove_dotnet: true
+        remove_haskell: true
+        remove_tool_cache: true
+        remove_swap: true
+        remove_packages: "azure-cli google-cloud-cli microsoft-edge-stable google-chrome-stable firefox postgresql* temurin-* *llvm* mysql* dotnet-sdk-*"
+        remove_packages_one_command: true
+        remove_folders: "/usr/share/swift /usr/share/miniconda /usr/share/az* /usr/share/glade* /usr/local/lib/node_modules /usr/local/share/chromium /usr/local/share/powershell"
+        testing: false
 
     - name: 部署编译环境
       env:
@@ -44,13 +162,105 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
-    - name: 打包固件
+    - name: 拉取源码
+      working-directory: /workdir
       run: |
-        cd $GITHUB_WORKSPACE
-        mkdir -p openwrt/bin/targets
-        wget -q https://github.com/281677160/autobuild/releases/download/targz/Lede-armvirt-64-default-rootfs.tar.gz -O openwrt/bin/targets/openwrt-armvirt-64-default-rootfs.tar.gz
-        echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-        echo "FIRMWARE_PATH=$GITHUB_WORKSPACE/openwrt/bin/targets" >> $GITHUB_ENV
+        df -hT $PWD
+        git clone -q -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        [ -f "$FEEDS_CONF" ] && mv $FEEDS_CONF $GITHUB_WORKSPACE/openwrt/feeds.conf.default
+        echo "HOME_PATH=$GITHUB_WORKSPACE/openwrt" >> ${GITHUB_ENV}
+        sudo chmod -R +x $GITHUB_WORKSPACE/*
+        
+    - name: 读取自定义1文件
+      uses: 281677160/common@main
+        
+    - name: 缓存加速
+      if: env.CACHEWRTBUILD_SWITCH == 'true'
+      uses: stupidloud/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        mixkey: "${{ env.DEVICE_NAME }}"
+        prefix: ${{ github.workspace }}/openwrt
 
-    - name: Packaging OpenWrt
-      uses: 281677160/actions-openwrt@main
+    - name: 下载软件源
+      run: cd openwrt && make download -j8
+        
+    - name: 开始编译固件
+      id: compile
+      run: |
+        cd openwrt
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 V=s
+        echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+
+    - name: 打包aarch64系列固件
+      if: steps.compile.outcome == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'aarch_64'
+      uses: ophub/amlogic-s9xxx-openwrt@main
+      with:
+        openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
+        openwrt_board: ${{ env.openwrt_board }}
+        openwrt_kernel: ${{ env.openwrt_kernel }}
+        auto_kernel: ${{ env.auto_kernel }}
+        kernel_repo: ${{ env.kernel_repo }}
+        kernel_usage: ${{ env.kernel_usage }}
+        builder_name: ${{ env.builder_name }}
+
+    - name: 整理固件
+      continue-on-error: true
+      if: steps.compile.outcome == 'success'
+      run: |
+        cd openwrt
+        if [[ -d "${PACKAGED_OUTPUTPATH}" ]]; then
+          cp -Rf $PACKAGED_OUTPUTPATH/* $FIRMWARE
+        fi
+        cp -Rf $HOME_PATH/bin $BIN_TARGETS
+        cd $FIRMWARE
+        rm -rf *.buildinfo
+        rm -rf packages profiles.json sha256sums
+
+    - name: 上传整个bin文件夹至Artifacts
+      if: steps.compile.outcome == 'success' && env.FIRMWARE_BIN == 'true'
+      uses: actions/upload-artifact@main
+      with:
+        name: OpenWrt-bin-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
+        path: ${{ env.BIN_TARGETS }}
+
+    - name: 上传固件至Artifacts(默认)
+      if: steps.compile.outcome == 'success'
+      uses: actions/upload-artifact@main
+      with:
+        name: OpenWrt-firmware-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
+        path: ${{ env.FIRMWARE }}
+
+    - name: 发布固件
+      if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true'
+      uses: ncipollo/release-action@v1
+      with:
+        name: ${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
+        tag: ${{ env.FILE_DATE }}
+        token: ${{ secrets.REPO_TOKEN }}
+        allowUpdates: true
+        body: ${{ env.DEVICE_NAME }}固件
+        artifacts: "${{ env.FIRMWARE }}/*"
+    
+    - name: 清理Actions空间
+      continue-on-error: true
+      if: env.REPO_TOKEN
+      uses: small-5/delete-workflow-runs@main
+      with:
+        token: ${{ secrets.REPO_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_min: ${{ env.RETAIN_MINUTE }}
+    
+    - name: 清理releases
+      continue-on-error: true
+      if: env.REPO_TOKEN
+      uses: ophub/delete-releases-workflows@main
+      with:
+        delete_releases: true
+        releases_keep_latest: ${{ env.KEEP_LATEST }}
+        delete_tags: true
+        delete_workflows: false
+        workflows_keep_day: 90
+        gh_token: ${{ secrets.REPO_TOKEN }}
