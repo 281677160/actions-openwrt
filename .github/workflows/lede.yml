@@ -162,10 +162,12 @@ jobs:
         sudo chmod -R +x $GITHUB_WORKSPACE/*
         
     - name: 读取自定义文件和下载软件源
+      id: compil
       uses: 281677160/common@v1
         
     - name: 开始编译固件
       id: compile
+      if: steps.compil.outcome == 'success'
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
