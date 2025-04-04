@@ -163,9 +163,6 @@ jobs:
         
     - name: 读取自定义1文件
       uses: 281677160/common@main
-
-    - name: 下载软件源
-      run: cd openwrt && make download -j8
         
     - name: 开始编译固件
       id: compile
