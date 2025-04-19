@@ -92,7 +92,7 @@ jobs:
     - name: 检测文件
       run: |
         cd $GITHUB_WORKSPACE
-        if [[ -n "${{ inputs.REPO_URL }}" ]]; then
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
           REPO_URL="${{ inputs.REPO_URL }}"
           REPO_BRANCH="${{ inputs.REPO_BRANCH }}"
           CONFIG_FILE="${{ inputs.CONFIG_FILE }}"
@@ -209,7 +209,9 @@ jobs:
           TARGET_PROFILE="x86-32"
         elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*DEVICE.*phicomm.*n1=y' .config)" ]]; then
           TARGET_PROFILE="phicomm_n1"
-        elif [[ -n "$(grep -Eo 'CONFIG_aarch64=y' .config)" ]]; then
+        elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*armsr.*armv8.*=y' ${HOME_PATH}/.config)" ]]; then
+          TARGET_PROFILE="aarch_64"
+        elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*armvirt.*64.*=y' ${HOME_PATH}/.config)" ]]; then
           TARGET_PROFILE="aarch_64"
         elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*DEVICE.*=y' .config)" ]]; then
           TARGET_PROFILE="$(grep -Eo "CONFIG_TARGET.*DEVICE.*=y" .config | sed -r 's/.*DEVICE_(.*)=y/\1/')"
@@ -257,7 +259,7 @@ jobs:
       run: |
         cd openwrt
         if [[ -d "${PACKAGED_OUTPUTPATH}" ]]; then
-          cp -Rf $PACKAGED_OUTPUTPATH/* $FIRMWARE
+          FIRMWARE="${PACKAGED_OUTPUTPATH}"
         fi
         cp -Rf $HOME_PATH/bin $BIN_TARGETS
         cd $FIRMWARE
