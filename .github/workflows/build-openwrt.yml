@@ -222,9 +222,7 @@ jobs:
     - name: 清理所有缓存
       continue-on-error: true
       if: env.CACHEWRTBUILD_SWITCH == 'false' && env.REPO_TOKEN
-      shell: bash
       run: |
-        set -euo pipefail
         CACHES=$(curl -s -H "Authorization: token $REPO_TOKEN" \
           "https://api.github.com/repos/$GIT_REPOSITORY/actions/caches?per_page=100" \
           | jq -r --arg regex ".*-cache-openwr" '.actions_caches[] |
