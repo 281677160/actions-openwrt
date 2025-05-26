@@ -217,6 +217,28 @@ jobs:
         echo "DEVICE_NAME=${TARGET_PROFILE}" >> ${GITHUB_ENV}
         echo "BIN_TARGETS=${HOME_PATH}/bin_firmware" >> ${GITHUB_ENV}
         echo "FIRMWARE=${HOME_PATH}/bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}" >> ${GITHUB_ENV}
+
+    - name: 清理所有缓存
+      continue-on-error: true
+      if: env.CACHEWRTBUILD_SWITCH == 'false' && env.REPO_TOKEN
+      shell: bash
+      run: |
+        set -euo pipefail
+        CACHES=$(curl -s -H "Authorization: token $REPO_TOKEN" \
+          "https://api.github.com/repos/$GIT_REPOSITORY/actions/caches?per_page=100" \
+          | jq -r --arg regex ".*-cache-openwr" '.actions_caches[] |
+            select(.key | test($regex)) |
+            {id: .id, key: .key, created_at: .created_at}')
+        CACHE_IDS=$(echo "$CACHES" | jq -r '.id')
+        if [ -n "$CACHE_IDS" ]; then
+          echo "$CACHE_IDS" | while read -r cache_id; do
+            curl -X DELETE -s -H "Authorization: token $REPO_TOKEN" \
+              "https://api.github.com/repos/$GIT_REPOSITORY/actions/caches/$cache_id"
+            echo -e "\033[32m已清理缓存 ID: $cache_id\033[0m"
+          done
+        else
+          echo -e "\033[36m没有缓存,无需清理\033[0m"
+        fi
         
     - name: 缓存加速
       if: env.CACHEWRTBUILD_SWITCH == 'true'
