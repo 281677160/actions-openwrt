@@ -225,11 +225,9 @@ jobs:
         cd $GITHUB_WORKSPACE
         CACHES=$(curl -s -H "Authorization: token $REPO_TOKEN" \
           "https://api.github.com/repos/$GIT_REPOSITORY/actions/caches?per_page=100" \
-          | jq -r --arg regex ".*-cache-openwr" '.actions_caches[] |
-            select(.key | test($regex)) |
-            {id: .id, key: .key, created_at: .created_at}'))
+          | jq -r --arg regex ".*-cache-openwr" '.actions_caches[] | select(.key | test($regex)) | "\(.id) \(.key)"')
         if [ -n "$CACHES" ]; then
-          echo "$CACHES" | jq -r '.[] | "\(.id) \(.key)"' | while read -r cache_id cache_key; do
+          echo "$CACHES" | while read -r cache_id cache_key; do
             curl -X DELETE -s -H "Authorization: token $REPO_TOKEN" \
               "https://api.github.com/repos/$GIT_REPOSITORY/actions/caches/$cache_id"
             echo -e "\033[32m已清理缓存名称: $cache_key (ID: $cache_id)\033[0m"
