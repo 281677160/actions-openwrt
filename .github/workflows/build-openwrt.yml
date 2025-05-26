@@ -207,10 +207,8 @@ jobs:
           TARGET_PROFILE="x86-32"
         elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*DEVICE.*phicomm.*n1=y' .config)" ]]; then
           TARGET_PROFILE="phicomm_n1"
-        elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*armsr.*armv8.*=y' .config)" ]]; then
-          TARGET_PROFILE="aarch_64"
-        elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*armvirt.*64.*=y' .config)" ]]; then
-          TARGET_PROFILE="aarch_64"
+        elif grep -Eq "TARGET_armvirt=y|TARGET_armsr=y" "$HOME_PATH/.config"; then
+          TARGET_PROFILE="armsr_rootfs_tar_gz"
         elif [[ -n "$(grep -Eo 'CONFIG_TARGET.*DEVICE.*=y' .config)" ]]; then
           TARGET_PROFILE="$(grep -Eo "CONFIG_TARGET.*DEVICE.*=y" .config | sed -r 's/.*DEVICE_(.*)=y/\1/')"
         else
@@ -240,7 +238,7 @@ jobs:
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: 打包aarch64系列固件
-      if: steps.compile.outcome == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'aarch_64'
+      if: steps.compile.outcome == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'armsr_rootfs_tar_gz'
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
@@ -291,6 +289,7 @@ jobs:
     
     - name: 清理releases和workflows
       continue-on-error: true
+      if: env.REPO_TOKEN
       uses: danshui-git/delete-releases-workflows@main
       with:
         delete_releases: true
