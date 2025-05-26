@@ -50,7 +50,7 @@ on:
         default: 'false'
         type: boolean
       UPDATE_AMLOGIC:
-        description: '自动打包aarch64系列固件'
+        description: '自动打包armsr_rootfs_tar_gz固件'
         required: false
         default: 'true'
         type: boolean
