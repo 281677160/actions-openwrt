@@ -221,6 +221,7 @@ jobs:
 
     - name: 清理所有缓存
       continue-on-error: true
+      if: env.CACHEWRTBUILD_SWITCH == 'false' && env.REPO_TOKEN
       run: |
         cd $GITHUB_WORKSPACE
         CACHES=$(curl -s -H "Authorization: token $REPO_TOKEN" \
