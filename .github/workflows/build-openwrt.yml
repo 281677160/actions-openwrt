@@ -114,6 +114,7 @@ jobs:
         echo "BUILD_PATCHES=$GITHUB_WORKSPACE/${FOLDER_NAME}/patches" >> ${GITHUB_ENV}
         echo "FEEDS_CONF=$GITHUB_WORKSPACE/${FOLDER_NAME}/sconf/feeds.conf.default" >> ${GITHUB_ENV}
         echo "REPO_TOKEN=${{ secrets.REPO_TOKEN }}" >> ${GITHUB_ENV}
+        echo "GIT_REPOSITORY=${{github.repository}}" >> ${GITHUB_ENV}
         echo "REPO_URL=https://github.com/${REPO_URL}" >> ${GITHUB_ENV}
         echo "REPO_BRANCH=${REPO_BRANCH}" >> ${GITHUB_ENV}
         echo "CONFIG_FILE=$GITHUB_WORKSPACE/${FOLDER_NAME}/seed/${CONFIG_FILE}" >> ${GITHUB_ENV}
