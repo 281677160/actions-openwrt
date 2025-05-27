@@ -256,7 +256,7 @@ jobs:
         make -j$(nproc) || make -j1 V=s
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
-    - name: 打包aarch64系列固件
+    - name: 自动打包armsr_rootfs_tar_gz固件
       if: steps.compile.outcome == 'success' && env.UPDATE_AMLOGIC == 'true' && env.DEVICE_NAME == 'armsr_rootfs_tar_gz'
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
